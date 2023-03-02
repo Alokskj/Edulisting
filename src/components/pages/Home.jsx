@@ -1,6 +1,6 @@
 import React from 'react'
 import RecentPost from '../main/RecentPost'
-import Header from '../header/header'
+import Header from '../header/Header'
 import MobileNav from '../header/MobileNav'
 import Seacrhbar from '../header/Seacrhbar'
 
