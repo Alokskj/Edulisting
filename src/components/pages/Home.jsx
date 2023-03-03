@@ -3,7 +3,6 @@ import RecentPost from '../main/RecentPost'
 import Header from '../header/Header'
 import MobileNav from '../header/MobileNav'
 import Seacrhbar from '../header/Seacrhbar'
-import Listing from '../main/listing'
 
 const Home = () => {
   

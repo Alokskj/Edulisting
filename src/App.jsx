@@ -11,7 +11,6 @@ import Login from "./components/main/Login"
 import Error404 from "./components/main/Error404"
 import { useState } from "react"
 import MobileNav from "./components/header/MobileNav"
-import Listing from "./components/main/listing"
 function App() {
   
   const [isRegister, setRegister] = useState(false)
@@ -27,7 +26,6 @@ function App() {
       <Route path="/profile" element={ <Profile /> } />
       <Route path="/register" element={ <Register /> } />
       <Route path="/login" element={ <Login /> } />
-      <Route path="/listing" element={ <Listing /> } />
      <Route path="*" element={ <Error404 /> } />
     </Routes>
     
