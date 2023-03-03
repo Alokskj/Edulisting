@@ -6,7 +6,7 @@ import Ads from "./components/pages/Ads"
 import Chats from "./components/pages/Chats"
 import Create from "./components/pages/Create"
 import Profile from './components/pages/Profile'
-import Register from "./components/main/register"
+import Register from "./components/main/Register"
 import Login from "./components/main/Login"
 import Error404 from "./components/main/Error404"
 import { useState } from "react"
