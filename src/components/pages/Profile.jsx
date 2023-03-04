@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { client } from '../main/client';
 import { listingQuery, userQuery } from '../main/data'
-import Spinner from '../header/spinner';
+import Spinner from '../header/Spinner';
 const Profile = () => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)

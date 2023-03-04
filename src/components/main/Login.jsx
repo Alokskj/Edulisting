@@ -17,6 +17,7 @@ const Login = () => {
   const responseGoogle = (response) => {
     const token = response.credential;
     const decoded = jwt_decode(token);
+
     localStorage.setItem('user', JSON.stringify(decoded))
     const {name, sub : googleId , picture, email} = decoded
     

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {client} from "./client.js";
 import { useEffect } from "react";
 import Post from './Post'
-import Spinner from '../header/spinner';
+import Spinner from '../header/Spinner';
 
 const RecentPost = () => {
   const [postData, setPost] = useState(null);
