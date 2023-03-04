@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <header className='flex justify-between p-4'>
         <div className="logo capitalize text-4xl font-bold"><p>edulisting</p></div>
-        <div className="notification-container block text-3xl md:hidden  m-2"><i class="fa-regular fa-bell"></i></div>
+        <div className="notification-container block text-3xl md:hidden  m-2"><i className="fa-regular fa-bell"></i></div>
         <nav className='hidden md:block'>
             <div className="nav-items flex space-x-12 capitalize font-bold">
                 <div className="items"><Link to="/">home</Link></div>

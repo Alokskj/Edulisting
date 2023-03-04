@@ -1,10 +1,15 @@
 import SanityClient from "@sanity/client";
-
-const client = SanityClient({
-  projectId: 'wuy8smzl',
+import  ImageUrlBuilder from "@sanity/image-url";
+export const  client = SanityClient({
+  projectId:  import.meta.env.VITE_REACT_SANITY_PROJECT_ID,
   dataset: 'production',
   apiVersion: '2021-08-31', // use a UTC date string
-  useCdn: false, // `false` if you want to ensure fresh data
+  useCdn: true, // `false` if you want to ensure fresh data
+  token: import.meta.env.VITE_REACT_SANITY_TOKEN,
+  ignoreBrowserTokenWarning: true
 })
+ 
+const builder = ImageUrlBuilder(client)
 
-export default client
+export const urlFor  = (source) => builder.image(source)
+

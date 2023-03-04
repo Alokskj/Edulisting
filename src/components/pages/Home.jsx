@@ -8,10 +8,8 @@ const Home = () => {
   
   return (
     <>
-     <Header />
     <Seacrhbar />
     <RecentPost />
-    <MobileNav />
     </>
   )
 }

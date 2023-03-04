@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import sanityClient from "./client.js";
+import {client} from "./client.js";
 import { useEffect } from "react";
 import Post from './Post'
+import Spinner from '../header/spinner';
+
 const RecentPost = () => {
   const [postData, setPost] = useState(null);
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
-    sanityClient
+    client
     .fetch(`*[_type == "blog"]{
       title,
       description,
@@ -26,8 +29,13 @@ const RecentPost = () => {
     }`)
     .then((data)=> setPost(data))
     .catch((err)=> console.log(err))
+    setTimeout(() => {
+      setLoading(false)
+      
+    }, 800);
   }, []);
-  console.log(postData)
+
+  if(loading) return <Spinner/>
 
   return (
     <div className='recent-post mx-4 my-8 mb-24'>
