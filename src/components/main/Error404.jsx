@@ -1,12 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Header from '../header/Header'
-import MobileNav from '../header/MobileNav'
 
 const Error404 = () => {
   return (
     <div>
-        <Header />
         <div className="lg:px-24 lg:py-24 md:py-20 md:px-44 px-4 py-6 items-center flex justify-center flex-col-reverse lg:flex-row md:gap-28 gap-16">
             <div className="xl:pt-24 w-full xl:w-1/2 relative pb-12 lg:pb-0">
                 <div className="relative">
@@ -31,7 +28,6 @@ const Error404 = () => {
                 <img src="https://i.ibb.co/ck1SGFJ/Group.png" />
             </div>
         </div>
-        <MobileNav />
     </div>
   )
 }

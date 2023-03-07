@@ -10,7 +10,6 @@ import animationData from '../lotties/register.json';
 import { client } from "./client";
 
 
-
 const Login = () => {
   const navigate = useNavigate()
   
@@ -32,7 +31,7 @@ const Login = () => {
 
     client.createIfNotExists(doc)
     .then(()=>{
-      navigate("/", {replace: true})
+      navigate(-1)
 
     })
   };

@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { client } from '../main/client';
+import { useParams } from 'react-router-dom'
+import { client } from '../main/client'
 import { userQuery } from '../main/data'
-import Spinner from '../header/Spinner';
-import authCheck from '../main/authCheck';
-const Profile = () => {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const userinfo = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear();
-
-  authCheck()
+import Spinner from "../header/Spinner";
+const User = () => {
+    const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null)
+  const {id} = useParams()
   useEffect(()=>{
-    const query = userQuery(userinfo?.sub)
+    const query = userQuery(id)
     client.fetch(query)
-    .then((data)=> {
-      setUser(data[0])
-      setLoading(false)
-    })
-  },[user])
+    .then((data)=> setUser(data[0]))
+    setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+  },[])
 
- 
-  if(loading && !user?.image) return <Spinner />
-
+  if (loading) return <Spinner />;
+  console.log(user)
   return (
+    
     <div className='profile'>
       <div className="profile-container absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/3  justify-center items-center">
       <div className="user-image flex justify-center items-center">
@@ -31,12 +29,9 @@ const Profile = () => {
       <div className="user-name flex justify-center mt-4 font-bold text-2xl">
         <p>{user?.userName}</p>
       </div>
-      <div className="user-email flex justify-center mb-8 font-extralight text-lg">
-        <p>{user?.email}</p>
       </div>
-      </div>
-      <div className="user-profile-edit-button flex items-center justify-center">
-        <button type='button' className='bg-blue-700 text-white p-3 rounded-lg cursor-pointer'>Edit Profile</button>
+      <div className="user-profile-follow-button mt-4 flex items-center justify-center">
+        <button type='button' className='bg-blue-700 text-white p-3 rounded-lg cursor-pointer'>Follow</button>
       </div>
       <div className="user-info-social mt-8  flex space-x-8 justify-center items-center">
       <div className="user-followes flex flex-col items-center">
@@ -53,4 +48,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default User

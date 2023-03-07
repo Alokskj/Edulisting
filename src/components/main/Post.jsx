@@ -1,9 +1,11 @@
 import React from "react";
-
+import { useParams, Link, useNavigate } from "react-router-dom";
 const post = (props) => {
+  const navigate = useNavigate()
   
   return (
-    <div className="post px-3 py-2 rounded-lg border-2 w-max">
+    
+    <div onClick={()=> navigate(`/listings/${props.slug}`)} className="post px-3 py-2 rounded-lg border-2 w-max ">
             <div className="post-container w-[35vw] md:w-auto md:h-auto relative">
                 <div className="post-image flex justify-center"><img className='w-24 h-26 md:w-64 md:h-52 object-cover object-top shadow-2xl  rounded-lg' src={props.image} alt="" />
                 </div>
