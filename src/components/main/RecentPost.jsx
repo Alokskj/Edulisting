@@ -25,16 +25,19 @@ const RecentPost = () => {
   
 
   return (
-    <div className='recent-post mx-4 my-8 mb-24'>
+    <div id="recent-post" className='recent-post  mx-4 md:mx-16 lg:mx-32 my-8 flex flex-col justify-center '>
         <div className="recent-post-title capitalize my-2  lg:m-4 text-xl text-gray-500"><p>Fresh recommendations</p></div>
-        <div className="posts grid grid-cols-2  md:grid-cols-3 lg:grid-cols-5  md:m-4 gap-4">
+        <div className="posts justify-center  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4   md:m-4 gap-4">
           {postData && postData.map((post, index)=>{
             return(
-              <Post image={post.image.asset.url} slug={post._id} title={post.title} price={post.price} location={post.locality} key={post._id} />
+              <>
+              <Post image={post.image.asset.url} slug={post._id} title={post.title} price={post.price} location={post.locality} key={index} />
+               </>
             )
           })}
         </div>
     </div>
+    
   )
 }
 

@@ -11,11 +11,16 @@ import MobileNav from "./components/header/MobileNav"
 import Header from "./components/header/Header"
 import Listing from "./components/pages/Listing"
 import User from "./components/pages/User"
+import { useEffect } from "react"
+import Footer from "./components/footer/Footer"
 
 function App() {
+
   return (
     <div className="App">
+      
     <Header />
+    <div className="content min-h-screen">
     <Routes>
       <Route path="/" element={ <Home/> } />
       <Route path="/chats" element={ <Chats /> } />
@@ -27,7 +32,9 @@ function App() {
       <Route path="/user/:id" element={ <User /> } />
      <Route path="*" element={ <Error404 /> } />
     </Routes>
+    </div>
     <MobileNav />
+    <Footer />
     
   </div>
   )

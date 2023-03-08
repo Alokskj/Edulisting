@@ -68,7 +68,7 @@ const Create = () => {
       if(city && locality && state){
         setfilled(true)
         console.log(listing)
-       
+       setLoading(true)
         const doc = {
           _type: 'listings',
           title,
@@ -97,8 +97,11 @@ const Create = () => {
         }
         client.create(doc)
         .then((data) => {
-          console.log(data)
-          navigate('/ads')
+          setTimeout(() => {
+            setLoading(false)
+            navigate('/ads')
+            
+          }, 3000);
         })
         .catch((err)=> console.log("post error", err))
 
@@ -118,7 +121,7 @@ const Create = () => {
 
   authCheck();
   return (
-    <div className="p-5 mb-28 flex flex-col">
+    <div className="p-5 mb-28 flex flex-col justify-center items-center">
       <div className="title">
         <p className="text-2xl font-bold mb-8">New Listing</p>
       </div>
@@ -126,7 +129,7 @@ const Create = () => {
         <form action="post">
                     {/* image */}
 
-                    <div className="flex lg:flex-row flex-col justify-center mb-2 items-center bg-gray-200 lg:p-5 p-3 lg:w-4/5 w-full" >
+                    <div className="flex lg:flex-row flex-col justify-center mb-2 items-center bg-gray-200 lg:p-5 p-3  w-full" >
             <div className="bg-secondaryColor flex p-3 flex-0.7 w-full ">
               <div className="flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-40">
                 {loading && <Spinner />}

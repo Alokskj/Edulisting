@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const MyListings = ({date, title, image, price, listed, handleDelete , id}) => {
   return (
     <>
-    <div className=' mx-8 my-4  rounded-lg border-l-4  shadow-xl' style={listed ? {borderColor: "#0cebd4" }: {borderColor: "#141721"}}>
+    <div className=' mx-5 my-4  rounded-lg border-l-4  shadow-xl' style={listed ? {borderColor: "#0cebd4" }: {borderColor: "#141721"}}>
       <div className="card-header flex justify-between items-center py-2 px-4 bg-gray-200 rounded-t-lg">
         <div className="date flex space-x-3">
           <p>Published On:</p>
@@ -17,13 +17,13 @@ const MyListings = ({date, title, image, price, listed, handleDelete , id}) => {
       <div className="card-body">
         <div className="listing-data ">
             <div className="image-info flex space-x-3 border-b-4 m-2">
-          <div className="image m-2 h-full">
-            <img src={image} className="object-cover" width={50}  alt="image" />
+          <div className="image m-2 ">
+            <img src={image} className="object-cover " width={30}  alt="image" />
           </div>
           <div className="info">
           <div className="title-price">
             <p className='font-semibold text-lg'>{title}</p>
-            <p>$ {price}</p>
+            <p>₹ {price}</p>
           </div>
           {/* <div className="views-likes flex space-x-3">
             <div className="views flex space-x-2">

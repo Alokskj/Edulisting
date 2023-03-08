@@ -5,9 +5,11 @@ const post = (props) => {
   
   return (
     
-    <div onClick={()=> navigate(`/listings/${props.slug}`)} className="post px-3 py-2 rounded-lg border-2 w-max ">
-            <div className="post-container w-[35vw] md:w-auto md:h-auto relative">
-                <div className="post-image flex justify-center"><img className='w-24 h-26 md:w-64 md:h-52 object-cover object-top shadow-2xl  rounded-lg' src={props.image} alt="" />
+    <div onClick={()=> navigate(`/listings/${props.slug}`)} className="post px-3 py-2 rounded-lg border-2  ">
+            <div className="post-container  relative">
+              
+                <div className="post-image flex justify-center">
+                  <img className=' h-28  md:h-52 object-contain bg-yellow object-top shadow-lg  rounded-lg' src={props.image} alt="" />
                 </div>
                 <div className="info mt-2 capitalize">
                 <div className="post-price font-bold text-lg "><p><span className='mr-1'>₹</span>{props.price}</p></div>

@@ -1,4 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@700&family=Tilt+Warp&display=swap');
+
+.boldfont{
+    font-family: 'Tilt Warp', cursive;
+}
+.baloo{
+	font-family: 'Baloo Bhaina 2', cursive;
+}
+
+.recent-image{
+	max-width: 100%;
+	height: auto;
+}
 .sell-button-container{
+	
+	
+	
 	border-style: solid;
 	border-color: red green blue yellow; /* red top, green right, blue bottom and yellow left */
 	border-radius: 50%;
