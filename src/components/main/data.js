@@ -25,6 +25,10 @@ export const userQuery = (userId) =>{
     const query = `*[_type == "user" && _id == "${userId}"]`
     return query
 }
+export const chatQuery = (id) =>{
+    const query = `*[_type == "chats" && userId1 == "${id}" || userId2 == "${id}"] | order(_updatedAt desc)`
+    return query
+}
 
 export const allListings = () =>{
     const query = `*[_type == "listings" && listed == true ] | order(_createdAt desc){
@@ -75,3 +79,5 @@ export const userListings = (userId) =>{
 export const deleteListing = (id) =>{
   const query = `*[_type == "listings" && _id == "${userId}" ]`
 }
+
+

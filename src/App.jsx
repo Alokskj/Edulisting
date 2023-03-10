@@ -1,8 +1,8 @@
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useParams, useLocation } from "react-router-dom"
 import Home from './components/pages/Home'
 import './App.css'
 import Ads from "./components/pages/Ads"
-import Chats from "./components/pages/Chats"
+import Chat from "./components/pages/Chat"
 import Create from "./components/pages/Create"
 import Profile from './components/pages/Profile'
 import Login from "./components/main/Login"
@@ -13,18 +13,25 @@ import Listing from "./components/pages/Listing"
 import User from "./components/pages/User"
 import { useEffect } from "react"
 import Footer from "./components/footer/Footer"
+import AllChats from "./components/pages/AllChats"
+import Query from "./components/pages/Query"
+import { ContactUs } from "./components/pages/ContactUs"
 
 function App() {
-
+  const {pathname} = useLocation()
+  const chatPath = pathname.slice(5,pathname.length)
   return (
     <div className="App">
       
     <Header />
-    <div className="content min-h-screen">
+    
     <Routes>
       <Route path="/" element={ <Home/> } />
-      <Route path="/chats" element={ <Chats /> } />
+      <Route path="/allchats" element={ <AllChats /> } />
+      <Route path="/chat/:id" element={ <Chat /> } />
+      <Route path="/query/:id" element={ <Query /> } />
       <Route path="/sell" element={<Create />} />
+      <Route path="/contactus" element={<ContactUs />} />
       <Route path="/ads" element={ <Ads /> } />
       <Route path="/profile" element={ <Profile /> } />
       <Route path="/login" element={ <Login /> } />
@@ -32,9 +39,9 @@ function App() {
       <Route path="/user/:id" element={ <User /> } />
      <Route path="*" element={ <Error404 /> } />
     </Routes>
-    </div>
-    <MobileNav />
-    <Footer />
+    {pathname !== "/chat" + chatPath  && <MobileNav />} 
+    
+    
     
   </div>
   )

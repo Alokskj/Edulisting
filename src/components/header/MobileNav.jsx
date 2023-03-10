@@ -12,7 +12,7 @@ const MobileNav = () => {
             </Link>
           </div>
           <div className="nav-item  flex flex-col items-center">
-            <Link to="chats" className="nav-item flex flex-col items-center">
+            <Link to="allchats" className="nav-item flex flex-col items-center">
               <i className="fa-solid fa-message"></i>
             <p>chat</p>
             </Link>

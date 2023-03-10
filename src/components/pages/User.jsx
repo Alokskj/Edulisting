@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { client } from '../main/client'
 import { userQuery } from '../main/data'
 import Spinner from "../header/Spinner";
+import MobileNav from '../header/MobileNav';
 const User = () => {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null)
@@ -17,7 +18,7 @@ const User = () => {
   },[])
 
   if (loading) return <Spinner />;
-  console.log(user)
+  
   return (
     
     <div className='profile'>
@@ -44,6 +45,7 @@ const User = () => {
       </div>
       </div>
       </div>
+      
     </div>
   )
 }

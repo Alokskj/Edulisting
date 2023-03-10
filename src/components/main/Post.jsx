@@ -17,7 +17,7 @@ const post = (props) => {
                 <div className="location-container ">
                 <div className="location flex mt-1 space-x-1 items-center">
                 <i className="fa-solid fa-location-dot"></i>
-                <p className='text-xs'>{props.location}</p>
+                <p className='text-xs'>{props.locality}{props.locality.toLowerCase() !== props.city.toLowerCase() ? "," + props.city : "," + props.state}</p>
                 </div>
                 </div>
                 </div>

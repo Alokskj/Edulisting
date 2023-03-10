@@ -8,6 +8,7 @@ import animationData from '../lotties/empty.json';
 import Spinner from '../header/Spinner';
 import MyListings from '../main/MyListings';
 import { ListItemSecondaryAction } from '@mui/material';
+import MobileNav from '../header/MobileNav';
 
 const Ads = () => {
   const [Ads, setAds] = useState(null)
@@ -22,7 +23,7 @@ const Ads = () => {
       setAds(data)
       setLoading(false)
     })
-  },[])
+  },[Ads])
   authCheck()
   if(loading || !Ads) return <Spinner />;
   function handleDelete(id){
@@ -65,6 +66,7 @@ const Ads = () => {
     })}
     </div>
     </div>
+    
     </>
   )
 }

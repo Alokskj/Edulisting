@@ -31,6 +31,7 @@ const Login = () => {
 
     client.createIfNotExists(doc)
     .then(()=>{
+      localStorage.setItem("userInfo", JSON.stringify(data))
       navigate(-1)
 
     })

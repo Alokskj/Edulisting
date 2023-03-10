@@ -5,6 +5,7 @@ import Spinner from "../header/Spinner"
 import moment from 'moment'
 import { useNavigate } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
+import emailjs from "@emailjs/browser";
 import {
   TextField,
   Select,
@@ -13,6 +14,7 @@ import {
   InputLabel,
   Box,
 } from "@mui/material";
+import MobileNav from "../header/MobileNav";
 
 const Create = () => {
   const [btn, setBtn] = useState("Next")
@@ -42,7 +44,7 @@ const Create = () => {
         [name] : value,
       }
     });
-    console.log(name);
+    
   }
 
 
@@ -67,7 +69,6 @@ const Create = () => {
       setBtn("Post")
       if(city && locality && state){
         setfilled(true)
-        console.log(listing)
        setLoading(true)
         const doc = {
           _type: 'listings',
@@ -97,11 +98,31 @@ const Create = () => {
         }
         client.create(doc)
         .then((data) => {
-          setTimeout(() => {
-            setLoading(false)
-            navigate('/ads')
+         const emailDoc = {
+           from_name : "Edulisting",
+           to_name : "Alok Skj",
+           message: `New Listing Arrived For Approval of title ${title}`
+         }
+          emailjs
+          .send(
+            import.meta.env.VITE_REACT_EMAILJS_SERVICE_ID,
+            import.meta.env.VITE_REACT_EMAILJS_TEMPLATE_ID_1,
+            emailDoc,
+            import.meta.env.VITE_REACT_EMAILJS_PUBLIC_KEY,
             
-          }, 3000);
+          )
+          .then(
+            (result) => {
+              console.log(result.text);
+            },
+            (error) => {
+              console.log(error.text);
+            }
+          ); 
+          setLoading(false)
+          navigate('/ads')
+            
+          
         })
         .catch((err)=> console.log("post error", err))
 
@@ -296,6 +317,7 @@ const Create = () => {
             className="bg-blue-700 text-white font-bold p-3 rounded-full w-28" >{btn}</button>
           </div>
       </div>
+      <MobileNav />
     </div>
   );
 };

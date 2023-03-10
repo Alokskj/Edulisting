@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const MyListings = ({date, title, image, price, listed, handleDelete , id}) => {
   return (
     <>
-    <div className=' mx-5 my-4  rounded-lg border-l-4  shadow-xl' style={listed ? {borderColor: "#0cebd4" }: {borderColor: "#141721"}}>
+    <div className=' mx-5  rounded-lg border-l-4  shadow-xl' style={listed ? {borderColor: "#0cebd4" }: {borderColor: "#141721"}}>
       <div className="card-header flex justify-between items-center py-2 px-4 bg-gray-200 rounded-t-lg">
         <div className="date flex space-x-3">
           <p>Published On:</p>
@@ -40,7 +40,7 @@ const MyListings = ({date, title, image, price, listed, handleDelete , id}) => {
         <div className="listing-status">
           <div className="status ">
             <p className='m-2  text-xs  px-6 py-1 rounded-full cursor-pointer outline-none w-min' style={listed ? {backgroundColor: "#0cebd4" }: {backgroundColor: "#141721",color :"white"}}>{listed ? "ACTIVE" : "PENDING"}</p>
-            <p className='m-2 text-xs'>Your listing become live Soon!</p>
+            <p className='m-2 text-xs'>{listed ? "Your listing is live" : "Your listing become live Soon!"}</p>
           </div>
         </div>
         <div className="action-button justify-end flex items-center">

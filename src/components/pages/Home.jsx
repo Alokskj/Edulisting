@@ -32,6 +32,7 @@ const Home = () => {
 
         client.createIfNotExists(doc).then((data) => {
           console.log(data);
+          localStorage.setItem("userInfo", JSON.stringify(data))
         });
       },
       onError: () => {
@@ -51,6 +52,7 @@ const Home = () => {
       <RecentPost />
 
       </div>
+      
     </>
   );
 };

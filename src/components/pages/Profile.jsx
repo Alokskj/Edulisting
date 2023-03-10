@@ -3,7 +3,9 @@ import { client } from '../main/client';
 import { userQuery } from '../main/data'
 import Spinner from '../header/Spinner';
 import authCheck from '../main/authCheck';
+import { useNavigate } from 'react-router-dom';
 const Profile = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const userinfo = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear();
@@ -37,6 +39,7 @@ const Profile = () => {
       </div>
       <div className="user-profile-edit-button flex items-center justify-center">
         <button type='button' className='bg-blue-700 text-white p-3 rounded-lg cursor-pointer'>Edit Profile</button>
+        <button onClick={()=> navigate("../ads")} type='button' className='bg-blue-700 hidden lg:block ml-4 text-white p-3 rounded-lg cursor-pointer'>View Listing</button>
       </div>
       <div className="user-info-social mt-8  flex space-x-8 justify-center items-center">
       <div className="user-followes flex flex-col items-center">
@@ -49,6 +52,7 @@ const Profile = () => {
       </div>
       </div>
       </div>
+      
     </div>
   )
 }

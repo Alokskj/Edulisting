@@ -3,7 +3,7 @@ const Hero = () => {
   return (
     <div>
         <div className="bg-img relative">
-            <img className='w-full h-72 object-cover' src="src/assets/postimages/books-bookshelf-bookstore-feature-470x248.png" alt="" />
+            <img className='w-full h-72 object-cover' src="/images/books-bookshelf-bookstore-feature-470x248.png" alt="" />
             <div className="coverscreen absolute top-0 left-0 bg-[#1c1286d8] opacity-80 w-full h-full"></div>
             <div className="absolute flex top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex-col justify-center items-center info">
                 <div className="textinfo space-y-2 text-white boldfont text-5xl flex flex-col items-center ">

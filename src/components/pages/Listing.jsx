@@ -3,11 +3,17 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { listingQuery, userQuery } from "../main/data";
 import { client } from "../main/client";
 import Spinner from "../header/Spinner";
+import MobileNav from "../header/MobileNav";
+import authCheck from "../main/authCheck";
 const Listing = () => {
+  authCheck()
   const { id } = useParams();
+  const user = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear();
+  
   const [queryPost, setQueryPost] = useState(null);
   const [queryUser, setQueryUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const userInfo = localStorage.getItem('userInfo') !== 'undefined' ? JSON.parse(localStorage.getItem('userInfo')) : localStorage.clear();
   const navigate = useNavigate()
   useEffect(() => {
     const query = listingQuery(id);
@@ -21,20 +27,54 @@ const Listing = () => {
        .then(async (data)=> {
        const result = await data[0]
        setQueryUser(result)
-      
+       setLoading(false)
+       
       })
        .catch((err)=> console.log("userfind err", err))
       })
       .catch((err) => console.log(err));
 
-
   }, []);
 
-
-
-
-  if (loading && !queryUser) return <Spinner />;
+function handleMessage(){
   
+    setLoading(true)
+    if(queryUser && queryPost){
+    const mixId = user?.sub.slice(0,5) + queryUser?._id.slice(0,5) + queryPost?._id.slice(0,5)
+    const doc ={
+    _id : mixId,
+    _type : 'chats',
+    user1 : user?.name,
+    userId1 : user?.sub,
+    userImage1 : userInfo?.image,
+    user2 : queryUser?.userName,
+    userId2 : queryUser?._id,
+    userImage2 : queryUser?.image,
+    listingTitle : queryPost?.title,
+    listingId : id,
+    listingImage : queryPost?.image.asset.url,
+   }
+   client.createIfNotExists(doc)
+   .then((data)=>{
+    const result = data[0]
+    navigate("../chat/"+ mixId)
+    setLoading(false)
+  
+   })
+   .catch((err)=> console.log("creating chat room err", err))
+  }
+  else{
+    console.log("Not suffecient info for creating chat room")
+  }
+
+
+}
+
+
+
+
+  if (loading || !queryUser) return <Spinner />;
+
   return (
     <div className="mb-20">
       <div className="single-post-container">
@@ -89,6 +129,7 @@ const Listing = () => {
             <button
               className="bg-blue-700 p-3 cursor-pointer rounded-lg text-white"
               type="button"
+              onClick={handleMessage}
             >
               Message
             </button>
@@ -97,6 +138,7 @@ const Listing = () => {
         </div>
         
       </div>
+      
     </div>
   );
 };
