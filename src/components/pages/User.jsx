@@ -170,15 +170,26 @@ const User = () => {
 
                 }
 
-
+  
               </div>
             </div>
           </div>
           <Divider />
           <div className="user-listings p-4">
+            {!Ads?.length ? 
+            <div className="flex absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex-col justify-center items-center w-full ">
+            <div className="lottie-container  justify-center items-center  ">
+            <p>User has no Published Listing. </p>
+            </div>
+            </div>
+            
+             :
+            
             <div className="title font-bold text-lg">Published Listings</div>
+            }
+            
             <div className="listing">
-              <div className="posts justify-center  grid grid-cols-1 md:grid-cols-2  md:m-4 gap-4">
+              <div className="posts justify-center  grid grid-cols-1 md:grid-cols-2 mt-3 md:m-4 gap-2 md:gap-4">
                 {Ads.map((stuff) => {
 
                   return <QueryListingWidget stuff={stuff} key={v4()} />

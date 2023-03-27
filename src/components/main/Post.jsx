@@ -4,8 +4,10 @@ const post = (props) => {
   const navigate = useNavigate()
   
   return (
+    <>
     
-    <div onClick={()=> navigate(`/listings/${props.slug}`)} className="post px-3 py-2 cursor-pointer rounded-lg border-2   hover:shadow-lg transform duration-300 transition-all hover:scale-110 ease-in-out">
+    <div  className="post px-3 py-2 cursor-pointer rounded-lg border-2   hover:shadow-lg transform duration-300 transition-all hover:scale-110 ease-in-out">
+    <Link to={`/listings/${props.slug}`}>
             <div className="post-container  flex flex-col justify-between h-full  relative">
               
                 <div className="post-image flex justify-center">
@@ -22,7 +24,9 @@ const post = (props) => {
                 </div>
                 </div>
             </div>
+    </Link>
             </div>
+    </>
   )
 }
 

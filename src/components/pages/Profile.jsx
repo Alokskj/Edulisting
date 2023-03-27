@@ -6,7 +6,7 @@ import authCheck from '../main/authCheck';
 import { RWebShare } from "react-web-share";
 import { Divider } from '@mui/material';
 import SupportIcon from '@mui/icons-material/Support';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Avatar } from '@mui/material';
 import FeatureWidget from '../main/FeatureWidget';
@@ -44,22 +44,26 @@ const Profile = () => {
     <>
     <div className="contain-con flex justify-center flex-col md:items-center">
     <div className="con md:w-2/5 lg:w-2/6">
-    <div className='profile flex justify-center  px-3 flex-col py-2'>
-      <div className="profile-img-following   pr-4 flex items-center">
-        <div className="profile-img w-3/12 ml-5 mr-12 mb-1">
+    <div className='profile flex justify-center items-center p-4 flex-col'>
+      <div className="profile-img-following gap-12 mb-5 justify-center flex items-center">
+        <div className="profile-img   mb-1">
           
           <Avatar alt={user?.userName} src={user?.image} sx={{ width: 90, height: 90 }} />
 
         </div>
         <div className="post-followers-post  space-x-8 flex ">
+            <Link to="/ads">
           <div className="posts flex flex-col items-center">
             <p className='font-bold text-xl'>{Ads?.length ? Ads?.length : "0"}</p>
             <p>Listings</p>
           </div>
+            </Link>
+            
           <div className="followers flex flex-col items-center">
           <p className='font-bold text-xl'>{user?.following?.length ? user?.following?.length : "0"}</p>
             <p>Followers</p>
           </div>
+            
         </div>
       </div>
       
@@ -67,10 +71,11 @@ const Profile = () => {
       
        
       
-      <div className="editprofile-share-profile flex justify-center space-x-2 px-3  my-5">
+      <div className="editprofile-share-profile flex justify-evenly space-x-2 ">
         <div className="edit-profile">
-          <button onClick={()=> navigate("/editprofile")} className='bg-gray-200 py-[6px] px-8 rounded-xl cursor-pointer font-medium hover:bg-[#e9e9e9] hover:shadow-md outline-none'>Edit profile</button>
-          
+          <Link to="/editprofile">
+          <button className='bg-gray-200 py-[6px] px-8 rounded-xl cursor-pointer font-medium hover:bg-[#e9e9e9] hover:shadow-md outline-none'>Edit profile</button>
+          </Link>
         </div>
         <div className="share-profile">
         <RWebShare

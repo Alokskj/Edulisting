@@ -43,10 +43,11 @@ const Home = () => {
 
   return (
     <>
-    <div className="hidden lg:block">
+    <div className="hidden  lg:block">
       <Category />
       <Hero />
     </div>
+     
       <Seacrhbar />
       <div >
       <RecentPost />

@@ -6,6 +6,7 @@ import Spinner from "../header/Spinner";
 import MobileNav from "../header/MobileNav";
 import authCheck from "../main/authCheck";
 import { Avatar } from "@mui/material";
+import Heart from "../utilities/Heart";
 const Listing = () => {
   
   const { id } = useParams();
@@ -97,8 +98,8 @@ const Listing = () => {
                 <h1>{queryPost?.title}</h1>
               </div>
             </div>
-            <div className="fav text-2xl m-2">
-              <i className="fa-regular fa-heart"></i>
+            <div className="fav text-3xl m-2">
+              <Heart />
             </div>
           </div>
           <div className="post-location-created flex justify-between">
@@ -118,13 +119,9 @@ const Listing = () => {
           </div>
         </div>
         <div className="post-user border-2 flex items-center justify-between mb-32">
+          <Link to={`/user/${queryPost.userId}`}>
           <div
             className="user-info  flex items-center"
-            onClick={() =>
-              navigate(
-                `/user/${queryPost.userId}`
-              )
-            }
           >
             <div className="user-image mx-5 my-2">
               <Avatar alt="user-image" src={queryUser?.image} sx={{ width: 60, height: 60 }} />
@@ -133,6 +130,7 @@ const Listing = () => {
               <p>{queryUser?.userName}</p>
             </div>
           </div>
+          </Link>
           <div className="post-message m-3">
             <div className="button-container">
               {user?.sub == queryUser._id ?

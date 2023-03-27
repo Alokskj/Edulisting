@@ -1,6 +1,6 @@
 import React from 'react'
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const MyListings = ({date, title, image, price, listed, handleDelete , id}) => {
   const navigate = useNavigate()
@@ -16,7 +16,8 @@ const MyListings = ({date, title, image, price, listed, handleDelete , id}) => {
          <DeleteIcon />
         </div>
       </div>
-      <div onClick={()=> navigate(`../listings/${id}`)} className="card-body">
+      <div className="card-body">
+        <Link to={`../listings/${id}`}>
         <div className="listing-data ">
             <div className="image-info flex space-x-3 border-b-4 m-2">
           <div className="image m-2 ">
@@ -49,7 +50,7 @@ const MyListings = ({date, title, image, price, listed, handleDelete , id}) => {
         </div>
         </div>
       </div>
-    
+      </Link>
     </div>
     </div>
     </>

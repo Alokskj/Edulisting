@@ -153,7 +153,7 @@ const Create = () => {
 
   authCheck();
   return (
-    <div className="p-5 mb-28 flex flex-col justify-center items-center">
+    <div className="p-5 mb-28 flex  flex-col justify-center items-center">
       <div className="title">
         <p className="text-2xl font-bold mb-8">New Listing</p>
       </div>

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
+import Lottie from "lottie-react";
+
+import animationData from "../lotties/noResult.json";
 import Seacrhbar from '../header/Seacrhbar';
 import Spinner from '../header/Spinner';
 import { client } from '../main/client';
@@ -28,7 +31,20 @@ const Query = () => {
         return <Spinner />
       }
     }
-    
+    if(queryData.length === 0){
+      return(
+        <>
+        <div className="recent-post-title capitalize my-2 mx-4 lg:m-12  text-xl text-gray-500"><p>{"No result found " + id.slice(0,20)}</p></div>
+        <div className="flex absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex-col justify-center items-center w-full ">
+                 <div className="lottie-container w-3/5 justify-center items-center md:w-2/6 ">
+                 <Lottie animationData={animationData} loop={true} />
+
+      </div>
+         
+        </div>
+        </>
+      )
+    }
   
     return (
         <>

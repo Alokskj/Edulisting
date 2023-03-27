@@ -1,10 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@700&family=Tilt+Warp&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400&display=swap');
 .boldfont{
     font-family: 'Tilt Warp', cursive;
 }
 .baloo{
 	font-family: 'Baloo Bhaina 2', cursive;
+}
+.roboti{
+	font-family: 'Roboto', sans-serif;
+}
+.ubuntu{
+	font-family: 'Ubuntu', sans-serif;
 }
 
 .recent-image{

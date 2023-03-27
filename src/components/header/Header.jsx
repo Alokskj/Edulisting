@@ -4,6 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 
 const Header = () => {
   const [value,setValue] = useState("")
@@ -20,9 +21,9 @@ const Header = () => {
   }
   return (
     <>
-    <div className="header-container flex  justify-center ">
-    <header className='flex justify-between p-4 container'>
-        <div onClick={()=> navigate("/")} className="logo capitalize cursor-pointer text-4xl font-bold"><p>edulisting</p></div>
+    <div id='header' className="header-container flex justify-center ">
+    <header className='flex justify-between p-4 container '>
+        <div  className="logo capitalize cursor-pointer text-4xl font-bold"><Link to="/"><p>edulisting</p></Link></div>
         <div onClick={()=> navigate("/notification")} className="notification-container cursor-pointer block text-3xl md:hidden  m-2"><i className="fa-regular fa-bell"></i></div>
         <div className="searchbar hidden border-2 items-center py-[5px] px-1 shadow-sm rounded-full lg:flex">
           <form onSubmit={handleSubmit}>
@@ -43,16 +44,29 @@ const Header = () => {
 
         </nav>
            <div className="functions lg:flex items-center hidden  ">
-            <div className="chats mr-2 " onClick={()=> navigate("/allchats")}>
+            <div className="chats  hover:bg-gray-200 bg-opacity-90 p-2 duration-300 transition-all  rounded-full " >
+              <Link to="/allchats">
            <ChatBubbleOutlineIcon />
+              </Link>
             </div>
-            <div className="notification mx-2 " onClick={()=> navigate("/notification")}>
+            <div className="notification hover:bg-gray-200 bg-opacity-90 p-2 duration-300 transition-all  rounded-full">
+              <Link to='/notification'>
+
            <NotificationsNoneIcon />
+              </Link>
            </div>
-            <div className="profile mx-2 mr-5 " onClick={()=> navigate("/profile")}>
+            <div className="ads  hover:bg-gray-200 bg-opacity-90 p-2 duration-300 transition-all  rounded-full" >
+              <Link to="/ads">
+           <FavoriteBorderOutlinedIcon />
+              </Link>
+            </div>
+            <div className="profile  hover:bg-gray-200 bg-opacity-90 p-2 duration-300 transition-all  rounded-full" >
+              <Link to="/profile">
+
            <PersonOutlineIcon />
+              </Link>
            </div>
-            <button onClick={() => navigate("/sell")} className='bg-[#0cebd4] px-4 py-3 font-bold rounded-full cursor-pointer transition-all duration-200 hover:scale-110 outline-none shadow-lg'>Post Ads</button>
+            <button className='bg-[#0cebd4] px-4 py-3 font-bold rounded-full cursor-pointer transition-all duration-200 hover:scale-110 outline-none shadow-lg'><Link to="/sell">Post Ads</Link> </button>
            </div>
     </header>
     </div>

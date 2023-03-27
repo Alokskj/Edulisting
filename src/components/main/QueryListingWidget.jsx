@@ -12,11 +12,11 @@ const QueryListingWidget = ({ stuff }) => {
       : ",") +
     stuff.state;
   return (
-    <div onClick={()=>navigate("/listings/"+ stuff._id)} className="QueryListingWidget cursor-pointer shadow-md hover:shadow-lg duration-300 my-2  h-28">
+    <div onClick={()=>navigate("/listings/"+ stuff._id)} className="QueryListingWidget hover:scale-[1.03] transition-all cursor-pointer shadow-md hover:shadow-lg duration-300 my-1  h-32">
       <div className="card flex    h-full">
-        <div className="image  w-3/5">
+        <div className="image w-3/5 overflow-hidden rounded-l-lg duration-300">
           <img
-            className="w-full h-full object-cover  object-center rounded-l-lg  "
+            className="w-full h-full hover:scale-110 object-cover   transition-all  object-center   "
             src={stuff?.image?.asset?.url}
             alt=""
           />

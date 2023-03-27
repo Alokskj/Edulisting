@@ -82,7 +82,7 @@ const EditProfile = () => {
   }
   return (
     <>
-      <div className="edit-profile-header shadow-md border-b-2 p-4 flex justify-between">
+      <div className="edit-profile-header shadow-sm border-b-2 p-4 flex justify-between">
         <div
           onClick={() => navigate(-1)}
           className="close font-bold cursor-pointer"
