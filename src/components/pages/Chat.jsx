@@ -68,7 +68,7 @@ const Chat = () => {
       .catch((err) => {
         console.log("fetching chats error", err);
       });
-  }, [count]);
+  }, [count, reducerValue]);
 
   function handleChange(e) {
     setChatText(e.target.value);
