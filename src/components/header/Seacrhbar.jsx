@@ -19,7 +19,7 @@ const Seacrhbar = () => {
         <div className="seacrhbar">
             <form onSubmit={handleSubmit} className='flex justify-center items-center border-2 border-black rounded-lg m-3'>
             <i onClick={handleSubmit} className="fa-solid fa-magnifying-glass text-2xl cursor-pointer mx-2"></i>
-            <input onChange={handleChange} value={value} className='outline-none w-[90vw] h-10 rounded-md mx-1' type="text" name="search" id="search" placeholder='Find books, Articles ...' />
+            <input onChange={handleChange} value={value} className='outline-none w-[79vw] h-10 rounded-md mx-1 poppins' type="text" name="search" id="search" placeholder='Find books, Articles ...' />
             </form>
         </div>
     </div>
