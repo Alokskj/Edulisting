@@ -28,7 +28,7 @@ const RecentPost = () => {
 
   return (
     <div id="recent-post" className='recent-post mb-28  mx-4 md:mx-16 lg:mx-32 my-8 flex flex-col justify-center '>
-        <div className="recent-post-title capitalize my-2  lg:m-4 text-xl text-gray-500"><h3>Fresh recommendations</h3></div>
+        <div className="recent-post-title capitalize my-2 poppins  lg:m-4 text-xl text-gray-500"><h3>Fresh recommendations</h3></div>
         <div className="posts justify-center  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4   md:m-4 gap-4">
           {postData && postData.map((post, index)=>{
             return(

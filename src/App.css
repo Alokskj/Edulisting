@@ -2,23 +2,33 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
 .boldfont{
     font-family: 'Tilt Warp', cursive;
 }
 .baloo{
 	font-family: 'Baloo Bhaina 2', cursive;
 }
-.roboti{
+.roboto{
 	font-family: 'Roboto', sans-serif;
+}
+.montserrat{
+	font-family: 'Montserrat', sans-serif;
 }
 .ubuntu{
 	font-family: 'Ubuntu', sans-serif;
+}
+.poppins{
+	font-family: 'Poppins', sans-serif;
 }
 
 .recent-image{
 	max-width: 100%;
 	height: auto;
 }
+
+
 
 input,
 textarea,

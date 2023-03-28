@@ -23,9 +23,9 @@ const Header = () => {
     <>
     <div id='header' className="header-container flex justify-center ">
     <header className='flex justify-between p-4 container '>
-        <div  className="logo capitalize cursor-pointer text-4xl font-bold"><Link to="/"><p>edulisting</p></Link></div>
+        <div  className="logo capitalize cursor-pointer poppins text-4xl font-bold"><Link to="/"><p>edulisting</p></Link></div>
         <div onClick={()=> navigate("/notification")} className="notification-container cursor-pointer block text-3xl md:hidden  m-2"><i className="fa-regular fa-bell"></i></div>
-        <div className="searchbar hidden border-2 items-center py-[5px] px-1 shadow-sm rounded-full lg:flex">
+        <div className="searchbar hidden poppins border-2 items-center py-[5px] px-1 shadow-sm rounded-full lg:flex">
           <form onSubmit={handleSubmit}>
         <input  onChange={handleChange} value={value} type="text" placeholder='Type anything you want to search' className='outline-none   ml-2 w-[50vw] text-sm' />
          </form>
@@ -66,7 +66,7 @@ const Header = () => {
            <PersonOutlineIcon />
               </Link>
            </div>
-            <button className='bg-[#0cebd4] px-4 py-3 font-bold rounded-full cursor-pointer transition-all duration-200 hover:scale-110 outline-none shadow-lg'><Link to="/sell">Post Ads</Link> </button>
+            <button className='bg-[#0cebd4] px-4 py-3 poppins font-semibold rounded-full cursor-pointer transition-all duration-200 hover:scale-110 outline-none shadow-lg'><Link to="/sell">Post Ads</Link> </button>
            </div>
     </header>
     </div>

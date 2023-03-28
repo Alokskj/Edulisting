@@ -51,7 +51,7 @@ const Profile = () => {
           <Avatar alt={user?.userName} src={user?.image} sx={{ width: 90, height: 90 }} />
 
         </div>
-        <div className="post-followers-post  space-x-8 flex ">
+        <div className="post-followers-post poppins space-x-8 flex ">
             <Link to="/ads">
           <div className="posts flex flex-col items-center">
             <p className='font-bold text-xl'>{Ads?.length ? Ads?.length : "0"}</p>
@@ -71,8 +71,8 @@ const Profile = () => {
       
        
       
-      <div className="editprofile-share-profile flex justify-evenly space-x-2 ">
-        <div className="edit-profile">
+      <div className="editprofile-share-profile poppins flex justify-evenly space-x-2 ">
+        <div className="edit-profile ">
           <Link to="/editprofile">
           <button className='bg-gray-200 py-[6px] px-8 rounded-xl cursor-pointer font-medium hover:bg-[#e9e9e9] hover:shadow-md outline-none'>Edit profile</button>
           </Link>

@@ -6,7 +6,7 @@ const post = (props) => {
   return (
     <>
     
-    <div  className="post px-3 py-2 cursor-pointer rounded-lg border-2   hover:shadow-lg transform duration-300 transition-all hover:scale-110 ease-in-out">
+    <div  className="post px-3 py-2 cursor-pointer rounded-lg border-2 poppins  hover:shadow-lg transform duration-300 transition-all hover:scale-110 ease-in-out">
     <Link to={`/listings/${props.slug}`}>
             <div className="post-container  flex flex-col justify-between h-full  relative">
               
@@ -14,7 +14,7 @@ const post = (props) => {
                   <img className=' h-auto  max-h-28  md:max-h-52 object-contain bg-yellow object-top shadow-lg  rounded-lg' src={props.image} alt="listing image" />
                 </div>
                 <div className="info mt-2 capitalize ">
-                <div className="post-price font-bold text-lg "><p><span className='mr-1'>₹</span>{props.price}</p></div>
+                <div className="post-price font-bold text-lg "><p><span className='mr-1 font-sans'>₹</span>{props.price}</p></div>
                 <div className="post-title text-sm"><h2>{props.title.slice(0, 15)}{props.title.length >= 15 && "..."}</h2></div>
                 <div className="location-container ">
                 <div className="location flex mt-1 space-x-1 items-center">
