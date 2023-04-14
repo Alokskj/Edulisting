@@ -46,54 +46,35 @@ const Setting = () => {
     localStorage.clear();
     navigate("/");
   };
-  const handleDelete = () => {
+  const handleDelete = async () => {
     setLoading(true);
     setOpen(false);
-    console.log(user.sub);
-    const userQuery = `*[_type == "user" && _id == "${user?.sub}" ]`;
-    const listingQuery = `*[_type == "listings" && userId == "${user?.sub}" ]`;
-    const chatQuery = `*[_type == "chats" && userId1 == "${user?.sub}" || userId1 == "${user?.sub}" ]`;
-    client
-      .delete({ query: chatQuery })
-      .then(() => {
-        client
-          .delete({ query: listingQuery })
-          .then(() => {
-            client
-              .delete({ query: userQuery  })
-              .then(() => {
-                localStorage.clear();
-                navigate("/");
-                setLoading(false);
-              })
-              .catch((err) => {
-                console.log("user delete err", err);
-                localStorage.clear();
-                navigate("/");
-                setLoading(false);
-              });
-          })
-          .catch((err) => {
-            console.log("userlisting delete err", err);
-            client
-              .delete({ query: userQuery   })
-              .then(() => {
-                localStorage.clear();
-                navigate("/");
-                setLoading(false);
-              })
-              .catch((err) => {
-                console.log("user delete err", err);
-                localStorage.clear();
-                navigate("/");
-                setLoading(false);
-              });
-          });
-      })
-      .catch((err) => {
-        console.log("chatsDelete err", err);
-      });
-  };
+    
+    const userQuery = `*[_type == "user" && _id == "${user.sub}" ]`;
+    const listingQuery = `*[_type == "listings" && userId == "${user.sub}" ]`;
+    const chatQuery = `*[_type == "chats" && references("${user.sub}") ]`;
+    const followingQuery = `*[_type == "user" && references("${user.sub}") ]`;
+    
+    try {
+      const deletedChats = await client.delete({query : chatQuery})
+      const deletedListing = await client.delete({query : listingQuery})
+      const followingUser = await client.fetch(followingQuery)
+      const RemoveFollowingFrom =  followingUser.map((e)=> client
+      .patch(e._id)
+      .unset([`following[_ref=="${user.sub}"]`])
+      .commit()
+      )
+      const deletedUser = await client.delete(user.sub)
+      setLoading(false)
+      localStorage.clear()
+      navigate("/") 
+      
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
   if (loading) return <Spinner />;
   return (
     <>

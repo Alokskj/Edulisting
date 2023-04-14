@@ -60,6 +60,7 @@ export const allListings = () =>{
         state,
         userId,
         image{
+          ...,
           asset->{
               _id,
               url

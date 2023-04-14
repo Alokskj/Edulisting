@@ -2,7 +2,7 @@ import React from 'react'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate, Link } from 'react-router-dom';
 
-const MyListings = ({date, title, image, price, listed, handleDelete , id}) => {
+const MyListings = ({date, title, image, price, listed, handleDelete , id, userId}) => {
   const navigate = useNavigate()
   return (
     <>
@@ -12,7 +12,7 @@ const MyListings = ({date, title, image, price, listed, handleDelete , id}) => {
           <p>Published On:</p>
           <p className='font-bold'>{date}</p>
         </div>
-        <div className="delete" onClick={()=>{handleDelete(id)}}>
+        <div className="delete" onClick={()=>{handleDelete(id, userId)}}>
          <DeleteIcon />
         </div>
       </div>

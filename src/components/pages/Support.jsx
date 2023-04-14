@@ -34,13 +34,14 @@ const Support = () => {
       <div className="px-4 py-2">
       <div className="features space-y-3 mt-3">
         <div className="contactus">
-            <a href="mailto:contact@alokskj.gq">
+       
         <FeatureWidget
           icon={< SupportAgentIcon/>}
           title={"Contact Us"}
           subtitle={"Click here to contact"}
+          link="mailto:contact@alokskj.gq"
           />
-          </a>
+         
         </div>
         <Divider />
         <div className="Invite">

@@ -2,24 +2,59 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="shortcut icon" href="/images/android-chrome-512x512.png" type="image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link
+      rel="shortcut icon"
+      href="/images/android-chrome-512x512.png"
+      type="image/x-icon"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
     <!-- Title -->
-    <title>Edulisting - The go-to platform for buying and selling books online</title>
-        
+    <title>
+      Edulisting - The go-to platform for buying and selling books online
+    </title>
+
     <!-- Description  -->
-    <meta name="description" content="Edulisting offers the latest and affordable option for classified ads for Second Hand Books, New Books, Used Books in India. Find buyers and sellers that suit. Give edulisting a try and start saving money on your educational materials today!">
+    <meta
+      name="description"
+      content="Edulisting offers the latest and affordable option for classified ads for Second Hand Books, New Books, Used Books in India. Find buyers and sellers that suit. Give edulisting a try and start saving money on your educational materials today!"
+    />
 
     <!-- Meta keywords  -->
-    <meta name="keywords" content="edulisting, classified ads, free classified ads, classifieds, old books, new books, classified ads, sell books, buy books, sell ncert books, buy ncert books, ncert, textbook, class 11 , class 12, class 10 ">
- 
-    
+    <meta
+      name="keywords"
+      content="edulisting, classified ads, free classified ads, classifieds, old books, new books, classified ads, sell books, buy books, sell ncert books, buy ncert books, ncert, textbook, class 11 , class 12, class 10 "
+    />
 
     <!-- Author -->
-    <meta name="author" content="Alok Skj">
+    <meta name="author" content="Alok Skj" />
 
-     <!-- Start Single Page Apps for GitHub Pages -->
-     <script type="text/javascript">
+    <!-- google ads -->
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5046319178676899"
+     crossorigin="anonymous"></script>
+
+    <!-- google analytics -->
+
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-BQYBYB056F"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-BQYBYB056F");
+
+    </script>
+
+    <!-- Start Single Page Apps for GitHub Pages -->
+    <script type="text/javascript">
       // Single Page Apps for GitHub Pages
       // MIT License
       // https://github.com/rafgraph/spa-github-pages
@@ -30,24 +65,32 @@
       // When the single page app is loaded further down in this file,
       // the correct url will be waiting in the browser's history for
       // the single page app to route accordingly.
-      (function(l) {
-        if (l.search[1] === '/' ) {
-          var decoded = l.search.slice(1).split('&').map(function(s) { 
-            return s.replace(/~and~/g, '&')
-          }).join('?');
-          window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
+      (function (l) {
+        if (l.search[1] === "/") {
+          var decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+          window.history.replaceState(
+            null,
+            null,
+            l.pathname.slice(0, -1) + decoded + l.hash
           );
         }
-      }(window.location))
+      })(window.location);
     </script>
     <!-- End Single Page Apps for GitHub Pages -->
-
   </head>
   <body>
-    <div id="root" ></div>
+    <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
     <script src="/js/index.js"></script>
-    <script src="https://kit.fontawesome.com/eee52e107d.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/eee52e107d.js"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

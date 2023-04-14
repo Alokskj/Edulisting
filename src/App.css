@@ -1,31 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@700&family=Tilt+Warp&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@700&family=Tilt+Warp&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
-.boldfont{
-    font-family: 'Tilt Warp', cursive;
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap");
+.boldfont {
+  font-family: "Tilt Warp", cursive;
 }
-.baloo{
-	font-family: 'Baloo Bhaina 2', cursive;
+.baloo {
+  font-family: "Baloo Bhaina 2", cursive;
 }
-.roboto{
-	font-family: 'Roboto', sans-serif;
+.roboto {
+  font-family: "Roboto", sans-serif;
 }
-.montserrat{
-	font-family: 'Montserrat', sans-serif;
+.montserrat {
+  font-family: "Montserrat", sans-serif;
 }
-.ubuntu{
-	font-family: 'Ubuntu', sans-serif;
+.ubuntu {
+  font-family: "Ubuntu", sans-serif;
 }
-.poppins{
-	font-family: 'Poppins', sans-serif;
+.poppins {
+  font-family: "Poppins", sans-serif;
 }
 
-.recent-image{
-	max-width: 100%;
-	height: auto;
+.recent-image {
+  max-width: 100%;
+  height: auto;
 }
 
 
@@ -36,26 +36,23 @@ div,
 button,
 select,
 a {
-    -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.text-select-disable{
-	-moz-user-select:none; /* firefox */
-   -webkit-user-select: none; /* Safari */
-   -ms-user-select: none; /* IE*/
-   user-select: none; /* Standard syntax */
+.text-select-disable {
+  -moz-user-select: none; /* firefox */
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE*/
+  user-select: none; /* Standard syntax */
 }
 
-.BottomNavigationAction{
-	padding: 0;
-	min-width: 20px;
+.BottomNavigationAction {
+  padding: 0;
+  min-width: 20px;
 }
 
-.sell-button-container{
-	
-	
-	
-	border-style: solid;
-	border-color: red green blue yellow; /* red top, green right, blue bottom and yellow left */
-	border-radius: 50%;
-  }
+.sell-button-container {
+  border-style: solid;
+  border-color: red green blue yellow; /* red top, green right, blue bottom and yellow left */
+  border-radius: 50%;
+}

@@ -125,11 +125,12 @@ const Chat = () => {
               className="posted-user-info flex items-center cursor-pointer"
             >
               <div className="profile-image mx-2 mt-1 cursor-pointer">
-                <img
-                  className="w-10 rounded-full"
-                  src={reqUser.image}
-                  alt="user-image"
-                />
+                
+                <Avatar
+                            alt={reqUser.userName}
+                            src={reqUser.image}
+                            sx={{ width: 40, height: 40 }}
+                          />
               </div>
               <div className="name ml-1 font-bold cursor-pointer">
                 {reqUser.userName}
@@ -137,9 +138,9 @@ const Chat = () => {
             </div>
           </div>
           <div className="right flex items-center space-x-2">
-            {reqUser?.mobileNumber && (
+            {chats?.listing?.mobileNumber && (
               <div className="call cursor-pointer">
-                <a href={"tel:+91" + reqUser?.mobileNumber}>
+                <a href={"tel:+91" + chats?.listing?.mobileNumber}>
                   <CallIcon />
                 </a>
               </div>

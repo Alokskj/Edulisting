@@ -1,28 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import authCheck from "../main/authCheck";
 import { client } from "../main/client";
 import Spinner from "../header/Spinner";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
-import Checkbox from "@mui/material/Checkbox";
-import DeleteIcon from "@mui/icons-material/Delete";
 import emailjs from "@emailjs/browser";
-import {
-  TextField,
-  Select,
-  FormControl,
-  MenuItem,
-  InputLabel,
-  Box,
-} from "@mui/material";
-import MobileNav from "../header/MobileNav";
+import ContactUser from "../main/ContactUser";
+import { userQuery } from "../main/data";
+import NewListingInputs from "../main/NewListingInputs";
+import NewListingImage from "../main/NewListingImage";
 
 const Create = () => {
   const [btn, setBtn] = useState("Next");
   const [loading, setLoading] = useState(false);
   const [filled, setfilled] = useState(true);
   const [imageAsset, setImageAsset] = useState(false);
-  const [check , setCheck ] = useState(false)
+  const [check, setCheck] = useState(true);
+  const [userinfo, setUser] = useState(null);
+
   const [primaryDetails, setPrimaryDetails] = useState(false);
   const [listing, setListing] = useState({
     title: "",
@@ -42,6 +37,29 @@ const Create = () => {
       ? JSON.parse(localStorage.getItem("user"))
       : localStorage.clear();
 
+  useEffect(() => {
+    const query = userQuery(user?.sub);
+    client
+      .fetch(query)
+      .then((data) => {
+        setUser(data[0]);
+        setLoading(false);
+        return data[0];
+      })
+      .then((user) => {
+        const { city, locality, state, mobileNumber } = user;
+        setListing((prevValue) => {
+          return {
+            ...prevValue,
+            locality,
+            city,
+            state,
+            mobileNumber,
+          };
+        });
+      });
+  }, []);
+
   function handleChange(event) {
     const { value, name } = event.target;
     setListing((prevValue) => {
@@ -52,8 +70,8 @@ const Create = () => {
     });
   }
 
-  function handleCheck(){
-    check ? setCheck(false) : setCheck(true)
+  function handleCheck() {
+    check ? setCheck(false) : setCheck(true);
   }
 
   const uploadImage = (e) => {
@@ -98,7 +116,7 @@ const Create = () => {
           city,
           locality,
           state,
-          mobileNumber,
+          mobileNumber: check ? mobileNumber : null,
           image: {
             _type: "image",
             asset: {
@@ -117,6 +135,15 @@ const Create = () => {
         client
           .create(doc)
           .then((data) => {
+            // upadateuser
+
+            client
+              .patch(user.sub)
+              .set({ locality, city, state, mobileNumber })
+              .commit()
+              .then(() => console.log("user updated successfull"));
+
+            //sendemail
             const emailDoc = {
               from_name: "Edulisting",
               to_name: "Alok Skj",
@@ -152,6 +179,7 @@ const Create = () => {
   };
 
   authCheck();
+  if (loading) return <Spinner />;
   return (
     <div className="p-5 mb-28 flex  flex-col justify-center items-center">
       <div className="title">
@@ -159,192 +187,22 @@ const Create = () => {
       </div>
       <div className="form-continer flex flex-col">
         <form action="post">
-          {/* image */}
-
-          <div className="flex lg:flex-row flex-col justify-center mb-2 items-center bg-gray-200 lg:p-5 p-3  w-full">
-            <div className="bg-secondaryColor flex p-3 flex-0.7 w-full ">
-              <div className="flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-40">
-                {loading && <Spinner />}
-
-                {!imageAsset ? (
-                  <label>
-                    <div className="flex flex-col items-center justify-center h-full">
-                      <div className="flex flex-col items-center justify-center">
-                        <p className="font-bold text-2xl">
-                          <i className="fa-solid fa-cloud-arrow-up"></i>
-                        </p>
-                        <p className="text-lg">Click to upload</p>
-                      </div>
-                      <p className="mt-3 text-xs text-gray-400">
-                        Only use JPG, SVG, PNG, GIF or JPEG
-                      </p>
-                    </div>
-                    <input
-                      type="file"
-                      name="upload-image"
-                      onChange={uploadImage}
-                      className="w-0 h-0"
-                    />
-                  </label>
-                ) : (
-                  <div className="relative h-full">
-                    <img
-                      src={imageAsset?.url}
-                      alt="uploaded-pic"
-                      className="h-full w-full"
-                    />
-                    <button
-                      type="button"
-                      className="absolute bottom-3 right-3 p-3 rounded-full bg-white text-xl cursor-pointer outline-none hover:shadow-md transition-all duration-500 ease-in-out"
-                      onClick={() => setImageAsset(null)}
-                    >
-                      <DeleteIcon />
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* image end */}
-          <TextField
-            name="title"
-            type="text"
-            label="Title"
-            margin="dense"
-            value={listing.title}
-            onChange={handleChange}
-            fullWidth
+          <NewListingImage
+            uploadImage={uploadImage}
+            imageAsset={imageAsset}
+            setImageAsset={setImageAsset}
           />
-          <br />
-          <TextField
-            name="description"
-            type="text"
-            label="Description"
-            margin="dense"
-            value={listing.description}
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            name="price"
-            type="number"
-            label="Price"
-            margin="dense"
-            value={listing.price}
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            name="subject"
-            type="text"
-            label="Subject"
-            margin="dense"
-            value={listing.subject}
-            onChange={handleChange}
-            fullWidth
-          />
-
-          <div className="select-class">
-            <Box sx={{ minWidth: 120 }}>
-              <FormControl fullWidth margin="normal">
-                <InputLabel id="demo-simple-select-label">Class</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Standard"
-                  name="standard"
-                  value={listing.standard}
-                  onChange={handleChange}
-                >
-                  <MenuItem value={12}>12th</MenuItem>
-                  <MenuItem value={11}>11th</MenuItem>
-                  <MenuItem value={10}>10th</MenuItem>
-                  <MenuItem value={9}>9th</MenuItem>
-                  <MenuItem value={8}>8th</MenuItem>
-                  <MenuItem value={7}>7th</MenuItem>
-                  <MenuItem value={6}>6th</MenuItem>
-                  <MenuItem value={5}>5th</MenuItem>
-                  <MenuItem value={4}>4th</MenuItem>
-                  <MenuItem value={3}>3rd</MenuItem>
-                  <MenuItem value={2}>2nd</MenuItem>
-                  <MenuItem value={1}>1st</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </div>
-          <div className="select-board">
-            <Box sx={{ minWidth: 120 }}>
-              <FormControl fullWidth margin="normal">
-                <InputLabel id="demo-simple-select-label">Board</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Board"
-                  name="board"
-                  value={listing.board}
-                  onChange={handleChange}
-                >
-                  <MenuItem value={"cbse"}>CBSE</MenuItem>
-                  <MenuItem value={"pseb"}>PSEB</MenuItem>
-                  <MenuItem value={"icse"}>ICSE</MenuItem>
-                  <MenuItem value={"other"}>Other</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            {primaryDetails && (
-              <div className="address">
-                <TextField
-                  name="locality"
-                  autoComplete
-                  type="text"
-                  label="Locality"
-                  margin="dense"
-                  value={listing.locality}
-                  onChange={handleChange}
-                  fullWidth
-                />
-                <TextField
-                  name="city"
-                  type="text"
-                  label="City"
-                  margin="dense"
-                  value={listing.city}
-                  onChange={handleChange}
-                  fullWidth
-                />
-                <TextField
-                  name="state"
-                  type="text"
-                  label="State"
-                  margin="dense"
-                  value={listing.state}
-                  onChange={handleChange}
-                  fullWidth
-                />
-                <div className="mobilenumber flex items-center font-semibold">
-
-                <Checkbox
-                  onChange={handleCheck}
-                  inputProps={{ "aria-label": "controlled" }}
-                  />
-                  <p>Want direct call for this listing</p>
-                </div>
-                {check && 
-                <TextField
-                  name="mobileNumber"
-                  type="tel"
-                  label="Mobile No."
-                  margin="dense"
-                  value={listing.mobileNumber}
-                  onChange={handleChange}
-                  fullWidth
-                />
-                }
-                
-              </div>
-            )}
-          </div>
+          <NewListingInputs listing={listing} handleChange={handleChange} />
+          {primaryDetails && (
+            <ContactUser
+              listing={listing}
+              user={userinfo}
+              handleChange={handleChange}
+              handleCheck={handleCheck}
+              check={check}
+              setListing={setListing}
+            />
+          )}
         </form>
         {!filled && (
           <p className="my-2 text-red-500 font-bold capitalize transition-all ease-in">
@@ -360,7 +218,6 @@ const Create = () => {
           </button>
         </div>
       </div>
-      
     </div>
   );
 };

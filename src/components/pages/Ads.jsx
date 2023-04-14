@@ -31,14 +31,19 @@ const Ads = () => {
   },[reducerValue])
   authCheck()
   if(loading || !Ads) return <Spinner />;
-  function handleDelete(id){
+  function handleDelete(id, userId){
     setLoading(true)
+    const chatQuery = `*[_type == "chats" && references("${id}")]`;
+    client
+    .delete({ query: chatQuery })
+    .then(()=>{
     client
     .delete({query: `*[_type == "listings" && _id == "${id}" ]`})
-    .then(()=>{console.log("successfully deleted the document")
-    
-    forceUpdate()
-    setLoading(false)
+    .then(()=>{
+      console.log("successfully deleted the document")
+      forceUpdate()
+      setLoading(false)
+     })
    })
     .catch((err)=>console.log("deleting err", err))
   }
@@ -60,7 +65,7 @@ const Ads = () => {
         </div>
         }
     {Ads.length !== 0 && Ads.map((item, index)=>{
-      return < MyListings date={item.createAt} id={item._id} handleDelete={handleDelete} title={item.title} listed={item.listed} price={item.price} image={item.image.asset.url} key={uuid()} />
+      return < MyListings userId={item.userId} date={item.createAt} id={item._id} handleDelete={handleDelete} title={item.title} listed={item.listed} price={item.price} image={item.image.asset.url} key={uuid()} />
     })}
     </div>
     </div>
