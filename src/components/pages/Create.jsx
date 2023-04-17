@@ -174,7 +174,6 @@ const Create = () => {
     }
   }
     if (primaryDetails && city && locality && state) {
-      alert("all done!")
       setLoading(true);
       const doc = {
         _type: "listings",
