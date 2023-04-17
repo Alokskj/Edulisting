@@ -48,12 +48,13 @@ export const chatQuery = (id) =>{
     return query
 }
 
-export const allListings = () =>{
-    const query = `*[_type == "listings" && listed == true ] | order(_createdAt desc){
+export const allListings = (from , to) =>{
+    const query = `*[_type == "listings" && listed == true ] | order(_createdAt desc)[${from}..${to}]{
         _id,
         title,
         description,
         price,
+        mrp,
         slug,
         locality,
         city,

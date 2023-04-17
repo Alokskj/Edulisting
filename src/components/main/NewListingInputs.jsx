@@ -33,6 +33,15 @@ const NewListingInputs = ({listing, handleChange}) => {
             fullWidth
           />
           <TextField
+            name="mrp"
+            type="number"
+            label="MRP"
+            margin="dense"
+            value={listing.mrp}
+            onChange={handleChange}
+            fullWidth
+          />
+          <TextField
             name="subject"
             type="text"
             label="Subject"

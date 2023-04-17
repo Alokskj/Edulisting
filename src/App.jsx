@@ -1,4 +1,4 @@
-import { Routes, Route, useParams, useLocation } from "react-router-dom"
+import { Routes, Route, useParams, useLocation, Link, Outlet } from "react-router-dom"
 import Home from './components/pages/Home'
 import './App.css'
 import Ads from "./components/pages/Ads"
@@ -22,6 +22,9 @@ import SimpleBottomNavigation from "./components/header/SimpleBottomNavigation"
 import Setting from "./components/pages/Setting"
 import Support from "./components/pages/Support"
 
+import PageHeader from "./components/header/PageHeader"
+import BookCategory from "./components/pages/bookCategory"
+
 function App() {
   const {pathname} = useLocation()
   const [windowSize, setWindowSize] = useState([
@@ -32,7 +35,7 @@ function App() {
   const chatPath = pathname.slice(5,pathname.length);
   useEffect(() => {
 
-  console.log(window.innerHeight)
+ 
    if(window.innerWidth < 640){   
     // define a custom handler function
     // for the contextmenu event
@@ -61,33 +64,46 @@ function App() {
   };
   return (
     <>
-    <div className={window.innerWidth < 840 && "text-select-disable"}>
-      {view && <Header />} 
+    <div className={window.innerWidth < 840 ? "text-select-disable" : " "}>
+      {/* {view && <Header />}  */}
     
-    <div className={pathname !== "/chat" + chatPath  && "pb-16"}>
+    <div className={pathname !== "/chat" + chatPath  ? "pb-16" : " "}>
     <Routes>
       
-      <Route path="/" element={ <Home/> } />
 
-      
+      <Route element={<> <Header /> <Outlet /> <SimpleBottomNavigation /></>}>
+      <Route path="/" element={ <Home/> } />
       <Route path="/allchats" element={ <AllChats /> } />
-      <Route path="/chat/:id" element={ <Chat /> } />
       <Route path="/query/:id" element={ <Query /> } />
-      <Route path="/sell" element={<Create />} />
       <Route path="/notification" element={<Notification />} />
-      <Route path="/editprofile" element={<EditProfile />} />
-      <Route path="/contactus" element={<ContactUs />} />
       <Route path="/ads" element={ <Ads /> } />
+      <Route path="/profile" element={ <Profile /> } />
+      <Route path="/listings/:id" element={ <Listing /> } />
+      <Route path="*" element={ <Error404 /> } />
+      </Route>
+
+
+      <Route element={<><Outlet/> <SimpleBottomNavigation /></>}>
+      <Route path="/user/:id" element={ <User /> } />
+      </Route >
+
+
+      <Route path="/sell" >  
+      <Route index element={<Create />} />
+      <Route path="category" element={ <BookCategory /> } />
+      </Route>
+
+
+      <Route path="/editprofile" element={<EditProfile />} />
+      <Route path="/chat/:id" element={ <Chat /> } />
+      <Route path="/contactus" element={<ContactUs />} />
       <Route path="/help-and-support" element={ <Support /> } />
       <Route path="/setting" element={ <Setting /> } />
-      <Route path="/profile" element={ <Profile /> } />
       <Route path="/login" element={ <Login /> } />
-      <Route path="/listings/:id" element={ <Listing /> } />
-      <Route path="/user/:id" element={ <User /> } />
-     <Route path="*" element={ <Error404 /> } />
+      <Route path="/edulisting.apk" element={ <Link to="/edulisting.apk"></Link> } />
     </Routes>
     </div>
-    {pathname !== "/chat"+ chatPath  && <SimpleBottomNavigation />} 
+   
     
     
     </div>

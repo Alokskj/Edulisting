@@ -27,6 +27,8 @@
     "processenv": "^3.0.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-loader-spinner": "^5.3.4",
     "react-router-dom": "^6.8.2",
     "react-web-share": "^2.0.2",

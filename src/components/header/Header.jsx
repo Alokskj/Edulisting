@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
@@ -21,6 +21,7 @@ const Header = () => {
   }
   return (
     <>
+    
     <div id='header' className="header-container flex justify-center ">
     <header className='flex justify-between p-4 container '>
         <div  className="logo capitalize cursor-pointer poppins text-4xl font-bold"><Link to="/"><p>edulisting</p></Link></div>
@@ -70,6 +71,7 @@ const Header = () => {
            </div>
     </header>
     </div>
+   
     </>
    
   )
