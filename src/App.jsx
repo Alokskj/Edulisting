@@ -23,7 +23,7 @@ import Setting from "./components/pages/Setting"
 import Support from "./components/pages/Support"
 
 import PageHeader from "./components/header/PageHeader"
-import BookCategory from "./components/pages/bookCategory"
+import BookCategory from "./components/pages/BookCategory"
 
 function App() {
   const {pathname} = useLocation()
