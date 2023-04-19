@@ -31,13 +31,14 @@ export default function SimpleBottomNavigation() {
     value = 0
   }
   return (
-    <div className="contain  fixed w-full bottom-0 md:hidden">
-    <div className="nav relative">
+    <div className="contain  fixed w-full z-50   bottom-0 md:hidden">
+    <div className="nav relative ">
      <Box >
       <BottomNavigation
         
         showLabels
         value={value}
+        
         
         
       >

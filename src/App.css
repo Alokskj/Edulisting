@@ -28,6 +28,12 @@
   height: auto;
 }
 
+.shadowTop{
+  -webkit-box-shadow: inset 25px 200px 286px 52px rgba(84,98,242,0.8);
+-moz-box-shadow: inset 25px 200px 286px 52px rgba(84,98,242,0.8);
+box-shadow: inset 25px 200px 286px 52px rgba(84,98,242,0.8);
+}
+
 
 
 input,

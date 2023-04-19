@@ -30,6 +30,7 @@
     "react-dropzone": "^14.2.3",
     "react-infinite-scroll-component": "^6.1.0",
     "react-loader-spinner": "^5.3.4",
+    "react-loading-skeleton": "^3.2.1",
     "react-router-dom": "^6.8.2",
     "react-web-share": "^2.0.2",
     "sass": "^1.58.3",

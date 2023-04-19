@@ -23,7 +23,7 @@ import Setting from "./components/pages/Setting"
 import Support from "./components/pages/Support"
 
 import PageHeader from "./components/header/PageHeader"
-import BookCategory from "./components/pages/bookCategory"
+import BookCategory from "./components/pages/BookCategory"
 
 function App() {
   const {pathname} = useLocation()
@@ -67,7 +67,6 @@ function App() {
     <div className={window.innerWidth < 840 ? "text-select-disable" : " "}>
       {/* {view && <Header />}  */}
     
-    <div className={pathname !== "/chat" + chatPath  ? "pb-16" : " "}>
     <Routes>
       
 
@@ -78,8 +77,8 @@ function App() {
       <Route path="/notification" element={<Notification />} />
       <Route path="/ads" element={ <Ads /> } />
       <Route path="/profile" element={ <Profile /> } />
-      <Route path="/listings/:id" element={ <Listing /> } />
       <Route path="*" element={ <Error404 /> } />
+      <Route path="/listings/:id" element={ <Listing /> } />
       </Route>
 
 
@@ -102,7 +101,6 @@ function App() {
       <Route path="/login" element={ <Login /> } />
       <Route path="/edulisting.apk" element={ <Link to="/edulisting.apk"></Link> } />
     </Routes>
-    </div>
    
     
     

@@ -49,10 +49,10 @@ const Home = () => {
     </div>
      
       <Seacrhbar />
-      <div >
+      
       <RecentPost />
 
-      </div>
+      
       
     </>
   );

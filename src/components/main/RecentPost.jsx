@@ -8,6 +8,9 @@ import { v4 as uuid } from "uuid";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import ThreeDotSpinner from "../header/ThreeDotSpinner.jsx";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css'
+import PlaceholderCard from "./PlaceholderCard.jsx";
 const RecentPost = () => {
   const [postData, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -48,7 +51,27 @@ const RecentPost = () => {
 
   if (setLoading) {
     if (!postData) {
-      return <Spinner />;
+      return (
+        <div
+      id="recent-post"
+      className="recent-post mb-28 relative  mx-4 md:mx-16 lg:mx-32 my-8 flex flex-col justify-center "
+    >
+      <div className="recent-post-title capitalize my-2 poppins  lg:m-4 text-xl text-gray-500">
+        <h3>Fresh recommendations</h3>
+      </div>
+        <div className="posts justify-center  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 z-0   md:m-4 gap-4">
+        <PlaceholderCard />
+        <PlaceholderCard />
+        <PlaceholderCard />
+        <PlaceholderCard />
+        <PlaceholderCard />
+        <PlaceholderCard />
+        <PlaceholderCard />
+        <PlaceholderCard />
+        </div>
+
+        </div>
+      );
     }
   }
 
@@ -60,26 +83,19 @@ const RecentPost = () => {
       <div className="recent-post-title capitalize my-2 poppins  lg:m-4 text-xl text-gray-500">
         <h3>Fresh recommendations</h3>
       </div>
-      
-       
+
         <InfiniteScroll
           dataLength={postData.length} //This is important field to render the next data
           next={handleLimit}
           hasMore={more}
-          loader={<ThreeDotSpinner />}
+          loader={<>
+          <div className="posts justify-center  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 z-0   md:m-4 gap-4">
+        <PlaceholderCard />
+        <PlaceholderCard />
+        
+        </div>
+          </>}
           
-          // below props only if you need pull down functionality
-          // refreshFunction={this.refresh}
-          // pullDownToRefresh
-          // pullDownToRefreshThreshold={50}
-          // pullDownToRefreshContent={
-          //   <h3 style={{ textAlign: "center" }}>
-          //     &#8595; Pull down to refresh
-          //   </h3>
-          // }
-          // releaseToRefreshContent={
-          //   <h3 style={{ textAlign: "center" }}>&#8593; Release to refresh</h3>
-          // }
         >
           <div className="posts justify-center  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4   md:m-4 gap-4">
           {postData &&

@@ -18,7 +18,9 @@ const Create = () => {
   const [imageAsset, setImageAsset] = useState(false);
   const [check, setCheck] = useState(true);
   const [userinfo, setUser] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("Please first fill all Feilds!")
+  const [errorMessage, setErrorMessage] = useState(
+    "Please first fill all Feilds!"
+  );
 
   const [primaryDetails, setPrimaryDetails] = useState(false);
   const [listing, setListing] = useState({
@@ -89,11 +91,11 @@ const Create = () => {
       .catch((err) => console.log(err));
   };
 
-  const handleError = (message) =>{
-    setErrorMessage(message)
-    setfilled(false)
+  const handleError = (message) => {
+    setErrorMessage(message);
+    setfilled(false);
     setTimeout(() => setfilled(true), 2000);
-  }
+  };
 
   const handleSubmit = () => {
     const {
@@ -109,72 +111,79 @@ const Create = () => {
       subject,
       mobileNumber,
     } = listing;
-    if(listing){
-    if(!imageAsset._id){
-      handleError("Please select an Image")
-      return
-    }
-    if(!title){
-      handleError("Please enter the title")
-      return
-    }
-    if(!description){
-      handleError("Please enter the description")
-      return
-    }
-    if(!price){
-      handleError("Please enter the price")
-      return
-    }
-    if(!mrp){
-      handleError("Please enter the MRP")
-      return
-    }
-    if(Number(price) >= Number(mrp)){
-      handleError("Sell price must be less than MRP")
-      return
-    }
-    if(!subject){
-      handleError("Please enter the Subject")
-      return
-    }
-    if(!standard){
-      handleError("Please select the class")
-      return
-    }
-    if(!board){
-      handleError("Please select the board")
-      return
-    }
-    if (title && description && price && mrp && board && standard && imageAsset._id) {
-      setPrimaryDetails(true);
-      setBtn("Post");
-    }
-    if(!locality){
-      handleError("Please enter the city")
-      return
-    }
-    if(!city){
-      handleError("Please enter the city")
-      return
-    }
-    if(!state){
-      handleError("Please enter the state")
-      return
-    }
-    if(check && (!mobileNumber || mobileNumber != 10)){
-      if(!mobileNumber){
-        handleError("Please enter the mobile number")
-        return
+    if (listing) {
+      if (!imageAsset._id) {
+        handleError("Please select an Image");
+        return;
       }
-      else if(mobileNumber.length != 10){
-        handleError("Please enter the correct number")
-        return
+      if (!title) {
+        handleError("Please enter the title");
+        return;
+      }
+      if (!description) {
+        handleError("Please enter the description");
+        return;
+      }
+      if (!price) {
+        handleError("Please enter the price");
+        return;
+      }
+      if (!mrp) {
+        handleError("Please enter the MRP");
+        return;
+      }
+      if (Number(price) >= Number(mrp)) {
+        handleError("Sell price must be less than MRP");
+        return;
+      }
+      if (!subject) {
+        handleError("Please enter the Subject");
+        return;
+      }
+      if (!standard) {
+        handleError("Please select the class");
+        return;
+      }
+      if (!board) {
+        handleError("Please select the board");
+        return;
+      }
+      if (
+        title &&
+        description &&
+        price &&
+        mrp &&
+        board &&
+        standard &&
+        imageAsset._id
+      ) {
+        setPrimaryDetails(true);
+        setBtn("Post");
+      }
+      if (!locality) {
+        handleError("Please enter the city");
+        return;
+      }
+      if (!city) {
+        handleError("Please enter the city");
+        return;
+      }
+      if (!state) {
+        handleError("Please enter the state");
+        return;
+      }
+      if (check && (!mobileNumber || mobileNumber != 10)) {
+        if (!mobileNumber) {
+          handleError("Please enter the mobile number");
+          return;
+        } else if (mobileNumber.length != 10) {
+          handleError("Please enter the correct number");
+          return;
+        }
       }
     }
-  }
     if (primaryDetails && city && locality && state) {
-      alert("all done!")
+      alert("all done!");
       setLoading(true);
       const doc = {
         _type: "listings",
@@ -240,53 +249,52 @@ const Create = () => {
           navigate("/ads");
         })
         .catch((err) => console.log("post error", err));
-    } 
-  
+    }
   };
 
   authCheck();
   if (loading) return <Spinner />;
   return (
     <>
-    <PageHeader pathname={"Details"} />
-    <div className="p-5 mb-28 flex  flex-col justify-center items-center">
-      <div className="title">
-        <p className="text-2xl font-bold mb-8">New Listing</p>
-      </div>
-      <div className="form-continer flex flex-col">
-        <form action="post">
-          <NewListingImage
-            uploadImage={uploadImage}
-            imageAsset={imageAsset}
-            setImageAsset={setImageAsset}
-          />
-          <NewListingInputs listing={listing} handleChange={handleChange} />
-          {primaryDetails && (
-            <ContactUser
-              listing={listing}
-              user={userinfo}
-              handleChange={handleChange}
-              handleCheck={handleCheck}
-              check={check}
-              setListing={setListing}
+      <PageHeader pathname={"Details"} />
+      <div className="p-5 mb-28 flex  flex-col justify-center items-center">
+        <div className="title">
+          <p className="text-2xl font-bold mb-8">New Listing</p>
+        </div>
+        <div className="form-continer flex flex-col">
+          <form action="post">
+            <NewListingImage
+              uploadImage={uploadImage}
+              imageAsset={imageAsset}
+              setImageAsset={setImageAsset}
             />
+            <NewListingInputs listing={listing} handleChange={handleChange} />
+            {primaryDetails && (
+              <ContactUser
+                listing={listing}
+                user={userinfo}
+                handleChange={handleChange}
+                handleCheck={handleCheck}
+                check={check}
+                setListing={setListing}
+              />
+            )}
+          </form>
+          {!filled && (
+            <p className="my-2 text-red-500 font-bold capitalize transition-all ease-in">
+              {errorMessage}
+            </p>
           )}
-        </form>
-        {!filled && (
-          <p className="my-2 text-red-500 font-bold capitalize transition-all ease-in">
-            {errorMessage}
-          </p>
-        )}
-        <div className="save-listing flex justify-end items-center">
-          <button
-            onClick={handleSubmit}
-            className="bg-blue-700 text-white font-bold p-3 rounded-full w-28"
-          >
-            {btn}
-          </button>
+          <div className="save-listing flex justify-end items-center">
+            <button
+              onClick={handleSubmit}
+              className="bg-blue-700 text-white font-bold p-3 rounded-full w-28"
+            >
+              {btn}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

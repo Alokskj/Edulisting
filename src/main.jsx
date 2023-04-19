@@ -6,14 +6,16 @@ import { BrowserRouter } from "react-router-dom";
 import {
     GoogleOAuthProvider
   } from "@react-oauth/google";
+import { SkeletonTheme } from 'react-loading-skeleton';
 // import { inject } from '@vercel/analytics';
 // inject();
 
 const Root = (ReactDOM.createRoot(document.getElementById('root')).render(
  <BrowserRouter>
  <GoogleOAuthProvider clientId={import.meta.env.VITE_REACT_CLIENT_ID}>
-
+ <SkeletonTheme baseColor="#202020" highlightColor="#444">
  <App />
+ </SkeletonTheme>
  </GoogleOAuthProvider>
  </BrowserRouter>
 ))

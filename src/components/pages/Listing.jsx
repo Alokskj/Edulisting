@@ -7,6 +7,14 @@ import MobileNav from "../header/MobileNav";
 import authCheck from "../main/authCheck";
 import { Avatar } from "@mui/material";
 import Heart from "../utilities/Heart";
+import PlaceholderListing from "../main/PlaceholderListing";
+import ListingHeader from "../header/ListingHeader";
+import ShareIcon from '@mui/icons-material/Share';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SimpleBottomNavigation from "../header/SimpleBottomNavigation";
+
+ 
+
 const Listing = () => {
   
   const { id } = useParams();
@@ -76,12 +84,22 @@ const Listing = () => {
 
   }
 
-  if (loading || !queryUser) return <Spinner />;
+  if (loading || !queryUser) return (
+ 
+  <div className="z-0">
+  <PlaceholderListing />
+  </div>
+ 
+    );
 
   return (
-    <div className="mb-20">
+    <>
+
+      
       <div className="single-post-container">
-        <div className="image-container">
+
+        <div className="image-container  ">
+          
           <img
             className="w-full h-60 object-scale-down shadow-inner"
             src={queryPost?.image.asset.url}
@@ -155,7 +173,9 @@ const Listing = () => {
           </div>
         </div>
       </div>
-    </div>
+    
+    
+    </>
   );
 };
 

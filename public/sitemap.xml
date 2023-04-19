@@ -1,35 +1,168 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-
-
+﻿<?xml version="1.0" encoding="UTF-8"?>
+		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-  <loc>https://edulisting.in/</loc>
-  <lastmod>2023-03-15T16:59:20+00:00</lastmod>
+	<loc>https://edulisting.in/</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>0.8</priority>
 </url>
 <url>
-  <loc>https://edulisting.in/allchats</loc>
-  <lastmod>2023-03-15T16:59:20+00:00</lastmod>
+	<loc>https://edulisting.in/allchats</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
 </url>
 <url>
-  <loc>https://edulisting.in/profile</loc>
-  <lastmod>2023-03-15T16:59:20+00:00</lastmod>
+	<loc>https://edulisting.in/notification</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
 </url>
 <url>
-  <loc>https://edulisting.in/sell</loc>
-  <lastmod>2023-03-15T16:59:20+00:00</lastmod>
+	<loc>https://edulisting.in/ads</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
 </url>
 <url>
-  <loc>https://edulisting.in/login</loc>
-  <lastmod>2023-03-15T16:59:20+00:00</lastmod>
+	<loc>https://edulisting.in/profile</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
 </url>
 <url>
-  <loc>https://edulisting.in/ads</loc>
-  <lastmod>2023-03-15T16:59:20+00:00</lastmod>
+	<loc>https://edulisting.in/sell</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
 </url>
-
-
+<url>
+	<loc>https://edulisting.in/category</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/editprofile</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/contactus</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/help-and-support</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/setting</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/login</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/b59a675c-6e2c-409c-a592-43b111ee3943</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/3koZZ4hGfWb4Eijf0YS7Bs</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/dICtXnskRsdxWffAYSO4ck</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/dICtXnskRsdxWffAYSNGeg</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/dICtXnskRsdxWffAYSM3bG</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/t2rWJTAb4uNhnFji6CO7WR</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/t2rWJTAb4uNhnFji6CMryN</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/t2rWJTAb4uNhnFji6CMryN</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/t2rWJTAb4uNhnFji6CLTlc</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/1gKhFzwtTHqc5n8Z883YOS</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/f5T2DmY3fkMt6I6qKJckYt</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/1gKhFzwtTHqc5n8Z87bTAy</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/t2rWJTAb4uNhnFji5Q3tW6</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/LGQ6Odd3KHknB2j2Ar2YWK</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/JJ0YPr8u7D15WIgrnYi05m</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/4n09nXgzFZFMzZ8zdfPyoh</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/NHlcLYzd1UrqWbRUzWPwSw</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/5gaD97q2VcvIpup50GByu8</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/x33yrkHA49qDZMnYTJxSI1</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/5481vyVtv8YJGkLGN3iJM6</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://edulisting.in/listings/9NHEjaGRyhTuuOJfwoPkb2</loc>
+	<lastmod>2023-04-19T16:29:01+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
 </urlset>
