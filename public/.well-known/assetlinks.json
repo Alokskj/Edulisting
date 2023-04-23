@@ -1,10 +1,7 @@
 [
-  {
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target": {
-      "namespace": "android_app",
-      "package_name": "xyz.appmaker.uarwru",
-      "sha256_cert_fingerprints": ["11:3A:C3:65:F3:E0:96:93:75:D7:21:A9:C4:72:5C:78:39:85:65:E2:32:B2:F7:02:69:15:10:AE:7A:E4:7C:D8"]
-    }
-  }
+{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "in.edulisting.twa",
+               "sha256_cert_fingerprints": ["75:06:45:F6:EC:FC:56:25:22:12:E8:82:17:AD:AF:8C:FB:B1:FA:82:38:0C:6D:8F:23:71:48:20:F7:6D:66:39"] }
+}
 ]
