@@ -1,5 +1,4 @@
-[
-{
+[{
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target" : { "namespace": "android_app", "package_name": "in.edulisting.twa",
                "sha256_cert_fingerprints": ["75:06:45:F6:EC:FC:56:25:22:12:E8:82:17:AD:AF:8C:FB:B1:FA:82:38:0C:6D:8F:23:71:48:20:F7:6D:66:39"] }
