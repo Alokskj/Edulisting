@@ -1,7 +1,6 @@
 import React from "react";
-import {  Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { urlFor } from "./client";
-
 
 const discountPercetage = (sellValue, purchaseValue) => {
   const sellValueInPer = (Number(sellValue) / Number(purchaseValue)) * 100;
@@ -10,7 +9,10 @@ const discountPercetage = (sellValue, purchaseValue) => {
 };
 
 const post = (props) => {
-  
+  const locality =
+    props.locality + props.locality.toLowerCase() !== props.city.toLowerCase()
+      ? "," + props.city
+      : "," + props.state;
 
   return (
     <>
@@ -47,10 +49,8 @@ const post = (props) => {
                 <div className="location flex mt-1 space-x-1 items-center">
                   <i className="fa-solid fa-location-dot"></i>
                   <p className="text-xs ">
-                    {props.locality}
-                    {props.locality.toLowerCase() !== props.city.toLowerCase()
-                      ? "," + props.city
-                      : "," + props.state}
+                    {locality.slice(0,15)}
+                    {locality.length >= 15 && "..."}
                   </p>
                 </div>
               </div>
