@@ -10,9 +10,9 @@ const discountPercetage = (sellValue, purchaseValue) => {
 
 const post = (props) => {
   const locality =
-    props.locality + props.locality.toLowerCase() !== props.city.toLowerCase()
+    props.locality + (props.locality.toLowerCase() !== props.city.toLowerCase()
       ? "," + props.city
-      : "," + props.state;
+      : "," + props.state);
 
   return (
     <>
@@ -48,9 +48,9 @@ const post = (props) => {
               <div className="location-container ">
                 <div className="location flex mt-1 space-x-1 items-center">
                   <i className="fa-solid fa-location-dot"></i>
-                  <p className="text-xs ">
-                    {locality.slice(0,15)}
-                    {locality.length >= 15 && "..."}
+                  <p className="text-xs">
+                    {locality.slice(0,18)}
+                    {locality.length >= 18 && "..."}
                   </p>
                 </div>
               </div>

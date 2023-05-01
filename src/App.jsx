@@ -79,6 +79,7 @@ function App() {
       <Route path="/profile" element={ <Profile /> } />
       <Route path="*" element={ <Error404 /> } />
       <Route path="/listings/:id" element={ <Listing /> } />
+      <Route path="/login" element={ <Login /> } />
       </Route>
 
 
@@ -98,7 +99,6 @@ function App() {
       <Route path="/contactus" element={<ContactUs />} />
       <Route path="/help-and-support" element={ <Support /> } />
       <Route path="/setting" element={ <Setting /> } />
-      <Route path="/login" element={ <Login /> } />
       <Route path="/edulisting.apk" element={ <Link to="/edulisting.apk"></Link> } />
     </Routes>
    
