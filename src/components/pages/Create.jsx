@@ -10,6 +10,7 @@ import { userQuery } from "../main/data";
 import NewListingInputs from "../main/NewListingInputs";
 import NewListingImage from "../main/NewListingImage";
 import PageHeader from "../header/PageHeader";
+import sendEmail from "../utilities/sendEmail";
 
 const Create = () => {
   const [btn, setBtn] = useState("Next");
@@ -41,7 +42,7 @@ const Create = () => {
     localStorage.getItem("user") !== "undefined"
       ? JSON.parse(localStorage.getItem("user"))
       : localStorage.clear();
-
+ 
   useEffect(() => {
     const query = userQuery(user?.sub);
     client
@@ -224,26 +225,9 @@ const Create = () => {
             .then(() => console.log("user updated successfull"));
 
           //sendemail
-          const emailDoc = {
-            from_name: "Edulisting",
-            to_name: "Alok Skj",
-            message: `New Listing Arrived For Approval of title ${title}`,
-          };
-          emailjs
-            .send(
-              import.meta.env.VITE_REACT_EMAILJS_SERVICE_ID,
-              import.meta.env.VITE_REACT_EMAILJS_TEMPLATE_ID_1,
-              emailDoc,
-              import.meta.env.VITE_REACT_EMAILJS_PUBLIC_KEY
-            )
-            .then(
-              (result) => {
-                console.log(result.text);
-              },
-              (error) => {
-                console.log(error.text);
-              }
-            );
+          const formState = {userName : user.name ,bookName : title,bookPrice : price,userEmail : user.email}
+          
+          sendEmail(formState)
           setLoading(false);
           navigate("/ads");
         })
