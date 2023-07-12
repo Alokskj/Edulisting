@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
 import authCheck from "../main/authCheck";
 import SendIcon from "@mui/icons-material/Send";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -12,6 +12,7 @@ import Spinner from "../header/Spinner";
 import currentUser from "../utilities/currentUser";
 import useInterval from "../utilities/useInterval";
 import { Avatar } from "@mui/material";
+import { UserContext } from "../Contexts/UserContext";
 const Chat = () => {
   const navigate = useNavigate();
   authCheck();
@@ -20,10 +21,6 @@ const Chat = () => {
   const [loading, setLoading] = useState(true);
   const [reducerValue, forceUpdate] = useReducer((x) => x + 1, 0);
   let [timer, setTimer] = useState(0);
-  const userInfo =
-    localStorage.getItem("userInfo") !== "undefined"
-      ? JSON.parse(localStorage.getItem("userInfo"))
-      : localStorage.clear();
   const [disabled, setDisabled] = useState(false);
   const [chats, setChats] = useState(null);
   const [click, setClick] = useState(null);
@@ -36,10 +33,7 @@ const Chat = () => {
     border: { borderBottomLeftRadius: "0px" },
     image: true,
   };
-  const user =
-    localStorage.getItem("user") !== "undefined"
-      ? JSON.parse(localStorage.getItem("user"))
-      : localStorage.clear();
+  const {user} = useContext(UserContext)
 
   useInterval(() => {
     setCount(count + 1);
@@ -103,7 +97,7 @@ const Chat = () => {
   }
 
   if (!chats || loading) return <Spinner />;
-  const reqUser = currentUser(chats.postedBy, chats.queryedBy);
+  const reqUser = currentUser(chats.postedBy, chats.queryedBy, user);
   if (user?.sub != chats.userId1 && user?.sub != chats.userId2)
     return navigate("/");
   return (

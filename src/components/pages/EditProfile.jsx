@@ -1,5 +1,5 @@
 import { Badge, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import authCheck from "../main/authCheck";
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
@@ -9,6 +9,7 @@ import { client } from "../main/client";
 import { Avatar } from "@mui/material";
 
 import Spinner from "../header/Spinner";
+import { UserContext } from "../Contexts/UserContext";
 const EditProfile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,10 +18,7 @@ const EditProfile = () => {
   authCheck();
   const navigate = useNavigate();
 
-  const userInfo =
-    localStorage.getItem("user") !== "undefined"
-      ? JSON.parse(localStorage.getItem("user"))
-      : localStorage.clear();
+  const {user : userInfo} = useContext(UserContext)
   useEffect(() => {
     const query = userQuery(userInfo?.sub);
     client

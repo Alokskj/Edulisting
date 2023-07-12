@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { client } from '../main/client';
 import { chatQuery } from '../main/data';
+import { UserContext } from '../Contexts/UserContext';
 
 const deleteuser = () => {
     const [chats, setChats] = useState(null)
-    const user = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear();
+    const {user} = useContext(UserContext)
     
     setLoading(true);
     setDeleteOpen(false);

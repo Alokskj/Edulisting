@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import authCheck from "../main/authCheck";
 import { client } from "../main/client";
 import Spinner from "../header/Spinner";
@@ -11,6 +11,7 @@ import NewListingInputs from "../main/NewListingInputs";
 import NewListingImage from "../main/NewListingImage";
 import PageHeader from "../header/PageHeader";
 import sendEmail from "../utilities/sendEmail";
+import { UserContext } from "../Contexts/UserContext";
 
 const Create = () => {
   const [btn, setBtn] = useState("Next");
@@ -38,10 +39,7 @@ const Create = () => {
     mobileNumber: "",
   });
   const navigate = useNavigate();
-  const user =
-    localStorage.getItem("user") !== "undefined"
-      ? JSON.parse(localStorage.getItem("user"))
-      : localStorage.clear();
+  const {user} = useContext(UserContext)
  
   useEffect(() => {
     const query = userQuery(user?.sub);

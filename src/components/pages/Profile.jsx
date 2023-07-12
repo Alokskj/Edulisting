@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
 import { client } from '../main/client';
 import { userListings, userQuery } from '../main/data'
 import Spinner from '../header/Spinner';
@@ -10,6 +10,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Avatar } from '@mui/material';
 import FeatureWidget from '../main/FeatureWidget';
+import { UserContext } from '../Contexts/UserContext';
+import { useCurrentUser } from '../hooks/useCurrentUser';
 const Profile = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null)
@@ -17,9 +19,8 @@ const Profile = () => {
   const [reducerValue, forceUpdate] = useReducer(x => x + 1, 0)
   const [Ads, setAds] = useState(null)
   
-  const userinfo = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear();
+  const {user : userinfo} = useCurrentUser()
 
-  authCheck()
   useEffect(()=>{
     const query = userQuery(userinfo?.sub)
     client.fetch(query)

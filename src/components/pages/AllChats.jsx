@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import Lottie from "lottie-react";
 import animationData from "../lotties/notfound.json";
 import { client } from "../main/client";
@@ -8,20 +8,17 @@ import Spinner from "../header/Spinner";
 import { redirect, useNavigate } from "react-router-dom";
 import { v4 as uuid } from 'uuid';
 import authCheck from "../main/authCheck";
+import { UserContext } from "../Contexts/UserContext";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
 
 const AllChats = () => {
   const navigate = useNavigate()
   const [allChats, setChats] = useState("");
   const [loading, setLoading] = useState(false);
-  const [reducerValue, forceUpdate] = useReducer(x => x + 1, 0)
-  const user =
-  localStorage.getItem("user") !== "undefined"
-  ? JSON.parse(localStorage.getItem("user"))
-  : localStorage.clear();
-  
-  authCheck()
+  const {user, userLoading} = useCurrentUser()
   useEffect(() => {
+    if(user){
     const query = chatQuery(user?.sub);
     client
       .fetch(query)
@@ -32,24 +29,21 @@ const AllChats = () => {
       .catch((err) => {
         console.log("fetching all chats err", err);
       });
-  }, [reducerValue]);
+    }
+  }, [user]);
 
   const handleDelete = async (id)=> {
-    setLoading(true);
-    client
-      .delete(id)
-      .then(() => {
-        forceUpdate()
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Delete failed: ", err.message);
-      });
+    try {
+      setChats((prev)=> prev.filter(item => item._id !== id))
+      await  client.delete(id)
+    } catch (error) {
+      console.log('Deleting error:', error);
+    }
   }
 
 
 
-  if (loading || !allChats) return <Spinner />;
+  if (loading || !allChats || userLoading) return <Spinner />;
   if (allChats.length === 0)
     return (
       <div className="flex absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex-col justify-center items-center w-full ">

@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
 import { useNavigate, redirect} from 'react-router-dom';
 import authCheck from '../main/authCheck';
 import { client } from '../main/client';
@@ -8,6 +8,8 @@ import animationData from '../lotties/empty.json';
 import Spinner from '../header/Spinner';
 import MyListings from '../main/MyListings';
 import { v4 as uuid } from 'uuid';
+import { UserContext } from '../Contexts/UserContext';
+import { useCurrentUser } from '../hooks/useCurrentUser';
 
 
 
@@ -18,35 +20,36 @@ const Ads = () => {
   
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
-  const user = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear();
+  const {user, userLoading} = useCurrentUser()
   useEffect(()=>{
+    if(user){
     const query = userListings(user?.sub)
     client.fetch(query)
-    .then(async (data)=>{
-      const result = await data
-      setAds(data)
-      
-      setLoading(false)
+    .then((data) => {
+      setAds(data);
+      setLoading(false);
     })
-  },[reducerValue])
-  authCheck()
-  if(loading || !Ads) return <Spinner />;
-  function handleDelete(id, userId){
-    setLoading(true)
-    const chatQuery = `*[_type == "chats" && references("${id}")]`;
-    client
-    .delete({ query: chatQuery })
-    .then(()=>{
-    client
-    .delete({query: `*[_type == "listings" && _id == "${id}" ]`})
-    .then(()=>{
-      console.log("successfully deleted the document")
-      forceUpdate()
-      setLoading(false)
-     })
-   })
-    .catch((err)=>console.log("deleting err", err))
+    .catch((error) => {
+      console.log('Error fetching listings:', error);
+      setLoading(false);
+    })
+    
   }
+  },[user])
+  async function handleDelete(id) {
+    try {
+      setAds((prevAds) => prevAds.filter((item) => item._id !== id));
+      const chatQuery = `*[_type == "chats" && references("${id}")]`;
+      await client.delete({ query: chatQuery });
+      await client.delete({ query: `*[_type == "listings" && _id == "${id}" ]` });
+    } catch (error) {
+      console.log('Deleting error:', error);
+      // Handle the error as needed (e.g., display an error message, revert the UI changes)
+    }
+  }
+  if(loading || userLoading) return <Spinner />;
+
+  
 
 
 

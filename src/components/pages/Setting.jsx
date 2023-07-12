@@ -14,6 +14,8 @@ import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import { client } from "../main/client";
 import Spinner from "../header/Spinner";
 import authCheck from "../main/authCheck";
+import { useCurrentUser } from "../hooks/useCurrentUser";
+import { auth } from "../utilities/firebase";
 
 const Setting = () => {
   authCheck();
@@ -21,14 +23,7 @@ const Setting = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const user =
-    localStorage.getItem("user") !== "undefined"
-      ? JSON.parse(localStorage.getItem("user"))
-      : localStorage.clear();
-  const userinfo =
-    localStorage.getItem("userinfo") !== "undefined"
-      ? JSON.parse(localStorage.getItem("userinfo"))
-      : localStorage.clear();
+  const {user} = useCurrentUser()
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -41,10 +36,15 @@ const Setting = () => {
     setDeleteOpen(false);
   };
 
-  const handleLogout = () => {
-    setOpen(false);
-    localStorage.clear();
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      // Handle any additional actions after successful logout
+      navigate('/')
+    } catch (error) {
+      console.error('Logout error:', error);
+      
+    }
   };
   const handleDelete = async () => {
     setLoading(true);

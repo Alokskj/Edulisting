@@ -11,6 +11,7 @@ import { Avatar, Divider } from "@mui/material";
 import QueryListingWidget from "../main/QueryListingWidget";
 
 import { v4 } from "uuid";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 const User = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true);
@@ -18,10 +19,8 @@ const User = () => {
   const [following, setFollowing] = useState(false);
   const [user, setUser] = useState(null)
   const { id } = useParams();
-  const userInfo =
-    localStorage.getItem("user") !== "undefined"
-      ? JSON.parse(localStorage.getItem("user"))
-      : localStorage.clear();
+  const {user : userInfo} = useCurrentUser()
+
 
   useEffect(() => {
     const query = userQuery(id);

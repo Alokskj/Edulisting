@@ -1,19 +1,17 @@
 import { Checkbox, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { userQuery } from "./data";
 import { client } from "./client";
 import Spinner from "../header/Spinner";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
 const ContactUser = ({ listing, handleCheck, handleChange, check, setListing }) => {
-    const userinfo =
-        localStorage.getItem("user") !== "undefined"
-            ? JSON.parse(localStorage.getItem("user"))
-            : localStorage.clear();
+    const {user : userInfo} = useCurrentUser()
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const query = userQuery(userinfo?.sub);
+        const query = userQuery(userInfo?.sub);
         client.fetch(query).then((data) => {
             setUser(data[0]);
             setLoading(false);
@@ -38,7 +36,7 @@ const ContactUser = ({ listing, handleCheck, handleChange, check, setListing }) 
 
     
     if (loading) return <Spinner />;
-    console.log(user)
+    
     return (
         <>
             <div className="address">

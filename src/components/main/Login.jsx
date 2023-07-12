@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   GoogleLogin,
   GoogleOAuthProvider
@@ -8,28 +8,27 @@ import jwt_decode from "jwt-decode";
 import Lottie from 'lottie-react';
 import animationData from '../lotties/register.json';
 import { client } from "./client";
-
-
+import { GoogleAuthProvider, signInWithCredential, signInWithPopup} from "firebase/auth"
+import {GoogleProvider, auth} from "../utilities/firebase"
+import { UserContext } from "../Contexts/UserContext";
 const Login = () => {
+  const {user} = useContext(UserContext)
   const navigate = useNavigate()
-  const responseGoogle = (response) => {
+  const handleGoogleLogin = async (response) => {
     const token = response.credential;
     const decoded = jwt_decode(token);
-
-    localStorage.setItem('user', JSON.stringify(decoded))
-    const {name, sub : googleId , picture, email} = decoded
-    
-
+    const result = await signInWithCredential(auth, GoogleAuthProvider.credential(token))
+    const {uid,displayName,email,photoURL } = result.user.providerData[0]
     const doc = {
-      _id : googleId,
+      _id : uid,
       _type : 'user',
-      userName: name,
-      image : picture,
+      userName: displayName,
+      image : photoURL,
       email : email,
       userImage:{
         _type : 'image',
         asset: {
-          url: picture
+          url: photoURL
           
         }
       }
@@ -37,11 +36,12 @@ const Login = () => {
    
     client.createIfNotExists(doc)
     .then((data)=>{
-      localStorage.setItem("userInfo", JSON.stringify(data))
       navigate(-1)
       
 
     })
+    .catch(err => console.log(err))
+    
   };
 
 
@@ -56,12 +56,13 @@ const Login = () => {
       <div className="login-container m-8">
       <GoogleOAuthProvider clientId={import.meta.env.VITE_REACT_CLIENT_ID}>
         <GoogleLogin
-          onSuccess={responseGoogle}
-          onError={responseGoogle}
+          onSuccess={handleGoogleLogin}
+          onError={handleGoogleLogin}
           auto_select
           useOneTap
         />
       </GoogleOAuthProvider>
+      {/* <button onClick={handleGoogleLogin}> Sign In with Google</button> */}
       </div>
     </div>
     </div>

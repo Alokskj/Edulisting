@@ -19,4 +19,4 @@ const sendEmail = (formState) => {
       });
   };
 
-export default sendEmail
+export default sendEmail  

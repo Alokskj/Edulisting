@@ -8,13 +8,14 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { client } from "../main/client";
 import Spinner from "../header/Spinner";
+
+import { useCurrentUser } from "../hooks/useCurrentUser";
 const Chat = () => {
   const navigate = useNavigate()
   authCheck()
   const { id } = useParams();
   const ref = useRef()
   const [loading, setLoading] = useState(true)
-  const userInfo = localStorage.getItem('userInfo') !== 'undefined' ? JSON.parse(localStorage.getItem('userInfo')) : localStorage.clear();
   const [disabled, setDisabled] = useState(false)
   const [chats, setChats] = useState(null);
   const [click, setClick] = useState(null)
@@ -24,10 +25,7 @@ const Chat = () => {
     border: { borderBottomLeftRadius: "0px" },
     image: true,
   };
-  const user =
-    localStorage.getItem("user") !== "undefined"
-      ? JSON.parse(localStorage.getItem("user"))
-      : localStorage.clear();
+  const {user} = useCurrentUser()
 
   useEffect(() => {
     client
@@ -160,7 +158,7 @@ const Chat = () => {
                   </div>
                   {chatsStructure.image && (
                     <img
-                      src={userInfo._id !== chats.chatInfo.postedBy._id ? chats.chatInfo.postedBy.image : chats.chatInfo.queryedBy.image}
+                      src={user._id !== chats.chatInfo.postedBy._id ? chats.chatInfo.postedBy.image : chats.chatInfo.queryedBy.image}
                       alt="My profile"
                       className="w-6 h-6 rounded-full order-1"
                     />

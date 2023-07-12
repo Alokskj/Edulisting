@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FeatureWidget from "../main/FeatureWidget";
@@ -8,10 +8,11 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import { RWebShare } from 'react-web-share';
 import authCheck from '../main/authCheck';
+import { UserContext } from '../Contexts/UserContext';
 const Support = () => {
    authCheck()
     const [open, setOpen] = useState(false);
-  const user = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear();
+    const {user} = useContext(UserContext)
 
   const navigate = useNavigate()
 

@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate} from 'react-router-dom';
+import { UserContext } from '../Contexts/UserContext';
 
 const authCheck = () => {
-  const user = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear();
+  const {user} = useContext(UserContext)
   const navigate = useNavigate()
-
   useEffect(()=>{
     if(!user) {navigate("/login")
     }

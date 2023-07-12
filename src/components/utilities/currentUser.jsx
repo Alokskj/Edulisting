@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import authCheck from '../main/authCheck'
+import { useCurrentUser } from '../hooks/useCurrentUser';
+import { UserContext } from '../Contexts/UserContext';
                     //postedby queryedby
-const currentUser = ( user1 , user2) => {
+const currentUser = ( user1 , user2, userInfo) => {
   let reqUser;
-  const userInfo = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear();
+
   if(userInfo?.sub  == user1?._id ){
     reqUser = user2
   }

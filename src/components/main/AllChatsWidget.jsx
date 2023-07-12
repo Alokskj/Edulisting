@@ -9,10 +9,6 @@ import currentUser from "../utilities/currentUser";
 const AllChatsWidget = ({ stuff, deleteChat }) => {
   const navigate = useNavigate();
   const [deleteWidget, setDeleteWidget] = useState(false);
-  const userInfo =
-    localStorage.getItem("userInfo") !== "undefined"
-      ? JSON.parse(localStorage.getItem("userInfo"))
-      : localStorage.clear();
 
   function handleclick() {
     deleteWidget ? setDeleteWidget(false) : setDeleteWidget(true);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { listingQuery, userQuery } from "../main/data";
 import { client } from "../main/cdnClient";
@@ -12,13 +12,14 @@ import ListingHeader from "../header/ListingHeader";
 import ShareIcon from '@mui/icons-material/Share';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SimpleBottomNavigation from "../header/SimpleBottomNavigation";
+import { UserContext } from "../Contexts/UserContext";
 
  
 
 const Listing = () => {
   
   const { id } = useParams();
-  const user = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear();
+  const {user} = useContext(UserContext)
 
   const [queryPost, setQueryPost] = useState(null);
   const [queryUser, setQueryUser] = useState(null);
