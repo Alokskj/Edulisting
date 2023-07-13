@@ -10,27 +10,29 @@ import { v4 as uuid } from 'uuid';
 import authCheck from "../main/authCheck";
 import { UserContext } from "../Contexts/UserContext";
 import { useCurrentUser } from "../hooks/useCurrentUser";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../utilities/firebase";
 
 
 const AllChats = () => {
   const navigate = useNavigate()
   const [allChats, setChats] = useState("");
   const [loading, setLoading] = useState(false);
-  const {user, userLoading} = useCurrentUser()
+  const {user, userLoading} = useCurrentUser(true)
   useEffect(() => {
     if(user){
-    const query = chatQuery(user?.sub);
-    client
-      .fetch(query)
-      .then((data) => {
-        setChats(data);
-        
-      })
-      .catch((err) => {
-        console.log("fetching all chats err", err);
+       
+      const unsub = onSnapshot(doc(db, "userChats", user.sub), (doc) => {
+        setChats(doc.data());
       });
+
+      return () => {
+        unsub();
+      };
+
+
     }
-  }, [user]);
+  }, [user?.sub]);
 
   const handleDelete = async (id)=> {
     try {
@@ -44,7 +46,7 @@ const AllChats = () => {
 
 
   if (loading || !allChats || userLoading) return <Spinner />;
-  if (allChats.length === 0)
+  if (Object.entries(allChats).length === 0)
     return (
       <div className="flex absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex-col justify-center items-center w-full ">
         <div className="lottie-container w-3/5 flex justify-center items-center md:w-1/5">
@@ -53,6 +55,8 @@ const AllChats = () => {
         <p className="font-semibold">You don't have any chat's yet!</p>
       </div>
     );
+  
+   
     
   return (
     <>
@@ -61,11 +65,12 @@ const AllChats = () => {
         <p className=" text-2xl">Chats</p>
       </div>
       <div className="chats">
-      {allChats.map((item) => {
+      {Object.entries(allChats)?.sort((a,b)=>b[1].date - a[1].date).map((chat) => {
+       
        return (
           <AllChatsWidget
-            stuff={item}
-            key={uuid()}
+            chat={chat}
+            key={chat[0]}
             deleteChat={handleDelete}
           />
         );

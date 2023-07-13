@@ -7,9 +7,9 @@ import Category from "../header/Category";
 import Hero from "../main/Hero";
 import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import { auth } from "../utilities/firebase";
-import { UserContext } from "../Contexts/UserContext";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 const Home = () => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('/ktoken')
   if (!token) {
     useGoogleOneTapLogin({
       onSuccess: async (credentialResponse) => {

@@ -65,6 +65,7 @@ const Setting = () => {
       .commit()
       )
       const deletedUser = await client.delete(user.sub)
+      await auth.currentUser.delete()
       setLoading(false)
       localStorage.clear()
       navigate("/") 

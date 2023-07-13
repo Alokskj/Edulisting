@@ -9,14 +9,17 @@ export const UserProvider = ({children}) =>{
     useEffect(() => {
         // Set up the onAuthStateChanged listener
         const unsubscribe = auth.onAuthStateChanged((user) => {
+          let id;
           if (user) {
             
             localStorage.setItem('token', user.accessToken)
             const {uid : sub, displayName : name, email, photoURL : picture} =user.providerData[0]
-            setUser({sub,picture,name,email})
+            if(sub === email){id = user.uid}else{id = sub}
+            setUser({sub : id,picture,name,email})
             setUserLoading(false)
           } else {
             setUser(null)
+            setUserLoading(false)
             localStorage.clear()
             console.log('User is signed out');
           }

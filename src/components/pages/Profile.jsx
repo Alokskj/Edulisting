@@ -19,7 +19,7 @@ const Profile = () => {
   const [reducerValue, forceUpdate] = useReducer(x => x + 1, 0)
   const [Ads, setAds] = useState(null)
   
-  const {user : userinfo} = useCurrentUser()
+  const {user : userinfo} = useCurrentUser(true)
 
   useEffect(()=>{
     const query = userQuery(userinfo?.sub)

@@ -16,11 +16,9 @@ import { useCurrentUser } from '../hooks/useCurrentUser';
 
 const Ads = () => {
   const [Ads, setAds] = useState(null)
-  const [reducerValue, forceUpdate] = useReducer(x => x + 1, 0)
-  
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
-  const {user, userLoading} = useCurrentUser()
+  const {user, userLoading} = useCurrentUser(true)
   useEffect(()=>{
     if(user){
     const query = userListings(user?.sub)

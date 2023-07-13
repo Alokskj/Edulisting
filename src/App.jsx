@@ -5,25 +5,22 @@ import Ads from "./components/pages/Ads"
 import Chat from "./components/pages/Chat"
 import Create from "./components/pages/Create"
 import Profile from './components/pages/Profile'
-import Login from "./components/main/Login"
 import Error404 from "./components/main/Error404"
-import MobileNav from "./components/header/MobileNav"
 import Header from "./components/header/Header"
 import Listing from "./components/pages/Listing"
 import User from "./components/pages/User"
 import { useEffect, useState } from "react"
-import Footer from "./components/footer/Footer"
 import AllChats from "./components/pages/AllChats"
 import Query from "./components/pages/Query"
-import { ContactUs } from "./components/pages/ContactUs"
 import Notification from "./components/pages/Notification"
 import EditProfile from "./components/pages/EditProfile"
 import SimpleBottomNavigation from "./components/header/SimpleBottomNavigation"
 import Setting from "./components/pages/Setting"
 import Support from "./components/pages/Support"
 
-import PageHeader from "./components/header/PageHeader"
 import BookCategory from "./components/pages/BookCategory"
+import Login from "./components/pages/Login"
+import Register from "./components/pages/Register"
 
 function App() {
   const {pathname} = useLocation()
@@ -79,7 +76,6 @@ function App() {
       <Route path="/profile" element={ <Profile /> } />
       <Route path="*" element={ <Error404 /> } />
       <Route path="/listings/:id" element={ <Listing /> } />
-      <Route path="/login" element={ <Login /> } />
       </Route>
 
 
@@ -94,9 +90,10 @@ function App() {
       </Route>
 
 
+      <Route path="/register" element={ <Register /> } />
+      <Route path="/login" element={ <Login /> } />
       <Route path="/editprofile" element={<EditProfile />} />
-      <Route path="/chat/:id" element={ <Chat /> } />
-      <Route path="/contactus" element={<ContactUs />} />
+      <Route path="/chat" element={ <Chat /> } />
       <Route path="/help-and-support" element={ <Support /> } />
       <Route path="/setting" element={ <Setting /> } />
       <Route path="/edulisting.apk" element={ <Link to="/edulisting.apk"></Link> } />

@@ -4,7 +4,6 @@ import { client } from "../main/client";
 import Spinner from "../header/Spinner";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
-import emailjs from "@emailjs/browser";
 import ContactUser from "../main/ContactUser";
 import { userQuery } from "../main/data";
 import NewListingInputs from "../main/NewListingInputs";
@@ -12,6 +11,7 @@ import NewListingImage from "../main/NewListingImage";
 import PageHeader from "../header/PageHeader";
 import sendEmail from "../utilities/sendEmail";
 import { UserContext } from "../Contexts/UserContext";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
 const Create = () => {
   const [btn, setBtn] = useState("Next");
@@ -39,7 +39,7 @@ const Create = () => {
     mobileNumber: "",
   });
   const navigate = useNavigate();
-  const {user} = useContext(UserContext)
+  const {user} = useCurrentUser(true)
  
   useEffect(() => {
     const query = userQuery(user?.sub);
@@ -190,7 +190,7 @@ const Create = () => {
         price,
         mrp,
         board,
-        standard,
+        standard : Number(standard),
         subject,
         city,
         locality,

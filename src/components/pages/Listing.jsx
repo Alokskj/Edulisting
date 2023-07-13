@@ -9,17 +9,25 @@ import { Avatar } from "@mui/material";
 import Heart from "../utilities/Heart";
 import PlaceholderListing from "../main/PlaceholderListing";
 import ListingHeader from "../header/ListingHeader";
-import ShareIcon from '@mui/icons-material/Share';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ShareIcon from "@mui/icons-material/Share";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SimpleBottomNavigation from "../header/SimpleBottomNavigation";
 import { UserContext } from "../Contexts/UserContext";
-
- 
+import {
+  addDoc,
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "../utilities/firebase";
+import { ChatContext } from "../Contexts/ChatContext";
 
 const Listing = () => {
-  
+  const { dispatch, data} = useContext(ChatContext);
   const { id } = useParams();
-  const {user} = useContext(UserContext)
+  const { user: currentUser } = useContext(UserContext);
 
   const [queryPost, setQueryPost] = useState(null);
   const [queryUser, setQueryUser] = useState(null);
@@ -45,62 +53,78 @@ const Listing = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  function handleMessage() {
+  async function handleMessage() {
+   const mixId = currentUser.sub > queryUser._id
+        ? currentUser.sub + queryUser._id
+        : queryUser._id + currentUser.sub;
+   const combinedId = mixId + queryPost._id
+   
+    const chat = {
+      userInfo: {
+        uid: queryUser._id,
+        displayName: queryUser.userName,
+        photoURL: queryUser.image,
+      },
+      listingInfo: {
+        uid: queryPost._id,
+        listingName: queryPost.title,
+        photUrl: queryPost?.image.asset.url,
+      },
+    };
 
-    if (queryUser && queryPost) {
-      setLoading(true);
-      const mixId =
-        user?.sub.slice(0, 5) +
-        queryUser?._id.slice(0, 5) +
-        queryPost?._id.slice(0, 5);
-      const doc = {
-        _id: mixId,
-        _type: "chats",
-        userId1: user?.sub,
-        userId2: queryUser?._id,
-        postedBy: {
-          _type: "reference",
-          _ref: queryUser?._id,
-        },
-        queryedBy: {
-          _type: "reference",
-          _ref: user?.sub,
-        },
-        listing: {
-          _type: "reference",
-          _ref: id,
-        },
-      };
-      client
-        .createIfNotExists(doc)
-        .then((data) => {
-          const result = data[0];
-          navigate("../chat/" + mixId);
-          setLoading(false);
-        })
-        .catch((err) => console.log("creating chat room err", err));
-    } else {
-      console.log("Not suffecient info for creating chat room");
+    try {
+      const res = await getDoc(doc(db, "chats", combinedId));
+      
+      if (!res.exists()) {
+        //create a chat in chats collection
+        await setDoc(doc(db, "chats", combinedId), { messages: [] });
+        // create user chats
+        await updateDoc(doc(db, "userChats", currentUser.sub), {
+          [combinedId + ".userInfo"]: {
+            uid: queryUser._id,
+            displayName: queryUser.userName,
+            photoURL: queryUser.image,
+          },
+          [combinedId + ".listingInfo"]: {
+            uid: queryPost._id,
+            listingName: queryPost.title,
+            photUrl: queryPost?.image.asset.url,
+          },
+          [combinedId + ".date"]: serverTimestamp(),
+        });
+
+        await updateDoc(doc(db, "userChats", queryUser._id), {
+          [combinedId + ".userInfo"]: {
+            uid: currentUser.sub,
+            displayName: currentUser.name,
+            photoURL: currentUser.picture,
+          },
+          [combinedId + ".listingInfo"]: {
+            uid: queryPost._id,
+            listingName: queryPost.title,
+            photUrl: queryPost?.image.asset.url,
+          },
+          [combinedId + ".date"]: serverTimestamp(),
+        });
+      }
+     dispatch({ type: "CHANGE_USER", payload: chat });
+      navigate("../chat/");
+    } catch (err) {
+      console.log(err);
     }
-
   }
 
-  if (loading || !queryUser) return (
- 
-  <div className="z-0">
-  <PlaceholderListing />
-  </div>
- 
+  if (loading || !queryUser)
+    return (
+      <div className="z-0">
+        <PlaceholderListing />
+      </div>
     );
 
   return (
     <>
-
-      
       <div className="single-post-container">
-
         <div className="image-container  ">
-          
           <img
             className="w-full h-60 object-scale-down shadow-inner"
             src={queryPost?.image.asset.url}
@@ -139,43 +163,48 @@ const Listing = () => {
         </div>
         <div className="post-user border-2 flex items-center justify-between mb-32">
           <Link to={`/user/${queryPost.userId}`}>
-          <div
-            className="user-info  flex items-center"
-          >
-            <div className="user-image mx-5 my-2">
-              <Avatar alt="user-image" src={queryUser?.image} sx={{ width: 60, height: 60 }} />
+            <div className="user-info  flex items-center">
+              <div className="user-image mx-5 my-2">
+                <Avatar
+                  alt="user-image"
+                  src={queryUser?.image}
+                  sx={{ width: 60, height: 60 }}
+                />
+              </div>
+              <div className="user-name font-medium text-lg">
+                <p>{queryUser?.userName}</p>
+              </div>
             </div>
-            <div className="user-name font-medium text-lg">
-              <p>{queryUser?.userName}</p>
-            </div>
-          </div>
           </Link>
           <div className="post-message m-3">
             <div className="button-container">
-              {user?.sub == queryUser._id ?
+              {currentUser?.sub == queryUser._id ? (
                 <button
                   className="bg-blue-700 p-3 cursor-pointer rounded-lg text-white"
                   type="button"
-                  onClick={user ? () => navigate("/profile") : () => navigate("/login")}
+                  onClick={
+                    currentUser
+                      ? () => navigate("/profile")
+                      : () => navigate("/login")
+                  }
                 >
                   Profile
-                </button> :
-
+                </button>
+              ) : (
                 <button
                   className="bg-blue-700 p-3 cursor-pointer rounded-lg text-white"
                   type="button"
-                  onClick={user ? handleMessage : () => navigate("/login")}
+                  onClick={
+                    currentUser ? handleMessage : () => navigate("/login")
+                  }
                 >
                   Message
                 </button>
-              }
-
+              )}
             </div>
           </div>
         </div>
       </div>
-    
-    
     </>
   );
 };
