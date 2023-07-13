@@ -9,8 +9,8 @@ import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import { auth } from "../utilities/firebase";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 const Home = () => {
-  const token = localStorage.getItem('/ktoken')
-  if (!token) {
+  const {user, userLoading} = useCurrentUser()
+  if (!user && !userLoading) {
     useGoogleOneTapLogin({
       onSuccess: async (credentialResponse) => {
         const token = credentialResponse.credential;
