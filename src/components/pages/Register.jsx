@@ -12,86 +12,59 @@ import {
 
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
-import { useCurrentUser } from "../hooks/useCurrentUser";
+import { useAuth } from "../Contexts/UserContext";
+
 import Spinner from "../header/Spinner";
 import { client } from "../main/client";
 import { BiLeftArrowAlt } from "react-icons/bi";
+import { saveUserInFirebase } from "../utilities/saveUserInFirebase";
+import { useState } from "react";
+import ToastMessage from "../utilities/ToastMessage";
+import { toast } from "react-toastify";
 
 const Register = () => {
     const navigate = useNavigate()
-    const { user, isUserLoading , setUser} = useCurrentUser(false);
+    const [loading, setLoading] = useState(false)
+    const {currentUser, isLoading, setCurrentUser} = useAuth()
 
     useEffect(() => {
-        if (!isUserLoading && user) {
+        if (!isLoading && currentUser) {
             // it means user loged in
             navigate("/");
         }
-    }, []);
+    }, [currentUser]);
     
-    const storeUser = async () =>{
-        let id;
-        const { uid, displayName, email, photoURL } = auth.currentUser.providerData[0];
-        if(uid === email){id = auth.currentUser.uid}
-        else{
-            id = uid
-        }
-        try {
-            const newUser = {
-                _id: id,
-                _type: "user",
-                userName: displayName,
-                image: photoURL,
-                email: email,
-                userImage: {
-                  _type: "image",
-                  asset: {
-                    url: photoURL,
-                  },
-                },
-              };
-              const query = `*[_type == "user" && _id == "${id}"]`;
-              const data = await client.fetch(query);
-              if (data.length !== 0) {
-                const userChats = await getDoc(doc(db, "userChats", id));
-               
-                if (!userChats.data()) {
-                  await setDoc(doc(db, "userChats", id), {});
-                  console.log("initialise user chats");
-                }
-                console.log("user already exists");
-                return navigate(-1);
-              }
-              await client.create(newUser);
-              await setDoc(doc(db, "userChats", id), {});
-              console.log("initialise user chats");
-              console.log("User created successfully");
-              navigate(-1);
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
+    
     
     const signInWithGoogle = async () => {
         try {
+            setLoading(true)
             await signInWithPopup(auth, GoogleProvider);
-            storeUser()
+            saveUserInFirebase(setCurrentUser, setLoading)
+
         } catch (error) {
+            setLoading(false)
+
             console.error(error);
         }
     };
 
     const signInWithFacebook = async () => {
         try {
+            setLoading(true)
             await signInWithPopup(auth, fProvider);
-            storeUser()
+            saveUserInFirebase(setCurrentUser, setLoading)
+
         } catch (error) {
+            setLoading(false)
+
             console.error(error);
         }
     };
 
     const handleSumbit = async (e) => {
         e.preventDefault();
+        setLoading(true)
         const displayName = e.target[0].value;
         const email = e.target[1].value;
         const password = e.target[2].value;
@@ -105,17 +78,21 @@ const Register = () => {
             await updateProfile(user, {
                 displayName,
             });
-            storeUser()
+            saveUserInFirebase(setCurrentUser, setLoading)
         } catch (error) {
+            setLoading(false)
+            const errorMessage = error.message.replace('Firebase: Error (auth/', '').replace(').', '').replace(/-/g, ' ')
+            toast.error(errorMessage)
             console.error(error);
         }
     };
 
      
-    return isUserLoading || (!isUserLoading && user)? (
+    return loading? (
         <Spinner />
     ) : (
         <div className="h-[95vh] w-[100vw] flex justify-center items-center ">
+            <ToastMessage />
             <div className="flex items-center flex-col px-4 max-sm:w-full">
                 <div className="text-center">
                     <div className="text-4xl font-bold">Create Account</div>

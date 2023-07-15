@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import authCheck from "../main/authCheck";
 import { client } from "../main/client";
 import Spinner from "../header/Spinner";
 import moment from "moment";
@@ -10,8 +9,8 @@ import NewListingInputs from "../main/NewListingInputs";
 import NewListingImage from "../main/NewListingImage";
 import PageHeader from "../header/PageHeader";
 import sendEmail from "../utilities/sendEmail";
-import { UserContext } from "../Contexts/UserContext";
-import { useCurrentUser } from "../hooks/useCurrentUser";
+import { useAuth } from "../Contexts/UserContext";
+
 
 const Create = () => {
   const [btn, setBtn] = useState("Next");
@@ -39,10 +38,11 @@ const Create = () => {
     mobileNumber: "",
   });
   const navigate = useNavigate();
-  const {user} = useCurrentUser(true)
+  const {currentUser} = useAuth()
  
   useEffect(() => {
-    const query = userQuery(user?.sub);
+    const query = userQuery(currentUser?.uid
+);
     client
       .fetch(query)
       .then((data) => {
@@ -203,13 +203,16 @@ const Create = () => {
             _ref: imageAsset?._id,
           },
         },
-        userId: user?.sub,
+        userId: currentUser?.uid
+,
         postedBy: {
           _type: "postedby",
-          _ref: user?.sub,
+          _ref: currentUser?.uid
+,
         },
         createAt: moment().format("Do MMMM YY"),
-        listed: user?.sub === "110753906230473125746" ? true : false,
+        listed: currentUser?.uid
+ === "110753906230473125746" ? true : false,
       };
       client
         .create(doc)
@@ -217,13 +220,14 @@ const Create = () => {
           // upadateuser
 
           client
-            .patch(user.sub)
+            .patch(currentUser.uid
+)
             .set({ locality, city, state, mobileNumber })
             .commit()
             .then(() => console.log("user updated successfull"));
 
           //sendemail
-          const formState = {userName : user.name ,bookName : title,bookPrice : price,userEmail : user.email}
+          const formState = {userName : currentUser.name ,bookName : title,bookPrice : price,userEmail : currentUser.email}
           
           sendEmail(formState)
           setLoading(false);
@@ -233,7 +237,8 @@ const Create = () => {
     }
   };
 
-  authCheck();
+  
+
   if (loading) return <Spinner />;
   return (
     <>

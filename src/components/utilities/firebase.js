@@ -28,5 +28,6 @@ export const auth = getAuth(app);
 export const db = getFirestore(app)
 export const GoogleProvider = new GoogleAuthProvider();
 export const fProvider = new FacebookAuthProvider();
-
+GoogleProvider.addScope('profile');
+GoogleProvider.addScope('email');
 export const storage = getStorage();

@@ -4,7 +4,7 @@ import { listingQuery, userQuery } from "../main/data";
 import { client } from "../main/cdnClient";
 import Spinner from "../header/Spinner";
 import MobileNav from "../header/MobileNav";
-import authCheck from "../main/authCheck";
+
 import { Avatar } from "@mui/material";
 import Heart from "../utilities/Heart";
 import PlaceholderListing from "../main/PlaceholderListing";
@@ -12,7 +12,7 @@ import ListingHeader from "../header/ListingHeader";
 import ShareIcon from "@mui/icons-material/Share";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SimpleBottomNavigation from "../header/SimpleBottomNavigation";
-import { UserContext } from "../Contexts/UserContext";
+import { UserContext, useAuth } from "../Contexts/UserContext";
 import {
   addDoc,
   doc,
@@ -22,12 +22,12 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../utilities/firebase";
-import { ChatContext } from "../Contexts/ChatContext";
+import { useChatContext } from "../Contexts/ChatContext";
 
 const Listing = () => {
-  const { dispatch, data} = useContext(ChatContext);
+  const { dispatch, data } = useChatContext();
   const { id } = useParams();
-  const { user: currentUser } = useContext(UserContext);
+  const { currentUser } = useAuth();
 
   const [queryPost, setQueryPost] = useState(null);
   const [queryUser, setQueryUser] = useState(null);
@@ -54,11 +54,12 @@ const Listing = () => {
   }, []);
 
   async function handleMessage() {
-   const mixId = currentUser.sub > queryUser._id
-        ? currentUser.sub + queryUser._id
-        : queryUser._id + currentUser.sub;
-   const combinedId = mixId + queryPost._id
-   
+    const mixId =
+      currentUser.uid > queryUser._id
+        ? currentUser.uid + queryUser._id
+        : queryUser._id + currentUser.uid;
+    const combinedId = mixId + queryPost._id;
+
     const chat = {
       userInfo: {
         uid: queryUser._id,
@@ -74,12 +75,24 @@ const Listing = () => {
 
     try {
       const res = await getDoc(doc(db, "chats", combinedId));
-      
+     console.log('1')
       if (!res.exists()) {
+        console.log('2')
         //create a chat in chats collection
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
         // create user chats
-        await updateDoc(doc(db, "userChats", currentUser.sub), {
+
+        const currentUserChatRef = await getDoc(
+          doc(db, "userChats", currentUser.uid)
+        );
+
+        const userChatRef = await getDoc(doc(db, "userChats", queryUser._id));
+          console.log('3')
+        if (!currentUserChatRef.exists()) {
+          console.log('hello')
+          await setDoc(doc(db, "userChats", currentUser.uid), {});
+        }
+        await updateDoc(doc(db, "userChats", currentUser.uid), {
           [combinedId + ".userInfo"]: {
             uid: queryUser._id,
             displayName: queryUser.userName,
@@ -93,11 +106,15 @@ const Listing = () => {
           [combinedId + ".date"]: serverTimestamp(),
         });
 
+        if (!userChatRef.exists()) {
+          console.log('hello 2')
+          await setDoc(doc(db, "userChats", queryUser._id), {});
+        }
         await updateDoc(doc(db, "userChats", queryUser._id), {
           [combinedId + ".userInfo"]: {
-            uid: currentUser.sub,
-            displayName: currentUser.name,
-            photoURL: currentUser.picture,
+            uid: currentUser.uid,
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL,
           },
           [combinedId + ".listingInfo"]: {
             uid: queryPost._id,
@@ -107,7 +124,7 @@ const Listing = () => {
           [combinedId + ".date"]: serverTimestamp(),
         });
       }
-     dispatch({ type: "CHANGE_USER", payload: chat });
+      dispatch({ type: "CHANGE_USER", payload: chat });
       navigate("../chat/");
     } catch (err) {
       console.log(err);
@@ -178,7 +195,7 @@ const Listing = () => {
           </Link>
           <div className="post-message m-3">
             <div className="button-container">
-              {currentUser?.sub == queryUser._id ? (
+              {currentUser?.uid == queryUser._id ? (
                 <button
                   className="bg-blue-700 p-3 cursor-pointer rounded-lg text-white"
                   type="button"

@@ -13,17 +13,21 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import { client } from "../main/client";
 import Spinner from "../header/Spinner";
-import authCheck from "../main/authCheck";
-import { useCurrentUser } from "../hooks/useCurrentUser";
+
+
+import { useAuth } from "../Contexts/UserContext";
+
 import { auth } from "../utilities/firebase";
 
 const Setting = () => {
-  authCheck();
+  
+
   const [open, setOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const {user} = useCurrentUser()
+  const {currentUser} = useAuth()
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -50,10 +54,14 @@ const Setting = () => {
     setLoading(true);
     setOpen(false);
     
-    const userQuery = `*[_type == "user" && _id == "${user.sub}" ]`;
-    const listingQuery = `*[_type == "listings" && userId == "${user.sub}" ]`;
-    const chatQuery = `*[_type == "chats" && references("${user.sub}") ]`;
-    const followingQuery = `*[_type == "user" && references("${user.sub}") ]`;
+    const userQuery = `*[_type == "user" && _id == "${currentUser.uid
+}" ]`;
+    const listingQuery = `*[_type == "listings" && userId == "${currentUser.uid
+}" ]`;
+    const chatQuery = `*[_type == "chats" && references("${currentUser.uid
+}") ]`;
+    const followingQuery = `*[_type == "user" && references("${currentUser.uid
+}") ]`;
     
     try {
       const deletedChats = await client.delete({query : chatQuery})
@@ -61,10 +69,12 @@ const Setting = () => {
       const followingUser = await client.fetch(followingQuery)
       const RemoveFollowingFrom =  followingUser.map((e)=> client
       .patch(e._id)
-      .unset([`following[_ref=="${user.sub}"]`])
+      .unset([`following[_ref=="${currentUser.uid
+}"]`])
       .commit()
       )
-      const deletedUser = await client.delete(user.sub)
+      const deletedUser = await client.delete(currentUser.uid
+)
       await auth.currentUser.delete()
       setLoading(false)
       localStorage.clear()

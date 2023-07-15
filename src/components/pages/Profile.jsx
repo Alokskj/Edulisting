@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useReducer, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { client } from '../main/client';
 import { userListings, userQuery } from '../main/data'
 import Spinner from '../header/Spinner';
-import authCheck from '../main/authCheck';
 import { RWebShare } from "react-web-share";
 import { Divider } from '@mui/material';
 import SupportIcon from '@mui/icons-material/Support';
@@ -10,36 +9,37 @@ import { Link, useNavigate } from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Avatar } from '@mui/material';
 import FeatureWidget from '../main/FeatureWidget';
-import { UserContext } from '../Contexts/UserContext';
-import { useCurrentUser } from '../hooks/useCurrentUser';
+import {  useAuth } from '../Contexts/UserContext';
+
 const Profile = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [reducerValue, forceUpdate] = useReducer(x => x + 1, 0)
   const [Ads, setAds] = useState(null)
   
-  const {user : userinfo} = useCurrentUser(true)
+  const {currentUser} = useAuth()
 
   useEffect(()=>{
-    const query = userQuery(userinfo?.sub)
+    const query = userQuery(currentUser?.uid
+)
     client.fetch(query)
     .then((data)=> {
       setUser(data[0])
       setLoading(false)
     });
-    const listingQuery = userListings(userinfo?.sub)
+    const listingQuery = userListings(currentUser?.uid
+)
     client.fetch(listingQuery)
     .then((data)=>{
       setAds(data)
       setLoading(false)
     })
-  },[reducerValue])
+  },[])
 
  
 
  
-  if(loading && !user?.image) return <Spinner />
+  if(loading) return <Spinner />
 
   return (
     <>

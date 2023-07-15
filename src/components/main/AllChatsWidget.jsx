@@ -1,15 +1,12 @@
 import React, { useContext, useState } from "react";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import moment from "moment/moment";
 import { useNavigate, Link } from "react-router-dom";
-import { client } from "./client";
 import { Avatar } from "@mui/material";
-import currentUser from "../utilities/currentUser";
-import { ChatContext } from "../Contexts/ChatContext";
+import {  useChatContext } from "../Contexts/ChatContext";
 const AllChatsWidget = ({ chat, deleteChat }) => {
   const navigate = useNavigate();
-  const {dispatch} = useContext(ChatContext)
+  const {dispatch} = useChatContext()
   const [deleteWidget, setDeleteWidget] = useState(false);
 
   function handleclick() {

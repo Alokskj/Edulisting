@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FeatureWidget from "../main/FeatureWidget";
@@ -7,12 +7,9 @@ import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import { RWebShare } from 'react-web-share';
-import authCheck from '../main/authCheck';
-import { UserContext } from '../Contexts/UserContext';
+import {  useAuth } from '../Contexts/UserContext';
 const Support = () => {
-   authCheck()
-    const [open, setOpen] = useState(false);
-    const {user} = useContext(UserContext)
+    const {currentUser} = useAuth()
 
   const navigate = useNavigate()
 
@@ -50,7 +47,7 @@ const Support = () => {
         data={{
           text: "I'm using Edulisting, buying and selling books there is much easier and profitable:",
           url: `https://www.edulisting.ml`,
-          title: `${user?.name} - Edulisting`,
+          title: `${currentUser?.name} - Edulisting`,
         }}
         onClick={() => console.log("shared successfully!")}
       >

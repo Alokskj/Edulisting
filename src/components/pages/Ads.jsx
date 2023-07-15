@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 import { useNavigate, redirect} from 'react-router-dom';
-import authCheck from '../main/authCheck';
+
 import { client } from '../main/client';
 import { userListings } from '../main/data';
 import Lottie from 'lottie-react';
@@ -8,8 +8,8 @@ import animationData from '../lotties/empty.json';
 import Spinner from '../header/Spinner';
 import MyListings from '../main/MyListings';
 import { v4 as uuid } from 'uuid';
-import { UserContext } from '../Contexts/UserContext';
-import { useCurrentUser } from '../hooks/useCurrentUser';
+import {  useAuth } from '../Contexts/UserContext';
+
 
 
 
@@ -18,10 +18,10 @@ const Ads = () => {
   const [Ads, setAds] = useState(null)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
-  const {user, userLoading} = useCurrentUser(true)
+  const {currentUser, isLoading} = useAuth()
   useEffect(()=>{
-    if(user){
-    const query = userListings(user?.sub)
+    const query = userListings(currentUser?.uid
+)
     client.fetch(query)
     .then((data) => {
       setAds(data);
@@ -31,9 +31,7 @@ const Ads = () => {
       console.log('Error fetching listings:', error);
       setLoading(false);
     })
-    
-  }
-  },[user])
+  },[])
   async function handleDelete(id) {
     try {
       setAds((prevAds) => prevAds.filter((item) => item._id !== id));
@@ -45,7 +43,7 @@ const Ads = () => {
       // Handle the error as needed (e.g., display an error message, revert the UI changes)
     }
   }
-  if(loading || userLoading) return <Spinner />;
+  if(loading ) return <Spinner />;
 
   
 

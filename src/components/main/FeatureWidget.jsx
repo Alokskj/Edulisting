@@ -1,8 +1,7 @@
 import React from 'react'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link, useNavigate } from 'react-router-dom';
-const FeatureWidget = ({icon, title, subtitle, link}) => {
-  const navigate = useNavigate()
+const FeatureWidget = ({icon, title, subtitle, link = '#'}) => {
   return (
     <Link to={link}>
     <div className='card flex items-center cursor-pointer  w-full'>

@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { client } from "../main/client";
 import { userListings, userQuery, userPublishedListings } from "../main/data";
 import Spinner from "../header/Spinner";
-import MobileNav from "../header/MobileNav";
 import Header from "../header/Header.jsx";
 import ShareIcon from "@mui/icons-material/Share";
 import { RWebShare } from "react-web-share";
@@ -11,7 +10,8 @@ import { Avatar, Divider } from "@mui/material";
 import QueryListingWidget from "../main/QueryListingWidget";
 
 import { v4 } from "uuid";
-import { useCurrentUser } from "../hooks/useCurrentUser";
+import { useAuth } from "../Contexts/UserContext";
+
 const User = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true);
@@ -19,7 +19,7 @@ const User = () => {
   const [following, setFollowing] = useState(false);
   const [user, setUser] = useState(null)
   const { id } = useParams();
-  const {user : userInfo} = useCurrentUser()
+  const {currentUser} = useAuth()
 
 
   useEffect(() => {
@@ -27,7 +27,8 @@ const User = () => {
     client.fetch(query).then((data) => {
       setUser(data[0]);
       const followArray = data[0]?.following?.map((e) => e._ref);
-      setFollowing(followArray?.includes(userInfo?.sub));
+      setFollowing(followArray?.includes(currentUser?.uid
+));
     });
     const listingQuery = userPublishedListings(id);
     client.fetch(listingQuery).then((data) => {
@@ -44,7 +45,8 @@ const User = () => {
         .patch(id)
         .setIfMissing({ following: [] })
         .insert("after", "following[-1]", [
-          { _ref: userInfo?.sub, _type: "reference" },
+          { _ref: currentUser?.uid
+, _type: "reference" },
         ])
         .commit({ autoGenerateArrayKeys: true })
         .then(() => {
@@ -57,7 +59,8 @@ const User = () => {
     } else {
       client
         .patch(id)
-        .unset([`following[_ref=="${userInfo.sub}"]`])
+        .unset([`following[_ref=="${currentUser.uid
+}"]`])
         .commit()
         .then(() => {
           setLoading(false);
@@ -133,7 +136,8 @@ const User = () => {
               </div>
 
               <div className="follow mt-5">
-                {userInfo?.sub === user?._id ?
+                {currentUser?.uid
+ === user?._id ?
                   <button
                     onClick={() => navigate("/profile")}
                     className="bg-blue-600 text-white py-[6px] px-12 rounded-xl cursor-pointer font-semibold  hover:shadow-md outline-none"
@@ -141,24 +145,24 @@ const User = () => {
                     Profile
                   </button> :
 
-                  userInfo ? 
+                  currentUser ? 
                   !following ?
                     <button
-                      onClick={userInfo ? followClick : () => navigate("/login")}
+                      onClick={currentUser ? followClick : () => navigate("/login")}
                       className="bg-blue-600 text-white py-[6px] px-12 rounded-xl cursor-pointer font-semibold  hover:shadow-md outline-none"
                     >
                       Follow
                     </button>
                     :
                     <button
-                      onClick={userInfo ? followClick : () => navigate("/login")}
+                      onClick={currentUser ? followClick : () => navigate("/login")}
                       className="bg-gray-200 py-[6px] px-12 rounded-xl cursor-pointer font-semibold  hover:shadow-md outline-none"
                     >
                       Followed
                     </button>
                     : 
                     <button
-                      onClick={userInfo ? followClick : () => navigate("/login")}
+                      onClick={currentUser ? followClick : () => navigate("/login")}
                       className="bg-blue-600 text-white py-[6px] px-12 rounded-xl cursor-pointer font-semibold  hover:shadow-md outline-none"
                     >
                       Follow

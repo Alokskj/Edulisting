@@ -1,6 +1,7 @@
 import { Badge, TextField } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import authCheck from "../main/authCheck";
+
+
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
@@ -9,18 +10,20 @@ import { client } from "../main/client";
 import { Avatar } from "@mui/material";
 
 import Spinner from "../header/Spinner";
-import { UserContext } from "../Contexts/UserContext";
+import { useAuth } from "../Contexts/UserContext";
 const EditProfile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [imageAsset, setImageAsset] = useState(false);
   const [errorLength, setErrorLength] = useState(false);
-  authCheck();
+  
+
   const navigate = useNavigate();
 
-  const {user : userInfo} = useContext(UserContext)
+  const {currentUser} = useAuth()
   useEffect(() => {
-    const query = userQuery(userInfo?.sub);
+    const query = userQuery(currentUser?.uid
+);
     client
       .fetch(query)
       .then((data) => {

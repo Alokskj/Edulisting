@@ -1,35 +1,89 @@
-import { createContext, useContext, useReducer } from "react";
-import { useCurrentUser } from "../hooks/useCurrentUser";
+import { createContext, useContext, useReducer, useState } from "react";
+import { useAuth } from "./UserContext";
 
-export const ChatContext = createContext();
+const chatContext = createContext();
+
 
 export const ChatContextProvider = ({ children }) => {
-  const { user } = useCurrentUser();
-  const INITIAL_STATE = {
-    chatId: "null",
-    user: {},
-  };
+    const [users, setUsers] = useState(false);
+    const [chats, setChats] = useState([]);
+    const [selectedChat, setSelectedChat] = useState(null);
 
-  const chatReducer = (state, action) => {
-    switch (action.type) {
-      case "CHANGE_USER":
-        return {
-          user: action.payload.userInfo,
-          chatId : (user.sub > action.payload.userInfo.uid
-          ? user.sub + action.payload.userInfo.uid
-          : action.payload.userInfo.uid + user.sub) + action.payload.listingInfo.uid   
-        };
+    const [inputText, setInputText] = useState("");
+    const [attachment, setAttachment] = useState(null);
+    const [attachmentPreview, setAttachmentPreview] = useState(null);
+    const [editMsg, setEditMsg] = useState(null);
+    const [isTyping, setIsTyping] = useState(null);
+    const [imageViewer, setImageViewer] = useState(null);
 
-      default:
-        return state;
-    }
-  };
+    const { currentUser } = useAuth();
 
-  const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
+    const resetFooterStates = () => {
+        setInputText("");
+        setAttachment(null);
+        setAttachmentPreview(null);
+        setEditMsg(null);
+        setImageViewer(null);
+    };
 
-  return (
-    <ChatContext.Provider value={{ data: state, dispatch }}>
-      {children}
-    </ChatContext.Provider>
-  );
+    const INITIAL_STATE = {
+        chatId: "",
+        user: null,
+    };
+
+    const chatReducer = (state, action) => {
+        switch (action.type) {
+            case "CHANGE_USER":
+                
+                return {
+                    user: action.payload.userInfo,
+                    chatId:
+                        (currentUser.uid
+ > action.payload.userInfo.uid
+                            ? currentUser.uid
+ + action.payload.userInfo.uid
+                            : action.payload.userInfo.uid + currentUser.uid
+) + action.payload.listingInfo.uid
+                };
+            case "EMPTY":
+                return INITIAL_STATE;
+
+            default:
+                return state;
+        }
+    };
+
+    const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
+
+    return (
+        <chatContext.Provider
+            value={{
+                users,
+                setUsers,
+                data: state,
+                dispatch,
+                chats,
+                setChats,
+                selectedChat,
+                setSelectedChat,
+                inputText,
+                setInputText,
+                attachment,
+                setAttachment,
+                attachmentPreview,
+                setAttachmentPreview,
+                editMsg,
+                setEditMsg,
+                isTyping,
+                setIsTyping,
+                imageViewer,
+                setImageViewer,
+                resetFooterStates,
+            }}
+        >
+            {children}
+        </chatContext.Provider>
+    );
 };
+
+export const useChatContext = () => useContext(chatContext);

@@ -9,14 +9,16 @@ const deleteuser = () => {
     
     setLoading(true);
     setDeleteOpen(false);
-    const query = chatQuery(user?.sub)
+    const query = chatQuery(user?.uid
+)
     client.fetch(query)
     .then((data)=> {
         setChats(data)
         console.log(data)
         setLoading(false)
         const chatsId = data.map(e => e._id)
-        const listingQuery = userListings(user?.sub)
+        const listingQuery = userListings(user?.uid
+)
         client.fetch(listingQuery)
         .then((data)=>{
             const listingsId = data.map(e => e._id)

@@ -7,37 +7,30 @@ import Category from "../header/Category";
 import Hero from "../main/Hero";
 import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import { auth } from "../utilities/firebase";
-import { useCurrentUser } from "../hooks/useCurrentUser";
+import { useAuth } from "../Contexts/UserContext";
+import { saveUserInFirebase } from "../utilities/saveUserInFirebase";
+
 const Home = () => {
-  const {user, userLoading} = useCurrentUser()
-  if (!user && !userLoading) {
-    useGoogleOneTapLogin({
-      onSuccess: async (credentialResponse) => {
-        const token = credentialResponse.credential;
-
-        const result = await signInWithCredential(
-          auth,
-          GoogleAuthProvider.credential(token)
-        );
-
-        const { displayName, email, uid, photoURL } =
-          result.user.providerData[0];
-
-        const doc = {
-          _id: uid,
-          _type: "user",
-          userName: displayName,
-          image: photoURL,
-          email: email,
-        };
-
-        client.createIfNotExists(doc).catch(err => console.log(err))
-      },
-      onError: () => {
-        console.log("Login Failed");
-      },
-    });
-  }
+  const [loading, setLoading] = useState(false)
+  const {currentUser, isLoading, setCurrentUser} = useAuth()
+    if (!currentUser) {
+      useGoogleOneTapLogin({
+        onSuccess: async (credentialResponse) => {
+          const token = credentialResponse.credential;
+  
+          const result = await signInWithCredential(
+            auth,
+            GoogleAuthProvider.credential(token)
+          );
+  
+          saveUserInFirebase(setCurrentUser, setLoading)
+        },
+        onError: () => {
+          console.log("Login Failed");
+        },
+      });
+    }
+  
 
   return (
     <>

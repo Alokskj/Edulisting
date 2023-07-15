@@ -14,15 +14,18 @@ import {
 } from "firebase/firestore";
 import { db, storage } from "../utilities/firebase";
 import { v4 as uuid } from "uuid";
-import { useCurrentUser } from "../hooks/useCurrentUser";
-import { ChatContext } from "../Contexts/ChatContext";
+import { useAuth } from "../Contexts/UserContext";
+
+import {  useChatContext } from "../Contexts/ChatContext";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import Data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 const MessageInput = () => {
   const [text, setText] = useState("");
   const [img, setImg] = useState(null);
-  const { data } = useContext(ChatContext);
+  const { data } = useChatContext();
   const [emoji , setEmoji] = useState(false)
-  const { user } = useCurrentUser(true);
+  const { currentUser } = useAuth()
   const handleSend = async (e) => {
     e.preventDefault();
     if (!img && !text) return;
@@ -42,7 +45,8 @@ const MessageInput = () => {
               messages: arrayUnion({
                 id: uuid(),
                 text,
-                senderId: user.sub,
+                senderId: currentUser.uid
+,
                 date: Timestamp.now(),
                 img: downloadURL,
               }),
@@ -55,13 +59,15 @@ const MessageInput = () => {
         messages: arrayUnion({
           id: uuid(),
           text,
-          senderId: user.sub,
+          senderId: currentUser.uid
+,
           date: Timestamp.now(),
         }),
       });
     }
 
-    await updateDoc(doc(db, "userChats", user.sub), {
+    await updateDoc(doc(db, "userChats", currentUser.uid
+), {
       [data.chatId + ".lastMessage"]: {
         text,
       },
@@ -78,12 +84,13 @@ const MessageInput = () => {
     setImg(null);
   };
   function handleEmojiClick (emojiData){
-    setText((prev)=> prev + emojiData.emoji)
+    
+    setText((prev)=> prev + emojiData.native)
   }
   return (
     <>
       <form method="post">
-        <div className="input-bar ">
+        <div className="input-bar flex justify-center items-center">
           <div className="container flex justify-center items-center fixed bottom-1  ">
             <div className="user-inputs flex justify-between   bg-slate-50 focus:shadow-lg rounded-full box-border py-3 border-1 shadow-md border-black   w-[80vw] px-4">
               <div className="left flex gap-4">
@@ -91,8 +98,8 @@ const MessageInput = () => {
               
               <div onClick={()=> setEmoji((prev)=> !prev)} className="emoji relative">
                 <AddReactionOutlinedIcon style={{color : 'grey' }}/>
-                <div className="select absolute  w-full bottom-12 left-2">
-                {emoji && <EmojiPicker onEmojiClick={handleEmojiClick} lazyLoadEmojis={true}/>}
+                <div className="select absolute   bottom-10 left-0 ">
+                {emoji && <Picker data={Data} onEmojiSelect={handleEmojiClick}  perLine={7}/>}
 
                 </div>
               </div>
@@ -100,7 +107,7 @@ const MessageInput = () => {
                 type="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                className="outline-none w-[50vw] lg:w-[60vw] xl:w-[70vw] bg-transparent"
+                className="outline-none w-[40vw] md:w-[50vw] lg:w-[60vw] xl:w-[70vw] bg-transparent placeholder:text-sm placeholder:md:text-md text-base"
                 placeholder="Type something here.."
               />
               </div>
