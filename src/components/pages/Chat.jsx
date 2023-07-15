@@ -11,15 +11,16 @@ const Chat = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { currentUser } = useAuth();
-  const { data, users } = useChatContext();
+  const { data, users, resetFooterStates } = useChatContext();
   // fetching chats form firestore
   useEffect(() => {
+    resetFooterStates();
     if (data.user || data.chatId) {
       setLoading(false);
     } else {
       return navigate("/allchats");
     }
-  }, [data]);
+  }, [data, data.chatId]);
 
   ////
   const isUserBlocked = users[currentUser.uid
@@ -35,6 +36,7 @@ const Chat = () => {
     <div className="flex flex-col min-h-screen  grow ">
       <ChatHeader />
       {data.chatId && <Messages />}
+      <div className="fixed bottom-0 w-full bg-white">
       {!isUserBlocked && !IamBlocked && <ChatFooter />}
 
       {isUserBlocked && (
@@ -48,6 +50,7 @@ const Chat = () => {
           {`${data.user.displayName} has blocked you!`}
         </div>
       )}
+      </div>
     </div>
   );
 };

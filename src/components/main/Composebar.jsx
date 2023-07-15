@@ -53,7 +53,7 @@ const Composebar = () => {
             });
 
             typingTimeout = null;
-        }, 500);
+        }, 1000);
     };
     const onKeyUp = (e) => {
         if (e.key === "Enter" && (inputText || attachment)) {

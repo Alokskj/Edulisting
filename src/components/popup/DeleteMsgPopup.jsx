@@ -19,27 +19,28 @@ const DeleteMsgPopup = (props) => {
                     </div>
                 </div>
                 <div className="flex items-center justify-center gap-2 mt-10">
-                    {props.self && (
+                    
                         <button
                             onClick={() => props.deleteMesasge(DELETED_FOR_ME)}
-                            className="border-[2px] border-red-700 py-2 px-4 text-sm rounded-md text-red-500 hover:bg-red-700 hover:text-white"
+                            className="border-[2px] border-red-700 py-2 px-4 text-xs rounded-md text-red-500 hover:bg-red-700 hover:text-white"
                         >
                             Delete for me
                         </button>
-                    )}
-
+                    
+                    {props.self && (
                     <button
                         onClick={() =>
                             props.deleteMesasge(DELETED_FOR_EVERYONE)
                         }
-                        className="border-[2px] border-red-700 py-2 px-4 text-sm rounded-md text-red-500 hover:bg-red-700 hover:text-white"
+                        className="border-[2px] border-red-700 py-2 px-4 text-xs  rounded-md text-red-500 hover:bg-red-700 hover:text-white"
                     >
                         Delete for everyone
                     </button>
+                    )}
 
                     <button
                         onClick={props.onHide}
-                        className="border-[2px] border-white py-2 px-4 text-sm rounded-md text-white hover:bg-white hover:text-black"
+                        className="border-[2px] border-black py-2 px-4 text-xs rounded-md text-black hover:bg-black hover:text-white"
                     >
                         Cancel
                     </button>

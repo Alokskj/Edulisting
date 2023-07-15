@@ -15,6 +15,7 @@ import SimpleBottomNavigation from "../header/SimpleBottomNavigation";
 import { UserContext, useAuth } from "../Contexts/UserContext";
 import {
   addDoc,
+  deleteField,
   doc,
   getDoc,
   serverTimestamp,
@@ -65,6 +66,7 @@ const Listing = () => {
         uid: queryUser._id,
         displayName: queryUser.userName,
         photoURL: queryUser.image,
+        email : queryUser.email
       },
       listingInfo: {
         uid: queryPost._id,
@@ -88,6 +90,11 @@ const Listing = () => {
 
         const userChatRef = await getDoc(doc(db, "userChats", queryUser._id));
           console.log('3')
+        const userAccountRef = await getDoc(doc(db, 'users', queryUser._id))
+        if(!userAccountRef.exists()){
+          console.log('user not found in fs')
+          await setDoc(doc(db, 'users', queryUser._id), chat.userInfo)
+        }  
         if (!currentUserChatRef.exists()) {
           console.log('hello')
           await setDoc(doc(db, "userChats", currentUser.uid), {});
@@ -123,6 +130,11 @@ const Listing = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
+      }
+      else{
+        await updateDoc(doc(db, "userChats", currentUser.uid), {
+          [combinedId + ".chatDeleted"]: deleteField(),
+      });
       }
       dispatch({ type: "CHANGE_USER", payload: chat });
       navigate("../chat/");

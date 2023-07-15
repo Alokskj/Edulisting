@@ -178,7 +178,7 @@ const User = () => {
             </div>
           </div>
           <Divider />
-          <div className="user-listings p-4">
+          <div className="user-listings p-4 mb-20">
             {!Ads?.length ? 
             <div className="flex absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex-col justify-center items-center w-full ">
             <div className="lottie-container  justify-center items-center  ">

@@ -5,39 +5,114 @@ import { client } from "../main/client";
 import AllChatsWidget from "../main/AllChatsWidget";
 import Spinner from "../header/Spinner";
 import { useAuth } from "../Contexts/UserContext";
-import { doc, onSnapshot } from "firebase/firestore";
+import { Timestamp, collection, doc, getDoc, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../utilities/firebase";
 import { useNavigate } from "react-router-dom";
+import { useChatContext } from "../Contexts/ChatContext";
+import { formateDate } from "../utilities/helpers";
 
 const AllChats = () => {
+  const {
+    users,
+    setUsers,
+    selectedChat,
+    setSelectedChat,
+    chats,
+    setChats,
+    dispatch,
+    data,
+    resetFooterStates,
+  } = useChatContext();
   const navigate = useNavigate();
-  const [allChats, setChats] = useState("");
   const [loading, setLoading] = useState(false);
-  const { currentUser} = useAuth();
+  const [unreadMsgs, setUnreadMsgs] = useState({});
+  const { currentUser } = useAuth();
+// to fetch all users info
   useEffect(() => {
-    
-    const unsub = onSnapshot(doc(db, "userChats", currentUser.uid
-), (doc) => {
-      setChats(doc.data());
-      setLoading(false)
+    onSnapshot(collection(db, "users"), (snapshot) => {
+      const updatedUsers = {};
+      snapshot.forEach((doc) => {
+        updatedUsers[doc.id] = doc.data();
+      });
+      setUsers(updatedUsers);
     });
-
-    return () => {
-      unsub();
-    };
   }, []);
+// to fetch all usersChats
+  useEffect(() => {
+    const getChats = () => {
+      const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+        if (doc.exists()) {
+          const data = doc.data();
+          const userChats = data;
+          setChats(data);
+        }
+      });
+      return () => unsub();
+    };
+    currentUser.uid && getChats();
+  }, [users]);
+  // to get unread user messages 
+  useEffect(() => {
+    const documentIds = Object.keys(chats);
+    if (documentIds.length === 0) return;
+    const q = query(
+        collection(db, "chats"),
+        where("__name__", "in", documentIds)
+    );
 
-  const handleDelete = async (id) => {
-    try {
-      setChats((prev) => prev.filter((item) => item._id !== id));
-      await client.delete(id);
-    } catch (error) {
-      console.log("Deleting error:", error);
-    }
-  };
+    const unsub = onSnapshot(q, (snapshot) => {
+        let msgs = {};
+        snapshot.forEach((doc) => {
+            if (doc.id !== data.chatId) {
+                msgs[doc.id] = doc
+                    .data()
+                    .messages.filter(
+                        (m) =>
+                            m?.read === false &&
+                            m?.sender !== currentUser.uid
+                    );
+            }
+            Object.keys(msgs || {})?.map((c) => {
+                if (msgs[c]?.length < 1) {
+                    delete msgs[c];
+                }
+            });
+        });
+        setUnreadMsgs(msgs);
+    });
+    return () => unsub();
+}, [chats]);
 
-  if (loading || !allChats) return <Spinner />;
-  if (Object.entries(allChats).length === 0)
+const readChat = async (chatId) => {
+  const chatRef = doc(db, "chats", chatId);
+  const chatDoc = await getDoc(chatRef);
+
+  let updatedMessages = chatDoc.data().messages.map((m) => {
+      if (m?.read === false) {
+          m.read = true;
+      }
+      return m;
+  });
+  await updateDoc(chatRef, {
+      messages: updatedMessages,
+  });
+};
+
+const handleSelect = (user, selectedChatId) => {
+  dispatch({ type: "CHANGE_USER", payload: user });
+
+  if (unreadMsgs?.[selectedChatId]?.length > 0) {
+      readChat(selectedChatId);
+  } 
+  navigate('/chat')
+};
+
+  const filteredChats = Object.entries(chats || {}).filter(([, chat]) => !chat.hasOwnProperty("chatDeleted")).sort(
+    (a, b) => b[1].date - a[1].date
+  );
+
+  if (loading || !chats) return <Spinner />;
+  if (filteredChats.length === 0)
     return (
       <div className="flex absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex-col justify-center items-center w-full ">
         <div className="lottie-container w-3/5 flex justify-center items-center md:w-1/5">
@@ -50,20 +125,28 @@ const AllChats = () => {
   return (
     <>
       <div className="allchats-container flex flex-col justify-center lg:items-center">
-        <div className="chat-title px-4">
+        <div className="chat-title px-8 font-semibold">
           <p className=" text-2xl">Chats</p>
         </div>
         <div className="chats">
-          {Object.entries(allChats)
-            ?.sort((a, b) => b[1].date - a[1].date)
-            .map((chat) => {
-              return (
-                <AllChatsWidget
-                  chat={chat}
-                  key={chat[0]}
-                  deleteChat={handleDelete}
-                />
+          {Object.keys(users || {}).length > 0 &&
+            filteredChats?.map((chat) => {
+             
+              const user = [
+                chat[0],
+                { ...chat[1], userInfo: users[chat[1].userInfo.uid] },
+              ];
+              
+              const timestamp = new Timestamp(
+                chat[1].date?.seconds,
+                chat[1].date?.nanoseconds
               );
+
+              const date = formateDate(timestamp.toDate());
+
+              
+             
+              return <AllChatsWidget chat={user} key={chat[0]} date={date} handleSelect={handleSelect} unreadMsgs={unreadMsgs}/>;
             })}
         </div>
       </div>

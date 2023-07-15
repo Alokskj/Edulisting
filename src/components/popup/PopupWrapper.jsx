@@ -10,12 +10,12 @@ const PopupWrapper = (props) => {
             ></div>
 
             <div
-                className={`flex flex-col w-[500px] max-h-[80%] bg-c2 relative z-10 rounded-3xl ${
+                className={`flex flex-col lg:w-[500px] lg:max-h-[80%] bg-white relative z-10 rounded-3xl ${
                     props.shortHeight ? "" : "min-h-[600px]"
                 }`}
             >
                 {!props.noHeader && (
-                    <div className="shrink-0 p-6 flex items-center justify-between">
+                    <div className=" p-6 flex items-center justify-between">
                         <div className="text-lg font-semibold">
                             {props.title || ""}
                         </div>

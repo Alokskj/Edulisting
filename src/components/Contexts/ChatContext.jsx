@@ -5,8 +5,8 @@ const chatContext = createContext();
 
 
 export const ChatContextProvider = ({ children }) => {
-    const [users, setUsers] = useState(false);
-    const [chats, setChats] = useState([]);
+    const [users, setUsers] = useState(null);
+    const [chats, setChats] = useState(null);
     const [selectedChat, setSelectedChat] = useState(null);
 
     const [inputText, setInputText] = useState("");

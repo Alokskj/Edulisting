@@ -19,36 +19,34 @@ import Support from "./components/pages/Support"
 import Login from "./components/pages/Login"
 import Register from "./components/pages/Register"
 import PrivateRoutes from "./components/utilities/PrivateRoutes"
+import { useAuth } from "./components/Contexts/UserContext"
+import { useEffect } from "react"
+import { doc, updateDoc } from "firebase/firestore"
+import { db } from "./components/utilities/firebase"
 const router = createBrowserRouter([
   { path: "*", Component: Root },
 ]);
 
 function App() {
-  
-  // let view = true
-  // const chatPath = pathname.slice(5,pathname.length);
-  // useEffect(() => {
+  const {currentUser} = useAuth()
 
- 
-  //  if(window.innerWidth < 640){   
-  //   // define a custom handler function
-  //   // for the contextmenu event
-  //   const handleContextMenu = (e) => {
-  //     // prevent the right-click menu from appearing
-  //     e.preventDefault()
-  //   }
+  useEffect(() => {
+    // Add event listener for beforeunload event
+    const handleBeforeUnload =async () => {
+      // Update user's online status to false when they close the tab
+      console.log('set user status to offline')
+      await updateDoc(doc(db, 'users', currentUser.uid), {
+        isOnline: false,
+      });
+    };
 
-  //   // attach the event listener to 
-  //   // the document object
-  //   document.addEventListener("contextmenu", handleContextMenu)
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
-  //   // clean up the event listener when 
-  //   // the component unmounts
-  //   return () => {
-  //     document.removeEventListener("contextmenu", handleContextMenu)
-  //   }
-  // }
-  // }, [])
+    // Clean up the event listener when component unmounts
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
   return (
     <RouterProvider router={router} />
   )

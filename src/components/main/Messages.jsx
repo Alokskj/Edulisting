@@ -35,7 +35,7 @@ const Messages = () => {
     return (
         <div
             ref={ref}
-            className="grow p-2 overflow-auto scrollbar flex flex-col bg-neutral-200/50 pb-20"
+            className="grow p-2 overflow-auto scrollbar flex flex-col bg-neutral-200/50 pb-20 pt-24"
         >
             {messages
                 ?.filter((m) => {
@@ -46,6 +46,7 @@ const Messages = () => {
                     );
                 })
                 ?.map((m) => {
+                    
                     return <Message message={m} key={m.id} />;
                 })}
         </div>

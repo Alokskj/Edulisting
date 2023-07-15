@@ -15,7 +15,7 @@ import { client } from "../main/client";
 import Spinner from "../header/Spinner";
 
 
-import { useAuth } from "../Contexts/UserContext";
+import { useAuth} from "../Contexts/UserContext";
 
 import { auth } from "../utilities/firebase";
 
@@ -26,7 +26,7 @@ const Setting = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const {currentUser} = useAuth()
+  const {currentUser, signOut} = useAuth()
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -40,16 +40,16 @@ const Setting = () => {
     setDeleteOpen(false);
   };
 
-  const handleLogout = async () => {
-    try {
-      await auth.signOut();
-      // Handle any additional actions after successful logout
-      navigate('/')
-    } catch (error) {
-      console.error('Logout error:', error);
+  // const handleLogout = async () => {
+  //   try {
+  //     signOut
+  //     // Handle any additional actions after successful logout
+  //     navigate('/')
+  //   } catch (error) {
+  //     console.error('Logout error:', error);
       
-    }
-  };
+  //   }
+  // };
   const handleDelete = async () => {
     setLoading(true);
     setOpen(false);
@@ -126,7 +126,7 @@ const Setting = () => {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={handleLogout} autoFocus>
+              <Button onClick={signOut} autoFocus>
                 Logout
               </Button>
             </DialogActions>

@@ -81,31 +81,24 @@ const ChatMenu = ({ showMenu, setShowMenu }) => {
 
     return (
         <ClickAwayListener onClickAway={handleClickAway}>
-            <div className="w-[200px] absolute  top-[70px] right-5 bg-c0 z-10 rounded-md overflow-hidden">
-                <ul className="flex flex-col py-2">
+            <div className="w-[200px] absolute  top-[70px] right-5 bg-neutral-50 shadow-md  z-10 rounded-md overflow-hidden">
+                <ul className="flex flex-col ">
                     {!IamBlocked && (
                         <li
-                            className="flex items-center py-3 px-5 hover:bg-black cursor-pointer"
+                            className="flex items-center py-4 px-5 hover:bg-gray-100 cursor-pointer"T
+                            
                             onClick={(e) => {
                                 e.stopPropagation();
                                 handleBlock(
                                     isUserBlocked ? "unblock" : "block"
                                 );
+                                setShowMenu(false)
                             }}
                         >
                             {isUserBlocked ? "Unblock" : "Block user"}
                         </li>
                     )}
-                    <li
-                        className="flex items-center py-3 px-5 hover:bg-black cursor-pointer"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            handleDelete();
-                            setShowMenu(false);
-                        }}
-                    >
-                        Delete chat
-                    </li>
+                    
                 </ul>
             </div>
         </ClickAwayListener>

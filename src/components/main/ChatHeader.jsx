@@ -5,7 +5,7 @@ import Icon from "./Icons";
 import { IoEllipsisVerticalSharp } from "react-icons/io5";
 import ChatMenu from "./ChatMenu";
 import { Avatar } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ChatHeader = () => {
   const navigate = useNavigate()
@@ -14,7 +14,7 @@ const ChatHeader = () => {
     const online = users[data.user.uid]?.isOnline;
    
     return (
-        <div className="flex justify-between items-center p-4 border-b border-white/[0.05]">
+        <div className="flex justify-between fixed top-0 w-full bg-white z-20 items-center p-4 border-b border-white/[0.05]">
            
             
               <div className="left flex gap-1 items-center">
@@ -24,6 +24,7 @@ const ChatHeader = () => {
               >
                 <ArrowBackIcon />
               </div>
+              <Link to={`../user/${data.user.uid}`}>
                 <div className="flex items-center gap-3">
                     <Avatar
                             alt={data.user.displayName}
@@ -37,12 +38,13 @@ const ChatHeader = () => {
                         </p>
                     </div>
                 </div>
+                </Link>
                 </div>
 
             <div className="flex items-center gap-2">
                 <Icon
                     size="large"
-                    className={`${showMenu ? "bg-c1" : ""}`}
+                    className={`${showMenu ? "bg-gray-300" : ""}`}
                     onClick={() => setShowMenu(true)}
                     icon={
                         <IoEllipsisVerticalSharp

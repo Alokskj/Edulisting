@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../utilities/firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged ,signOut as authSignOut} from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 export const UserContext = createContext()
@@ -11,17 +11,23 @@ export const UserProvider = ({children}) =>{
 
     const clear = async () => {
       try {
+          console.log(currentUser)
           if (currentUser) {
               await updateDoc(doc(db, "users", currentUser.uid), {
                   isOnline: false,
-              });
-          }
+                });
+                console.log('bye user')
+                authSignOut(auth)
+            }
           setCurrentUser(null);
           setIsLoading(false);
       } catch (error) {
           console.error(error);
       }
   };
+  const signOut = () => {
+    clear()
+};
   const authStateChanged = async (user) => {
     setIsLoading(true);
     if (!user) {
@@ -32,6 +38,7 @@ export const UserProvider = ({children}) =>{
     const uid = user.providerData[0].uid
     const userDocExist = await getDoc(doc(db, "users", uid));
     if (userDocExist.exists()) {
+        console.log('hello user')
         await updateDoc(doc(db, "users", uid), {
             isOnline: true,
         });
@@ -48,7 +55,7 @@ useEffect(() => {
   return () => unsubscribe();
 }, []);
     return (
-        <UserContext.Provider value={{currentUser, setCurrentUser, isLoading, setIsLoading}}>
+        <UserContext.Provider value={{currentUser, setCurrentUser, isLoading, setIsLoading, signOut, clear}}>
             {!isLoading && children}
         </UserContext.Provider>
     )

@@ -63,7 +63,7 @@ const Message = ({ message }) => {
             console.error(error);
         }
     };
-    
+   
     return (
         <div className={`mb-5 max-w-[75%] ${self ? "self-end" : ""}`}>
             {showDeletePopup && (
@@ -83,17 +83,17 @@ const Message = ({ message }) => {
             >
                  <Avatar
                             alt={self ? currentUser?.displayName : users[data.user.uid]?.displayName}
-                            src={self ? currentUser.picture : data.user?.photoURL}
+                            src={self ? currentUser.photoURL : data.user?.photoURL}
                             sx={{ width: 25, height: 25 }}
                           />
                 <div
-                    className={`group flex flex-col gap-4  rounded-3xl relative break-all ${
+                    className={`group flex flex-col   rounded-3xl relative break-all ${
                         self ? "rounded-br-md bg-blue-500 text-white" : "rounded-bl-md bg-white"
                     }`}
                 >
                     {message.text && (
                         <div
-                            className="text-sm m-4"
+                            className={`text-sm ${message.img ? 'm-2 mx-6' : 'm-4'}`}
                             dangerouslySetInnerHTML={{
                                 __html: wrapEmojisInHtmlTag(message.text),
                             }}
@@ -134,7 +134,7 @@ const Message = ({ message }) => {
                         className={`${
                             showMenu ? "" : "hidden"
                         } group-hover:flex absolute top-2 ${
-                            self ? "left-2 bg-c5" : "right-2 bg-c1"
+                            self ? "left-2 bg-blue-500 " : "right-2 bg-c1"
                         }`}
                         onClick={() => setShowMenu(true)}
                     >
@@ -142,7 +142,7 @@ const Message = ({ message }) => {
                             size="medium"
                             className="hover:bg-inherit rounded-none"
                             icon={
-                                <GoChevronDown size={24} className="text-c3" />
+                                <GoChevronDown size={24} className="text-white" />
                             }
                         />
                         {showMenu && (
