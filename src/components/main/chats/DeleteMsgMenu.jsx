@@ -1,6 +1,6 @@
-import { useAuth } from "../Contexts/UserContext";
-import { useChatContext } from "../Contexts/ChatContext";
-import { db } from "../utilities/firebase";
+import { useAuth } from "../../Contexts/UserContext";
+import { useChatContext } from "../../Contexts/ChatContext";
+import { db } from "../../utilities/firebase";
 import {
     arrayRemove,
     arrayUnion,

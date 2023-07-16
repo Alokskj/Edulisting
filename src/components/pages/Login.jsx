@@ -43,8 +43,18 @@ const Login = () => {
       saveUserInFirebase(setCurrentUser, setLoading)
     } catch (error) {
     setLoading(false)
-    const errorMessage = error.message.replace('Firebase: Error (auth/', '').replace(').', '').replace(/-/g, ' ')
-    toast.error(errorMessage);
+    const errorMessage = error.message.replace('Firebase: Error (auth/', '').replace(').', '').replace(/-/g, ' ').replace('Firebase:', "")
+    toast.error(errorMessage,{
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+      console.log(error)
     }
   };
 

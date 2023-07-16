@@ -1,5 +1,5 @@
 import React from "react";
-import Icon from "../main/Icons";
+import Icon from "../../Icons";
 import { IoClose } from "react-icons/io5";
 const PopupWrapper = (props) => {
     return (
@@ -15,7 +15,7 @@ const PopupWrapper = (props) => {
                 }`}
             >
                 {!props.noHeader && (
-                    <div className=" p-6 flex items-center justify-between">
+                    <div className="shrink-0 p-6 flex items-center justify-between">
                         <div className="text-lg font-semibold">
                             {props.title || ""}
                         </div>

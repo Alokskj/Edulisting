@@ -2,15 +2,28 @@ import React, { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import animationData from "../lotties/notfound.json";
 import { client } from "../main/client";
-import AllChatsWidget from "../main/AllChatsWidget";
+import AllChatsWidget from "../main/chats/AllChatsWidget";
 import Spinner from "../header/Spinner";
 import { useAuth } from "../Contexts/UserContext";
-import { Timestamp, collection, doc, getDoc, onSnapshot, query, where } from "firebase/firestore";
+import { Timestamp, collection, doc, getDoc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../utilities/firebase";
 import { useNavigate } from "react-router-dom";
 import { useChatContext } from "../Contexts/ChatContext";
 import { formateDate } from "../utilities/helpers";
+export const readChat = async (chatId) => {
+  const chatRef = doc(db, "chats", chatId);
+  const chatDoc = await getDoc(chatRef);
 
+  let updatedMessages = chatDoc.data().messages.map((m) => {
+      if (m?.read === false) {
+          m.read = true;
+      }
+      return m;
+  });
+  await updateDoc(chatRef, {
+      messages: updatedMessages,
+  });
+};
 const AllChats = () => {
   const {
     users,
@@ -22,10 +35,11 @@ const AllChats = () => {
     dispatch,
     data,
     resetFooterStates,
+    unreadMsgs, setUnreadMsgs
   } = useChatContext();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [unreadMsgs, setUnreadMsgs] = useState({});
+ 
   const { currentUser } = useAuth();
 // to fetch all users info
   useEffect(() => {
@@ -43,7 +57,6 @@ const AllChats = () => {
       const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
         if (doc.exists()) {
           const data = doc.data();
-          const userChats = data;
           setChats(data);
         }
       });
@@ -53,6 +66,7 @@ const AllChats = () => {
   }, [users]);
   // to get unread user messages 
   useEffect(() => {
+    if(chats && users){
     const documentIds = Object.keys(chats);
     if (documentIds.length === 0) return;
     const q = query(
@@ -79,24 +93,14 @@ const AllChats = () => {
             });
         });
         setUnreadMsgs(msgs);
+        
+
     });
     return () => unsub();
+  }
 }, [chats]);
 
-const readChat = async (chatId) => {
-  const chatRef = doc(db, "chats", chatId);
-  const chatDoc = await getDoc(chatRef);
 
-  let updatedMessages = chatDoc.data().messages.map((m) => {
-      if (m?.read === false) {
-          m.read = true;
-      }
-      return m;
-  });
-  await updateDoc(chatRef, {
-      messages: updatedMessages,
-  });
-};
 
 const handleSelect = (user, selectedChatId) => {
   dispatch({ type: "CHANGE_USER", payload: user });
@@ -143,10 +147,11 @@ const handleSelect = (user, selectedChatId) => {
               );
 
               const date = formateDate(timestamp.toDate());
-
-              
+              console.log(chat[0])
+              console.log(unreadMsgs)
+              console.log(unreadMsgs[chat[0]])
              
-              return <AllChatsWidget chat={user} key={chat[0]} date={date} handleSelect={handleSelect} unreadMsgs={unreadMsgs}/>;
+              return <AllChatsWidget chat={user} key={chat[0]} date={date} handleSelect={handleSelect} unreadMsgs={unreadMsgs[chat[0]]}/>;
             })}
         </div>
       </div>
@@ -155,3 +160,4 @@ const handleSelect = (user, selectedChatId) => {
 };
 
 export default AllChats;
+

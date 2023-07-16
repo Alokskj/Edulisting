@@ -23,8 +23,9 @@ import { useAuth } from "./components/Contexts/UserContext"
 import { useEffect } from "react"
 import { doc, updateDoc } from "firebase/firestore"
 import { db } from "./components/utilities/firebase"
+import ErrorPage from "./components/main/ErrorPage"
 const router = createBrowserRouter([
-  { path: "*", Component: Root },
+  { path: "*", Component: Root , errorElement: <> <Header /> <ErrorPage /> <SimpleBottomNavigation /></>},
 ]);
 
 function App() {
@@ -34,10 +35,11 @@ function App() {
     // Add event listener for beforeunload event
     const handleBeforeUnload =async () => {
       // Update user's online status to false when they close the tab
+      if(currentUser.uid){
       console.log('set user status to offline')
       await updateDoc(doc(db, 'users', currentUser.uid), {
         isOnline: false,
-      });
+      });}
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -48,16 +50,17 @@ function App() {
     };
   }, []);
   return (
-    <RouterProvider router={router} />
+    <RouterProvider router={router}/>
   )
 }
 
 function Root() {
   return (
+    
     <Routes>
       
       
-      <Route element={<> <Header /> <Outlet /> <SimpleBottomNavigation /></>} >
+      <Route element={<> <Header /> <Outlet /> <SimpleBottomNavigation /></>}>
       <Route path="/" element={ <Home/> } />
       <Route path="/listings/:id" element={ <Listing /> } />
        

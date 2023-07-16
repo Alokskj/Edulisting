@@ -1,7 +1,7 @@
-import { useChatContext } from "../Contexts/ChatContext";
+import { useChatContext } from "../../Contexts/ChatContext";
 import React, { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Icon from "./Icons";
+import Icon from "../Icons";
 import { IoEllipsisVerticalSharp } from "react-icons/io5";
 import ChatMenu from "./ChatMenu";
 import { Avatar } from "@mui/material";

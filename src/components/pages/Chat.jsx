@@ -3,15 +3,16 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useChatContext } from "../Contexts/ChatContext";
 import { useAuth } from "../Contexts/UserContext";
-import ChatFooter from "../main/ChatFooter";
-import ChatHeader from "../main/ChatHeader";
-import Messages from "../main/Messages";
+import ChatFooter from "../main/chats/ChatFooter";
+import ChatHeader from "../main/chats/ChatHeader";
+import Messages from "../main/chats/Messages";
 import Spinner from "../header/Spinner";
+
 const Chat = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { currentUser } = useAuth();
-  const { data, users, resetFooterStates } = useChatContext();
+  const { data, users, resetFooterStates, dispatch } = useChatContext();
   // fetching chats form firestore
   useEffect(() => {
     resetFooterStates();
@@ -20,8 +21,12 @@ const Chat = () => {
     } else {
       return navigate("/allchats");
     }
+    return() => {console.log('hello');
+    dispatch({ type: "EMPTY" });}
   }, [data, data.chatId]);
-
+  
+  
+  
   ////
   const isUserBlocked = users[currentUser.uid
 ]?.blockedUsers?.find(

@@ -1,5 +1,5 @@
 
-import { db, storage } from "../utilities/firebase";
+import { db, storage } from "../../utilities/firebase";
 import {
     Timestamp,
     arrayUnion,
@@ -13,8 +13,8 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useEffect } from "react";
 import { TbSend } from "react-icons/tb";
 import { v4 as uuid } from "uuid";
-import { useChatContext } from "../Contexts/ChatContext";
-import { useAuth } from "../Contexts/UserContext";
+import { useChatContext } from "../../Contexts/ChatContext";
+import { useAuth } from "../../Contexts/UserContext";
 
 let typingTimeout = null;
 

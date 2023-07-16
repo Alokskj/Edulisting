@@ -2,9 +2,9 @@ import React from "react";
 import PopupWrapper from "./PopupWrapper";
 
 import { RiErrorWarningLine } from "react-icons/ri";
-import { DELETED_FOR_ME, DELETED_FOR_EVERYONE } from "../utilities/constansts";
-import { useAuth } from "../Contexts/UserContext";
-import { useChatContext } from "../Contexts/ChatContext";
+import { DELETED_FOR_ME, DELETED_FOR_EVERYONE } from "../../../utilities/constansts";
+import { useAuth } from "../../../Contexts/UserContext";
+import { useChatContext } from "../../../Contexts/ChatContext";
 const DeleteMsgPopup = (props) => {
     const { currentUser } = useAuth();
     const { users, dispatch } = useChatContext();

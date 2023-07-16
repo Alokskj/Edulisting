@@ -7,8 +7,8 @@ import EmojiPicker from "emoji-picker-react";
 import ClickAwayListener from "react-click-away-listener";
 import { IoClose } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
-import { useChatContext } from "../Contexts/ChatContext";
-import Icon from "./Icons";
+import { useChatContext } from "../../Contexts/ChatContext";
+import Icon from "../Icons";
 import Composebar from "./Composebar";
 
 const ChatFooter = () => {

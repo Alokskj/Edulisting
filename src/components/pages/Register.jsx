@@ -81,8 +81,17 @@ const Register = () => {
             saveUserInFirebase(setCurrentUser, setLoading)
         } catch (error) {
             setLoading(false)
-            const errorMessage = error.message.replace('Firebase: Error (auth/', '').replace(').', '').replace(/-/g, ' ')
-            toast.error(errorMessage)
+            const errorMessage = error.message.replace('Firebase: Error (auth/', '').replace(').', '').replace(/-/g, ' ').replace('Firebase:', "")
+            toast.error(errorMessage,{
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                })
             console.error(error);
         }
     };
@@ -92,7 +101,6 @@ const Register = () => {
         <Spinner />
     ) : (
         <div className="h-[95vh] w-[100vw] flex justify-center items-center ">
-            <ToastMessage />
             <div className="flex items-center flex-col px-4 max-sm:w-full">
                 <div className="text-center">
                     <div className="text-4xl font-bold">Create Account</div>
@@ -138,13 +146,14 @@ const Register = () => {
                         type="text"
                         placeholder="User name"
                         className="w-100  px-5 rounded-lg bg-gray-100 py-3  border border-gray-400  text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none w-full "
-                        autoComplete="off"
+                        
+                        required
                     />
                     <input
                         type="email"
                         placeholder="Email"
                         className="w-100  px-5 rounded-lg bg-gray-100 py-3  border border-gray-400  text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none w-full"
-                        autoComplete="off"
+                        
                     />
                     <input
                         type="password"

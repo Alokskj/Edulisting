@@ -1,6 +1,5 @@
-import { useAuth } from "../Contexts/UserContext";
-import { useChatContext } from "../Contexts/ChatContext";
-import { db } from "../utilities/firebase";
+
+import { db } from "../../utilities/firebase";
 import {
     arrayRemove,
     arrayUnion,
@@ -10,6 +9,8 @@ import {
 } from "firebase/firestore";
 import React from "react";
 import ClickAwayListener from "react-click-away-listener";
+import { useAuth } from "../../Contexts/UserContext";
+import { useChatContext } from "../../Contexts/ChatContext";
 
 const ChatMenu = ({ showMenu, setShowMenu }) => {
     const { currentUser } = useAuth();

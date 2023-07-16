@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import ImageViewer from "react-simple-image-viewer";
 import { Timestamp, doc, getDoc, updateDoc } from "firebase/firestore";
-import { formateDate, wrapEmojisInHtmlTag } from "../utilities/helpers";
+import { formateDate, wrapEmojisInHtmlTag } from "../../utilities/helpers";
 import { GoChevronDown } from "react-icons/go";
 import MessageMenu from "./MessageMenu";
-import { db } from "../utilities/firebase";
-import { DELETED_FOR_EVERYONE, DELETED_FOR_ME } from "../utilities/constansts";
-import { useAuth } from "../Contexts/UserContext";
-import { useChatContext } from "../Contexts/ChatContext";
-import Icon from "./Icons";
-import DeleteMsgPopup from "../popup/DeleteMsgPopup";
+import { db } from "../../utilities/firebase";
+import { DELETED_FOR_EVERYONE, DELETED_FOR_ME } from "../../utilities/constansts";
+import { useAuth } from "../../Contexts/UserContext";
+import { useChatContext } from "../../Contexts/ChatContext";
+import Icon from "../Icons";
+import DeleteMsgPopup from "./popup/DeleteMsgPopup";
 import { Avatar } from "@mui/material";
 const Message = ({ message }) => {
     const [showMenu, setShowMenu] = useState(false);

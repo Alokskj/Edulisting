@@ -3,7 +3,7 @@ import DoneAllIcon from "@mui/icons-material/DoneAll";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate, Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
-import { useChatContext } from "../Contexts/ChatContext";
+import { useChatContext } from "../../Contexts/ChatContext";
 import DeleteMsgMenu from "./DeleteMsgMenu";
 const AllChatsWidget = ({ chat, date, handleSelect, unreadMsgs }) => {
   const navigate = useNavigate();
@@ -70,10 +70,10 @@ const AllChatsWidget = ({ chat, date, handleSelect, unreadMsgs }) => {
                 </div>
               )}
             </div>
-            <div className="delete relative">
-            {!!unreadMsgs?.[chat[0]]?.length && (
-              <span className="absolute right-0 top-7 min-w-[20px] h-5 rounded-full bg-red-500 flex justify-center items-center text-sm">
-                {unreadMsgs?.[chat[0]]?.length}
+            <div className="delete relative flex gao-2">
+            {!!unreadMsgs && unreadMsgs.length > 0  && (
+              <span className=" h-5 w-5 p-3 flex rounded-full bg-blue-500 text-white  justify-center items-center text-sm">
+                {unreadMsgs.length}
               </span>
             )}
               <div className="icon cursor-pointer" onClick={handleclick}>
