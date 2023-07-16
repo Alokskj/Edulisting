@@ -24,6 +24,7 @@ import { useEffect } from "react"
 import { doc, updateDoc } from "firebase/firestore"
 import { db } from "./components/utilities/firebase"
 import ErrorPage from "./components/main/ErrorPage"
+import { getNotificationPermission } from "./components/utilities/getNotificationPermission"
 const router = createBrowserRouter([
   { path: "*", Component: Root , errorElement: <> <Header /> <ErrorPage /> <SimpleBottomNavigation /></>},
 ]);
@@ -33,7 +34,7 @@ function App() {
 
   useEffect(() => {
     // Add event listener for beforeunload event
-    const handleBeforeUnload =async () => {
+    const handleUnload =async () => {
       // Update user's online status to false when they close the tab
       if(currentUser.uid){
       console.log('set user status to offline')
@@ -41,12 +42,16 @@ function App() {
         isOnline: false,
       });}
     };
+    
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
+    window.addEventListener('beforeunload', handleUnload);
+    window.addEventListener('pagehide', handleUnload);
     // Clean up the event listener when component unmounts
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('beforeunload', handleUnload);
+     window.addEventListener('pagehide', handleUnload);
+
+      handleUnload()
     };
   }, []);
   return (

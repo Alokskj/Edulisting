@@ -5,6 +5,7 @@ import {FacebookAuthProvider, getAuth} from "firebase/auth"
 import { GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { getMessaging } from "firebase/messaging";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -31,3 +32,4 @@ export const fProvider = new FacebookAuthProvider();
 GoogleProvider.addScope('profile');
 GoogleProvider.addScope('email');
 export const storage = getStorage();
+export const messaging = getMessaging(app);

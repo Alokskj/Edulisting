@@ -3,10 +3,10 @@ import { Navigate, Outlet, Route , redirect} from 'react-router-dom'
 import { useAuth } from '../Contexts/UserContext'
 
 const PrivateRoutes = () => {
-    const {currentUser} = useAuth()
+    const {currentUser, isLoading} = useAuth()
   return (
     
-        currentUser ? <Outlet/> : <Navigate  to={'/login'}/>
+        !isLoading && (currentUser ? <Outlet/> : <Navigate  to={'/login'}/>)
     
   )
 }

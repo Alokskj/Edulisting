@@ -1,6 +1,7 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { client } from "../main/client";
 import { auth, db } from "./firebase";
+import { getNotificationPermission } from "./getNotificationPermission";
 
 export const saveUserInFirebase = async ( setCurrentUser, setLoading) => {
     setLoading(true);
@@ -64,6 +65,7 @@ export const saveUserInFirebase = async ( setCurrentUser, setLoading) => {
         });
         console.log('user created successfully in firestore')
         await setDoc(doc(db, "userChats", id), {});
+        
         
       }
     } catch (error) {
