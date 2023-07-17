@@ -8,6 +8,9 @@ export const listingQuery = (listingId) =>{
         address,
         locality,
         city,
+        board,
+        subject,
+        mobileNumber,
         state,
         userId,
         image{

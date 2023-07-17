@@ -58,7 +58,7 @@ useEffect(() => {
 }, []);
     return (
         <UserContext.Provider value={{currentUser, setCurrentUser, isLoading, setIsLoading, signOut, clear}}>
-            {!isLoading && children}
+            {children}
         </UserContext.Provider>
     )
 }

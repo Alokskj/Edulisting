@@ -22,8 +22,8 @@ const Header = () => {
   return (
     <>
     
-    <div id='header' className="header-container flex justify-center ">
-    <header className='flex justify-between p-4 container '>
+    <div id='header' className="header-container flex justify-center items-center ">
+    <header className='flex justify-between p-4 container items-center'>
         <div  className="logo capitalize cursor-pointer poppins text-4xl font-bold"><Link to="/"><p>edulisting</p></Link></div>
         <div onClick={()=> navigate("/notification")} className="notification-container cursor-pointer block text-3xl md:hidden  m-2"><i className="fa-regular fa-bell"></i></div>
         <div className="searchbar hidden poppins border-2 items-center py-[5px] px-1 shadow-sm rounded-full lg:flex">

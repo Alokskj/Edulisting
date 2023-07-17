@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { listingQuery, userQuery } from "../main/data";
-import { client } from "../main/cdnClient";
+import { client, urlFor } from "../main/cdnClient";
+import { FiShare2 } from "react-icons/fi";
+import { AiOutlineHeart } from "react-icons/ai";
+import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 import Spinner from "../header/Spinner";
 import MobileNav from "../header/MobileNav";
-
 import { Avatar } from "@mui/material";
 import Heart from "../utilities/Heart";
 import PlaceholderListing from "../main/PlaceholderListing";
@@ -35,23 +37,22 @@ const Listing = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   useEffect(() => {
-    const query = listingQuery(id);
-    client
-      .fetch(query)
-      .then(async (data) => {
-        setQueryPost(data[0]);
-        const id = await data[0].userId;
-        const query = userQuery(id);
-        client
-          .fetch(query)
-          .then(async (data) => {
-            const result = await data[0];
-            setQueryUser(result);
-            setLoading(false);
-          })
-          .catch((err) => console.log("userfind err", err));
-      })
-      .catch((err) => console.log(err));
+    const getUserAndPost = async () => {
+      try {
+        const postQuery = listingQuery(id);
+        const listing = await client.fetch(postQuery);
+        const userquery = userQuery(listing[0].userId);
+        const user = await client.fetch(userquery);
+        setQueryPost(listing[0]);
+        setQueryUser(user[0]);
+        setLoading(false);
+        console.log(listing[0], user[0]);
+      } catch (error) {
+        console.log(error);
+        // setLoading(false);
+      }
+    };
+    getUserAndPost();
   }, []);
 
   async function handleMessage() {
@@ -66,7 +67,7 @@ const Listing = () => {
         uid: queryUser._id,
         displayName: queryUser.userName,
         photoURL: queryUser.image,
-        email : queryUser.email
+        email: queryUser.email,
       },
       listingInfo: {
         uid: queryPost._id,
@@ -77,9 +78,9 @@ const Listing = () => {
 
     try {
       const res = await getDoc(doc(db, "chats", combinedId));
-     console.log('1')
+      console.log("1");
       if (!res.exists()) {
-        console.log('2')
+        console.log("2");
         //create a chat in chats collection
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
         // create user chats
@@ -89,14 +90,14 @@ const Listing = () => {
         );
 
         const userChatRef = await getDoc(doc(db, "userChats", queryUser._id));
-          console.log('3')
-        const userAccountRef = await getDoc(doc(db, 'users', queryUser._id))
-        if(!userAccountRef.exists()){
-          console.log('user not found in fs')
-          await setDoc(doc(db, 'users', queryUser._id), chat.userInfo)
-        }  
+        console.log("3");
+        const userAccountRef = await getDoc(doc(db, "users", queryUser._id));
+        if (!userAccountRef.exists()) {
+          console.log("user not found in fs");
+          await setDoc(doc(db, "users", queryUser._id), chat.userInfo);
+        }
         if (!currentUserChatRef.exists()) {
-          console.log('hello')
+          console.log("hello");
           await setDoc(doc(db, "userChats", currentUser.uid), {});
         }
         await updateDoc(doc(db, "userChats", currentUser.uid), {
@@ -114,7 +115,7 @@ const Listing = () => {
         });
 
         if (!userChatRef.exists()) {
-          console.log('hello 2')
+          console.log("hello 2");
           await setDoc(doc(db, "userChats", queryUser._id), {});
         }
         await updateDoc(doc(db, "userChats", queryUser._id), {
@@ -130,11 +131,10 @@ const Listing = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
-      }
-      else{
+      } else {
         await updateDoc(doc(db, "userChats", currentUser.uid), {
           [combinedId + ".chatDeleted"]: deleteField(),
-      });
+        });
       }
       dispatch({ type: "CHANGE_USER", payload: chat });
       navigate("../chat/");
@@ -150,91 +150,158 @@ const Listing = () => {
       </div>
     );
 
+  const address = `${queryPost?.locality}, ${queryPost?.city}, ${queryPost?.state}`;
   return (
-    <>
-      <div className="single-post-container">
-        <div className="image-container  ">
+    <div className="container flex flex-col mx-auto lg:flex-row justify-center gap-4 items-start p-8 md:px-16 lg:px-24 xl:px-40 mb-20">
+      <div className="left w-full lg:w-2/3 flex flex-col gap-2">
+        <div className="image-container relative px-8 py-4 w-full flex justify-center items-center h-[450px] rounded-lg bg-black">
+          <div className="arrow-left absolute top-1/2 left-10 -translate-y-1/2 text-white bg-gray-500 rounded-full p-3 flex justify-center items-center">
+            <BiLeftArrowAlt size={30} />
+          </div>
           <img
-            className="w-full h-60 object-scale-down shadow-inner"
-            src={queryPost?.image.asset.url}
-            alt="query-image"
+            className="object-contain rounded-md w-full h-full"
+            src={urlFor(queryPost.image).format("webp").url()}
+            alt=""
           />
+          <div className="arrow-right absolute top-1/2 right-10 -translate-y-1/2 text-white bg-gray-500 rounded-full p-3 flex justify-center items-center">
+            <BiRightArrowAlt size={30} />
+          </div>
         </div>
-        <div className="post-info-container p-4 my-2 border-b-2">
-          <div className="price-title-fav flex justify-between">
-            <div className="price-title">
-              <div className="post-price font-bold text-2xl">
-                <p>₹ {queryPost?.price}</p>
+        <div className="details-descripiton-container w-full  rounded-lg border border-black divide-y-2 px-6 py-4 flex flex-col gap-4">
+          <div className="details-container w-full gap-3 flex flex-col justify-start ">
+            <h2 className="text-2xl font-semibold">Details</h2>
+            <div className="details grid gap-3 grid-cols-1 lg:grid-cols-2">
+              <div className="item flex justify-between w-full ">
+                <div className="key max-w-1/2">Class</div>
+                <div className="value basis-1/2">
+                  {queryPost?.standard || "Not Specified"}
+                </div>
               </div>
-              <div className="post-title text-lg font-semibold ">
-                <h1>{queryPost?.title}</h1>
+              <div className="item flex justify-between w-full">
+                <div className="key max-w-1/2">Edition</div>
+                <div className="value basis-1/2">
+                  {queryPost?.edition || "Not Specified"}
+                </div>
               </div>
-            </div>
-            <div className="fav text-3xl m-2">
-              <Heart />
+              <div className="item flex justify-between w-full">
+                <div className="key max-w-1/2">Subject</div>
+                <div className="value basis-1/2">{queryPost.subject}</div>
+              </div>
+              <div className="item flex justify-between w-full">
+                <div className="key max-w-1/2">Board</div>
+                <div className="value basis-1/2">
+                  {queryPost.board === "other" && "Not specified"}
+                </div>
+              </div>
+              <div className="item flex justify-between w-full">
+                <div className="key max-w-1/2">Condition</div>
+                <div className="value basis-1/2">
+                  {queryPost?.condition || "Not Specified"}
+                </div>
+              </div>
+              <div className="item flex justify-between w-full">
+                <div className="key max-w-1/2">Publisher</div>
+                <div className="value basis-1/2">
+                  {queryPost?.publisher || "Not Specified"}
+                </div>
+              </div>
             </div>
           </div>
-          <div className="post-location-created flex justify-between">
-            <div className="location flex items-center space-x-2">
-              <i className="fa fa-map-marker" aria-hidden="true"></i>
-              <p>{queryPost?.locality}</p>
+          <div className="description flex flex-col py-4 gap-3">
+            <h2 className="text-2xl font-semibold">Description</h2>
+            <p>{queryPost?.description}</p>
+          </div>
+        </div>
+        <div className="related-ads-container"></div>
+      </div>
+      <div className="right w-full lg:w-1/3 flex flex-col gap-2">
+        <div className="price-title-address-date w-full flex flex-col justify-between h-44 bg-white  border-black border rounded-lg py-4 px-6">
+          <div className="price-shre-fav-title">
+            <div className="price-shre-fav flex justify-between items-start">
+              <div className="price text-4xl font-bold">
+                <p>₹ {queryPost.price}</p>
+              </div>
+              <div className="share-fav flex  items-center">
+                <div className="cursor-pointer p-2 hover:bg-gray-200 rounded-full transition-all">
+                  <FiShare2 size={25} />
+                </div>
+                <div className="p-2 hover:bg-gray-200 rounded-full transition-all">
+                  <AiOutlineHeart className="cursor-pointer" size={25} />
+                </div>
+              </div>
             </div>
-            <div className="created">
+            <div className="title text-lg pr-2">
+              <p>{queryPost.title}</p>
+            </div>
+          </div>
+          <div className="address-date flex justify-between capitalize">
+            <div className="address">
+              <p>{address}</p>
+            </div>
+            <div className="date capitalize">
               <p>{queryPost?.createAt}</p>
             </div>
           </div>
         </div>
-        <div className="post-details border-2 my-2 p-4">
-          <p className="font-bold text-xl mb-2">Description</p>
-          <div className="post-description">
-            <h4>{queryPost?.description}</h4>
+        <div className="owner-details-chat-btn flex flex-col gap-4 w-full  border border-black rounded-lg py-4 px-6">
+          <div className="avatar-username-profile-btn flex justify-between items-center">
+            <Link to={`/user/${queryPost.userId}`}>
+              <div className="avatar-username flex gap-3 items-center">
+                <div className="avatar">
+                  <Avatar
+                    alt="user-image"
+                    src={queryUser?.image}
+                    sx={{ width: 60, height: 60 }}
+                  />
+                </div>
+                <div className="username capitalize text-2xl font-bold ">
+                  <p>{queryUser?.userName}</p>
+                </div>
+              </div>
+            </Link>
+            <div className="profile-go-arrow p-2 hover:bg-gray-200 rounded-full transition-all">
+              <BiRightArrowAlt size={30} />
+            </div>
+          </div>
+          <div className="chat-btn">
+            <button
+              className="w-full py-3 px-4 bg-blue-500  border-2 border-blue-500 hover:bg-transparent hover:text-blue-500 text-white font-bold rounded-2xl"
+              type="button"
+              onClick={() => {
+                currentUser
+                  ? currentUser.uid === queryUser._id
+                    ? navigate("/profile")
+                    : handleMessage()
+                  : navigate("/login");
+              }}
+            >
+              {currentUser?.uid === queryUser?._id
+                ? "Profile"
+                : "Chat with seller"}
+            </button>
           </div>
         </div>
-        <div className="post-user border-2 flex items-center justify-between mb-32">
-          <Link to={`/user/${queryPost.userId}`}>
-            <div className="user-info  flex items-center">
-              <div className="user-image mx-5 my-2">
-                <Avatar
-                  alt="user-image"
-                  src={queryUser?.image}
-                  sx={{ width: 60, height: 60 }}
+        <div className="map-location w-full gap-4 flex flex-col justify-between py-4 px-6 border  border-black rounded-lg">
+          <div className="title text-2xl font-semibold">
+            <h2>Posted In</h2>
+          </div>
+          
+            <div className="map-address flex flex-col gap-2" >
+              <div className="address">
+                <p>{address}</p>
+              </div>
+              <div className="map w-full my-2  border h-44 rounded-md relative">
+                <img
+                  className="object-cover"
+                  src="https://media.wired.com/photos/59269cd37034dc5f91bec0f1/191:100/w_1280,c_limit/GoogleMapTA.jpg"
+                  alt=""
                 />
               </div>
-              <div className="user-name font-medium text-lg">
-                <p>{queryUser?.userName}</p>
-              </div>
             </div>
-          </Link>
-          <div className="post-message m-3">
-            <div className="button-container">
-              {currentUser?.uid == queryUser._id ? (
-                <button
-                  className="bg-blue-700 p-3 cursor-pointer rounded-lg text-white"
-                  type="button"
-                  onClick={
-                    currentUser
-                      ? () => navigate("/profile")
-                      : () => navigate("/login")
-                  }
-                >
-                  Profile
-                </button>
-              ) : (
-                <button
-                  className="bg-blue-700 p-3 cursor-pointer rounded-lg text-white"
-                  type="button"
-                  onClick={
-                    currentUser ? handleMessage : () => navigate("/login")
-                  }
-                >
-                  Message
-                </button>
-              )}
-            </div>
-          </div>
+         
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

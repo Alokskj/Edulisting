@@ -26,6 +26,7 @@ import { db } from "./components/utilities/firebase"
 import ErrorPage from "./components/main/ErrorPage"
 import { getNotificationPermission } from "./components/utilities/getNotificationPermission"
 import { ChatContextProvider } from "./components/Contexts/ChatContext"
+import Listing2 from "./components/pages/Listing2"
 const router = createBrowserRouter([
   { path: "*", Component: Root , errorElement: <> <Header /> <ErrorPage /> <SimpleBottomNavigation /></>},
 ]);
@@ -69,6 +70,7 @@ function Root() {
       <Route element={<> <Header /> <Outlet /> <SimpleBottomNavigation /></>}>
       <Route path="/" element={ <Home/> } />
       <Route path="/listings/:id" element={ <Listing /> } />
+      <Route path="/listings2" element={ <Listing2 /> } />
        
       {/* private routes  */}
       <Route element={<><PrivateRoutes /></>}>
