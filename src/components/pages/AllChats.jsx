@@ -41,6 +41,9 @@ const AllChats = () => {
   const [loading, setLoading] = useState(false);
  
   const { currentUser } = useAuth();
+  useEffect(()=>{
+    dispatch({ type: "EMPTY" })
+  },[])
 // to fetch all users info
   useEffect(() => {
     onSnapshot(collection(db, "users"), (snapshot) => {
@@ -102,13 +105,16 @@ const AllChats = () => {
 
 
 
-const handleSelect = (user, selectedChatId) => {
-  dispatch({ type: "CHANGE_USER", payload: user });
+const handleSelect = async (user, selectedChatId) => {
+  
+  if(user.userInfo?.uid){
+  await dispatch({ type: "CHANGE_USER", payload: user });
 
   if (unreadMsgs?.[selectedChatId]?.length > 0) {
       readChat(selectedChatId);
   } 
   navigate('/chat')
+  }
 };
 
   const filteredChats = Object.entries(chats || {}).filter(([, chat]) => !chat.hasOwnProperty("chatDeleted")).sort(
@@ -147,9 +153,7 @@ const handleSelect = (user, selectedChatId) => {
               );
 
               const date = formateDate(timestamp.toDate());
-              console.log(chat[0])
-              console.log(unreadMsgs)
-              console.log(unreadMsgs[chat[0]])
+             
              
               return <AllChatsWidget chat={user} key={chat[0]} date={date} handleSelect={handleSelect} unreadMsgs={unreadMsgs[chat[0]]}/>;
             })}

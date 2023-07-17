@@ -21,11 +21,16 @@ messaging.onBackgroundMessage((payload) => {
     "[firebase-messaging-sw.js] Received background message ",
     payload
   );
-  const notificationTitle = payload.notification.title;
-  const notificationOptions = {
-    body: payload.notification.body,
-    icon: payload.notification.image,
-  };
+  // const notificationTitle = payload.notification.title;
+  // const notificationOptions = {
+  //   body: payload.notification.body,
+  //   icon: '/images/icons/edulisitingRounded.png',
+  //   badge: '/images/icons/ic_edulisting.png',
+  //   tag: 'message-notification',
+  //   requireInteraction: true,
+  //   vibrate: [200, 100, 200],
+  //   click_action: 'https://edulisting.in/',
+  // };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  // self.registration.showNotification(notificationTitle, notificationOptions);
 });

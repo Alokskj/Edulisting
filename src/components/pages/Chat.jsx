@@ -13,48 +13,51 @@ const Chat = () => {
   const [loading, setLoading] = useState(true);
   const { currentUser } = useAuth();
   const { data, users, resetFooterStates, dispatch } = useChatContext();
+  const [isBlocked, setIsBlocked] = useState()
+  const [imBlocked, setImBlocked] = useState()
   // fetching chats form firestore
   useEffect(() => {
     resetFooterStates();
-    if (data.user || data.chatId) {
-      setLoading(false);
-    } else {
-      return navigate("/allchats");
+    if (data && currentUser && users) {
+      const isUserBlocked = users[currentUser?.uid]?.blockedUsers?.find(
+        (u) => u === data?.user?.uid
+        );
+        
+        const IamBlocked = users[data?.user?.uid]?.blockedUsers?.find(
+          (u) => u === currentUser?.uid
+          );
+          setIsBlocked(isUserBlocked)
+          setImBlocked(IamBlocked)
+          setLoading(false);
+      
+      
     }
-    return() => {console.log('hello');
-    dispatch({ type: "EMPTY" });}
-  }, [data, data.chatId]);
-  
-  
-  
-  ////
-  const isUserBlocked = users[currentUser.uid
-]?.blockedUsers?.find(
-    (u) => u === data.user.uid
-  );
+    else{
+      navigate("/allchats");
 
-  const IamBlocked = users[data.user?.uid]?.blockedUsers?.find(
-    (u) => u === currentUser.uid
-  );
-  if (loading || !data.user) return <Spinner />;
+    }
+  }, [data, currentUser,]);
+
+
+  if (loading) return <Spinner />;
   return (
     <div className="flex flex-col min-h-screen  grow ">
       <ChatHeader />
       {data.chatId && <Messages />}
       <div className="fixed bottom-0 w-full bg-white">
-      {!isUserBlocked && !IamBlocked && <ChatFooter />}
+        {!isBlocked && !imBlocked && <ChatFooter />}
 
-      {isUserBlocked && (
-        <div className="w-full text-center text-c3 py-5">
-          This user has been blocked
-        </div>
-      )}
+        {isBlocked && (
+          <div className="w-full text-center text-c3 py-5">
+            This user has been blocked
+          </div>
+        )}
 
-      {IamBlocked && (
-        <div className="w-full text-center text-c3 py-5">
-          {`${data.user.displayName} has blocked you!`}
-        </div>
-      )}
+        {imBlocked && (
+          <div className="w-full text-center text-c3 py-5">
+            {`${data.user.displayName} has blocked you!`}
+          </div>
+        )}
       </div>
     </div>
   );

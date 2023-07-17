@@ -25,6 +25,7 @@ import { doc, updateDoc } from "firebase/firestore"
 import { db } from "./components/utilities/firebase"
 import ErrorPage from "./components/main/ErrorPage"
 import { getNotificationPermission } from "./components/utilities/getNotificationPermission"
+import { ChatContextProvider } from "./components/Contexts/ChatContext"
 const router = createBrowserRouter([
   { path: "*", Component: Root , errorElement: <> <Header /> <ErrorPage /> <SimpleBottomNavigation /></>},
 ]);
@@ -62,8 +63,8 @@ function App() {
 function Root() {
   return (
     
+      <ChatContextProvider>
     <Routes>
-      
       
       <Route element={<> <Header /> <Outlet /> <SimpleBottomNavigation /></>}>
       <Route path="/" element={ <Home/> } />
@@ -106,6 +107,7 @@ function Root() {
       
       <Route path="/edulisting.apk" element={ <Link to="/edulisting.apk"></Link> } />
     </Routes>
+      </ChatContextProvider>
   );
 }
 

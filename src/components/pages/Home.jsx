@@ -7,12 +7,14 @@ import Hero from "../main/Hero";
 
 import OneTapLogin from "../utilities/OneTapLogin";
 import { useEffect } from "react";
+import { useAuth } from "../Contexts/UserContext";
+import { getNotificationPermission } from "../utilities/getNotificationPermission";
 
 const Home = () => {
    const {currentUser} = useAuth()
-    useEffect(async ()=>{
+    useEffect(()=>{
         if(currentUser){
-      await getNotificationPermission(id)
+      getNotificationPermission(currentUser.uid)
 
         }
     },[currentUser])

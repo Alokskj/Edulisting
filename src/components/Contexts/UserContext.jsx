@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../utilities/firebase";
 import { onAuthStateChanged ,signOut as authSignOut} from "firebase/auth";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { arrayRemove, doc, getDoc, updateDoc } from "firebase/firestore";
 
 export const UserContext = createContext()
 
@@ -25,8 +25,9 @@ export const UserProvider = ({children}) =>{
           console.error(error);
       }
   };
-  const signOut = () => {
+  const signOut = async () => {
     clear()
+    
 };
   const authStateChanged = async (user) => {
     setIsLoading(true);

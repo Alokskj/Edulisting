@@ -15,11 +15,11 @@ const Root = ReactDOM.createRoot(document.getElementById("root")).render(
     <GoogleOAuthProvider clientId={import.meta.env.VITE_REACT_CLIENT_ID}>
       <SkeletonTheme baseColor="#202020" highlightColor="#444">
         <UserProvider>
-          <ChatContextProvider>
+          
             <App />
             <ToastMessage />
 
-          </ChatContextProvider>
+          
         </UserProvider>
       </SkeletonTheme>
     </GoogleOAuthProvider>

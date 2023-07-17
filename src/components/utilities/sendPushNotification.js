@@ -3,8 +3,9 @@ export async function sendPushNotification(deviceToken, notification) {
   
     const payload = {
       to: deviceToken,
-      notification,
+      notification : notification,
     };
+    console.log(JSON.stringify(payload))
   
     try {
       const response = await fetch('https://fcm.googleapis.com/fcm/send', {
