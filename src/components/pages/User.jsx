@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { client } from "../main/client";
+import { client } from "../main/cdnClient";
 import { userListings, userQuery, userPublishedListings } from "../main/data";
 import Spinner from "../header/Spinner";
 import Header from "../header/Header.jsx";
@@ -90,7 +90,8 @@ const User = () => {
           <RWebShare
             data={{
               text: `Check out ${user?.userName}'s profile on Edulisting`,
-              url: `https://edulisting.ml/user/${user?._id}`,
+              url: `https://edulisitng.in
+/user/${user?._id}`,
               title: `${user?.userName} - Edulisting`,
             }}
             onClick={() => console.log("shared successfully!")}

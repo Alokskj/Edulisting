@@ -14,7 +14,8 @@ const ListingHeader = ({id, title , description  }) => {
        <RWebShare
         data={{
           text: `${title} : ${description}`,
-          url: `https://www.edulisting.ml/listings/${id}`,
+          url: `https://www.edulisitng.in
+/listings/${id}`,
           title: `${title} - Edulisting`,
         }}
         onClick={() => console.log("shared successfully!")}

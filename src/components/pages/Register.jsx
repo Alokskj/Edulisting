@@ -75,6 +75,7 @@ const Register = () => {
                 email,
                 password
             );
+            
             await updateProfile(user, {
                 displayName,
             });

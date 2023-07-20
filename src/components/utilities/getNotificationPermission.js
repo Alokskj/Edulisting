@@ -11,7 +11,7 @@ export async function getNotificationPermission(id){
         const permission = await Notification.requestPermission()
         if(permission === "granted"){
             console.log("Notification User Permission Granted."); 
-            const token = await getToken(messaging, { vapidKey: `BKSb3w1d7XLck5DSDGt9djlA5A8zXjMqTJhhf9jLCXdMkY_SPVVmSKjCWHsAKKZ2RXO1s-mn_de1yOhL19HbDGU` })
+            const token = await getToken(messaging, { vapidKey: import.meta.env.VITE_REACT_KEY_PAIR })
             if(id){
                 await updateDoc(doc(db, 'users', id),{
                     token : arrayUnion(token)

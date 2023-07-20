@@ -82,7 +82,8 @@ const Profile = () => {
         <RWebShare
         data={{
           text: "Follow me on Edulisting to see my new listings! ",
-          url: `https://edulisting.ml/user/${user?._id}`,
+          url: `https://edulisitng.in
+/user/${user?._id}`,
           title: `${user?.userName} - Edulisting`,
         }}
         onClick={() => console.log("shared successfully!")}

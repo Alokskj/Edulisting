@@ -27,6 +27,7 @@ import ErrorPage from "./components/main/ErrorPage"
 import { getNotificationPermission } from "./components/utilities/getNotificationPermission"
 import { ChatContextProvider } from "./components/Contexts/ChatContext"
 import Listing2 from "./components/pages/Listing2"
+import { ListingProvider } from "./components/Contexts/ListingContext"
 const router = createBrowserRouter([
   { path: "*", Component: Root , errorElement: <> <Header /> <ErrorPage /> <SimpleBottomNavigation /></>},
 ]);
@@ -65,6 +66,7 @@ function Root() {
   return (
     
       <ChatContextProvider>
+        <ListingProvider>
     <Routes>
       
       <Route element={<> <Header /> <Outlet /> <SimpleBottomNavigation /></>}>
@@ -109,6 +111,7 @@ function Root() {
       
       <Route path="/edulisting.apk" element={ <Link to="/edulisting.apk"></Link> } />
     </Routes>
+    </ListingProvider>
       </ChatContextProvider>
   );
 }

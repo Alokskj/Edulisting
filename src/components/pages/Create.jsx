@@ -5,44 +5,72 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import ContactUser from "../main/ContactUser";
 import { userQuery } from "../main/data";
-import NewListingInputs from "../main/NewListingInputs";
+
 import NewListingImage from "../main/NewListingImage";
 import PageHeader from "../header/PageHeader";
 import sendEmail from "../utilities/sendEmail";
 import { useAuth } from "../Contexts/UserContext";
-
+import { useListing } from "../Contexts/ListingContext";
+import SelectClass from "../main/createListing/inputs/SelectClass";
+import SelectBoard from "../main/createListing/inputs/SelectBoard";
+import SelectCondition from "../main/createListing/inputs/SelectCondition";
+import SelectYear from "../main/createListing/inputs/SelectYear";
+import PrimaryInputs from "../main/createListing/inputs/PrimaryInputs";
+import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import { Backdrop, CircularProgress } from "@mui/material";
+import SelectPublisher from "../main/createListing/inputs/SelectPublisher";
 
 const Create = () => {
   const [btn, setBtn] = useState("Next");
-  const [loading, setLoading] = useState(false);
+
   const [filled, setfilled] = useState(true);
-  const [imageAsset, setImageAsset] = useState(false);
+
   const [check, setCheck] = useState(true);
   const [userinfo, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState(
     "Please first fill all Feilds!"
   );
 
-  const [primaryDetails, setPrimaryDetails] = useState(false);
-  const [listing, setListing] = useState({
-    title: "",
-    description: "",
-    price: "",
-    mrp: "",
-    standard: "",
-    board: "",
-    subject: "",
-    locality: "",
-    city: "",
-    state: "",
-    mobileNumber: "",
-  });
+  const {
+    listing,
+    setListing,
+    isPrimaryDetails,
+    setPrimaryDetails,
+    handleChange,
+    loading,
+    setLoading,
+    isOptionalDetails,
+    setOptionalDetails,
+    isContactInfo,
+    setIsContactInfo,
+    image,
+    setImage,
+    error,
+    setError,
+    resetListing,
+  } = useListing();
+  const {
+    title,
+    description,
+    price,
+    mrp,
+    board,
+    standard,
+    city,
+    locality,
+    state,
+    subject,
+    mobileNumber,
+    condition,
+    edition,
+    publisher,
+  } = listing;
   const navigate = useNavigate();
-  const {currentUser} = useAuth()
- 
+  const { currentUser } = useAuth();
+
   useEffect(() => {
-    const query = userQuery(currentUser?.uid
-);
+    const query = userQuery(currentUser?.uid);
     client
       .fetch(query)
       .then((data) => {
@@ -64,31 +92,9 @@ const Create = () => {
       });
   }, []);
 
-  function handleChange(event) {
-    const { value, name } = event.target;
-    setListing((prevValue) => {
-      return {
-        ...prevValue,
-        [name]: value,
-      };
-    });
-  }
-
   function handleCheck() {
     check ? setCheck(false) : setCheck(true);
   }
-
-  const uploadImage = (e) => {
-    const { type, name } = e.target.files[0];
-    setLoading(true);
-    client.assets
-      .upload("image", e.target.files[0], { contentType: type, filename: name })
-      .then((doc) => {
-        setImageAsset(doc);
-        setLoading(false);
-      })
-      .catch((err) => console.log(err));
-  };
 
   const handleError = (message) => {
     setErrorMessage(message);
@@ -96,166 +102,127 @@ const Create = () => {
     setTimeout(() => setfilled(true), 2000);
   };
 
-  const handleSubmit = () => {
-    const {
+  const handleSubmit = async () => {
+    if (!isPrimaryDetails && !isOptionalDetails) return;
+    setLoading(true);
+    const doc = {
+      _type: "listings",
       title,
       description,
       price,
       mrp,
       board,
-      standard,
+      standard: Number(standard),
+      subject,
       city,
       locality,
       state,
-      subject,
-      mobileNumber,
-    } = listing;
-    if (listing) {
-      if (!imageAsset._id) {
-        handleError("Please select an Image");
-        return;
-      }
-      if (!title) {
-        handleError("Please enter the title");
-        return;
-      }
-      if (!description) {
-        handleError("Please enter the description");
-        return;
-      }
-      if (!price) {
-        handleError("Please enter the price");
-        return;
-      }
-      if (!mrp) {
-        handleError("Please enter the MRP");
-        return;
-      }
-      if (Number(price) >= Number(mrp)) {
-        handleError("Sell price must be less than MRP");
-        return;
-      }
-      if (!subject) {
-        handleError("Please enter the Subject");
-        return;
-      }
-      if (!standard) {
-        handleError("Please select the class");
-        return;
-      }
-      if (!board) {
-        handleError("Please select the board");
-        return;
-      }
-      if (
-        title &&
-        description &&
-        price &&
-        mrp &&
-        board &&
-        standard &&
-        imageAsset._id
-      ) {
-        setPrimaryDetails(true);
-        setBtn("Post");
-      }
-      if (!locality) {
-        handleError("Please enter the city");
-        return;
-      }
-      if (!city) {
-        handleError("Please enter the city");
-        return;
-      }
-      if (!state) {
-        handleError("Please enter the state");
-        return;
-      }
-      if (check && (!mobileNumber || mobileNumber != 10)) {
-        if (!mobileNumber) {
-          handleError("Please enter the mobile number");
-          return;
-        } else if (mobileNumber.length != 10) {
-          handleError("Please enter the correct number");
-          return;
-        }
-      }
-    }
-    if (primaryDetails && city && locality && state) {
-      setLoading(true);
-      const doc = {
-        _type: "listings",
-        title,
-        description,
-        price,
-        mrp,
-        board,
-        standard : Number(standard),
-        subject,
-        city,
-        locality,
-        state,
-        mobileNumber: check ? mobileNumber : null,
-        image: {
-          _type: "image",
-          asset: {
-            _type: "reference",
-            _ref: imageAsset?._id,
-          },
+      condition,
+      edition : Number(edition),
+      publisher,
+      mobileNumber: check ? mobileNumber : null,
+      image: {
+        _type: "image",
+        asset: {
+          _type: "reference",
+          _ref: image?._id,
         },
-        userId: currentUser?.uid
-,
-        postedBy: {
-          _type: "postedby",
-          _ref: currentUser?.uid
-,
-        },
-        createAt: moment().format("Do MMMM YY"),
-        listed: currentUser?.uid
- === "110753906230473125746" ? true : false,
+      },
+      userId: currentUser?.uid,
+      postedBy: {
+        _type: "postedby",
+        _ref: currentUser?.uid,
+      },
+      createAt: moment().format("Do MMMM YY"),
+      listed: currentUser?.uid === "110753906230473125746" ? true : false,
+    };
+    try {
+      await client.create(doc);
+      await client
+        .patch(currentUser.uid)
+        .set({ locality, city, state, mobileNumber })
+        .commit();
+      const formState = {
+        userName: currentUser.name,
+        bookName: title,
+        bookPrice: price,
+        userEmail: currentUser.email,
       };
-      client
-        .create(doc)
-        .then((data) => {
-          // upadateuser
 
-          client
-            .patch(currentUser.uid
-)
-            .set({ locality, city, state, mobileNumber })
-            .commit()
-            .then(() => console.log("user updated successfull"));
-
-          //sendemail
-          const formState = {userName : currentUser.name ,bookName : title,bookPrice : price,userEmail : currentUser.email}
-          
-          sendEmail(formState)
-          setLoading(false);
-          navigate("/ads");
-        })
-        .catch((err) => console.log("post error", err));
+      sendEmail(formState);
+      resetListing();
+      navigate("/ads");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleBackward = () => {
+    if (isContactInfo) {
+      setIsContactInfo(false);
+      return;
+    } else if (isOptionalDetails) {
+      setOptionalDetails(false);
+      return;
+    } else if (isPrimaryDetails) {
+      setPrimaryDetails(false);
+    }
+  };
+  const handleForward = () => {
+    if (!isPrimaryDetails) {
+      if (!title || !description || !price || !mrp || !subject || !image) {
+        return setError(true);
+      }
+      setPrimaryDetails(true);
+      return setError(false);
+    } else if (!isOptionalDetails) {
+      setOptionalDetails(true);
+      return;
+    } else {
+      if (!locality || !city || !state || (check && !mobileNumber)) {
+        return setError(true);
+      }
+      handleSubmit();
+      return setError(false);
     }
   };
 
-  
-
-  if (loading) return <Spinner />;
   return (
     <>
-      <PageHeader pathname={"Details"} />
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+        
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <PageHeader
+        pathname={
+          !isPrimaryDetails && !isOptionalDetails
+            ? "Include Some Details"
+            : isPrimaryDetails && !isOptionalDetails
+            ? "Include optional details"
+            : "Include contact Details"
+        }
+      />
       <div className="p-5 mb-28 flex  flex-col justify-center items-center">
-        <div className="title">
-          <p className="text-2xl font-bold mb-8">New Listing</p>
-        </div>
-        <div className="form-continer flex flex-col">
-          <form action="post">
-            <NewListingImage
-              uploadImage={uploadImage}
-              imageAsset={imageAsset}
-              setImageAsset={setImageAsset}
-            />
-            <NewListingInputs listing={listing} handleChange={handleChange} />
-            {primaryDetails && (
+        <div className="form-continer flex flex-col w-full">
+          <form action="post" className="w-full">
+            {!isPrimaryDetails && !isOptionalDetails && (
+              <>
+                <NewListingImage />
+                <PrimaryInputs />
+              </>
+            )}
+            {isPrimaryDetails && !isOptionalDetails && (
+              <>
+                <SelectClass />
+                <SelectBoard />
+                <SelectCondition />
+                <SelectYear />
+                <SelectPublisher />
+              </>
+            )}
+            {isOptionalDetails && (
               <ContactUser
                 listing={listing}
                 user={userinfo}
@@ -271,12 +238,30 @@ const Create = () => {
               {errorMessage}
             </p>
           )}
-          <div className="save-listing flex justify-end items-center">
+          <div
+            className={`save-listing flex  items-center my-4 ${
+              isPrimaryDetails ? "justify-between" : "justify-end"
+            }`}
+          >
+            {isPrimaryDetails && (
+              <button
+                onClick={handleBackward}
+                className="flex gap-1 items-center py-2 px-4 border-2 border-black rounded-full font-bold"
+              >
+                <ArrowBack fontSize="small" />
+                Back
+              </button>
+            )}
             <button
-              onClick={handleSubmit}
-              className="bg-blue-700 text-white font-bold p-3 rounded-full w-28"
+              onClick={handleForward}
+              className="bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 border-2 rounded-full flex gap-1 items-center"
             >
-              {btn}
+              {!isPrimaryDetails && !isOptionalDetails
+                ? "Next"
+                : isPrimaryDetails && !isOptionalDetails
+                ? "Skip"
+                : "Post"}
+              <ArrowForward fontSize="small" />
             </button>
           </div>
         </div>

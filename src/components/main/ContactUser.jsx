@@ -4,19 +4,21 @@ import { userQuery } from "./data";
 import { client } from "./client";
 import Spinner from "../header/Spinner";
 import { useAuth } from "../Contexts/UserContext";
+import { useListing } from "../Contexts/ListingContext";
 
 const ContactUser = ({
-  listing,
+ 
   handleCheck,
-  handleChange,
+  
   check,
-  setListing,
+  
 }) => {
   const { currentUser } = useAuth();
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const {listing, setListing,loading,setLoading , handleChange, error} = useListing()
 
   useEffect(() => {
+    setLoading(true)
     const query = userQuery(currentUser?.uid
 );
     client
@@ -38,9 +40,9 @@ const ContactUser = ({
           };
         });
       });
+      setLoading(false)
   }, []);
 
-  if (loading) return <Spinner />;
 
   return (
     <>
@@ -54,6 +56,8 @@ const ContactUser = ({
           value={listing.locality}
           onChange={handleChange}
           fullWidth
+          error={!listing.locality && error}
+
         />
         <TextField
           name="city"
@@ -63,6 +67,8 @@ const ContactUser = ({
           value={listing.city}
           onChange={handleChange}
           fullWidth
+          error={!listing.city && error}
+
         />
         <TextField
           name="state"
@@ -72,6 +78,8 @@ const ContactUser = ({
           value={listing.state}
           onChange={handleChange}
           fullWidth
+          error={!listing.state && error}
+
         />
         <div className="mobilenumber flex items-center font-semibold">
           <Checkbox
@@ -90,6 +98,8 @@ const ContactUser = ({
             value={listing.mobileNumber}
             onChange={handleChange}
             fullWidth
+            error={!listing.mobileNumber && error}
+
           />
         )}
       </div>

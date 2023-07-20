@@ -13,27 +13,33 @@ const sitemap = () => {
 
 
 <url>
-  <loc>https://edulisting.ml/</loc>
+  <loc>https://edulisitng.in
+/</loc>
   <lastmod>2023-03-15T16:59:20+00:00</lastmod>
 </url>
 <url>
-  <loc>https://edulisting.ml/allchats</loc>
+  <loc>https://edulisitng.in
+/allchats</loc>
   <lastmod>2023-03-15T16:59:20+00:00</lastmod>
 </url>
 <url>
-  <loc>https://edulisting.ml/profile</loc>
+  <loc>https://edulisitng.in
+/profile</loc>
   <lastmod>2023-03-15T16:59:20+00:00</lastmod>
 </url>
 <url>
-  <loc>https://edulisting.ml/sell</loc>
+  <loc>https://edulisitng.in
+/sell</loc>
   <lastmod>2023-03-15T16:59:20+00:00</lastmod>
 </url>
 <url>
-  <loc>https://edulisting.ml/login</loc>
+  <loc>https://edulisitng.in
+/login</loc>
   <lastmod>2023-03-15T16:59:20+00:00</lastmod>
 </url>
 <url>
-  <loc>https://edulisting.ml/ads</loc>
+  <loc>https://edulisitng.in
+/ads</loc>
   <lastmod>2023-03-15T16:59:20+00:00</lastmod>
 </url>
 

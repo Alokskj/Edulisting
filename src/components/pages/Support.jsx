@@ -46,7 +46,8 @@ const Support = () => {
         <RWebShare
         data={{
           text: "I'm using Edulisting, buying and selling books there is much easier and profitable:",
-          url: `https://www.edulisting.ml`,
+          url: `https://www.edulisitng.in
+`,
           title: `${currentUser?.name} - Edulisting`,
         }}
         onClick={() => console.log("shared successfully!")}

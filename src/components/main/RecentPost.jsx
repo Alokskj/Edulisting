@@ -89,7 +89,7 @@ const RecentPost = () => {
           next={handleLimit}
           hasMore={more}
           loader={<>
-          <div className="posts justify-center  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 z-0   md:m-4 gap-4">
+          <div className="posts justify-center my-4   grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 z-0   md:m-4 gap-4">
         <PlaceholderCard />
         <PlaceholderCard />
         
@@ -97,7 +97,7 @@ const RecentPost = () => {
           </>}
           
         >
-          <div className="posts justify-center  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4   md:m-4 gap-4">
+          <div className="posts justify-center   grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4   md:m-4 gap-4">
           {postData &&
           postData.map((post, index) => {
             return (
