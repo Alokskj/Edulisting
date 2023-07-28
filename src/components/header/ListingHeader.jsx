@@ -8,13 +8,13 @@ const ListingHeader = ({id, title , description  }) => {
     const navigate = useNavigate()
     
   return (
-    <div id='header' className="header-container flex justify-center shadow-xl">
+    <div id='header' className="header-container  flex justify-center shadow-xl">
     <header className='flex justify-between px-4 py-4 items-center container '>
        <Link to="/" > <div  className="logo capitalize cursor-pointer poppins text-3xl font-bold"><p>edulisting</p></div></Link>
        <RWebShare
         data={{
           text: `${title} : ${description}`,
-          url: `https://www.edulisitng.in
+          url: `https://www.edulisting.in
 /listings/${id}`,
           title: `${title} - Edulisting`,
         }}

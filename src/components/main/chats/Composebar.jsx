@@ -131,15 +131,17 @@ const Composebar = () => {
     const getOtherUser = await getDoc(doc(db, 'users', data.user.uid))
     if(getOtherUser.exists()){
         const otherUser = getOtherUser.data()
-        const isUserOnline = otherUser.isOnline
-        const notification = notificationPayload(otherUser.displayName)
-        if(!isUserOnline){
+        
+        const notification = notificationPayload(currentUser.displayName)
+        
+        
             console.log(otherUser.token)
             otherUser.token.map((t)=>{
                 sendPushNotification(t, notification)
                 
             })
-        }
+          
+        
     }
     
 

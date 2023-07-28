@@ -90,7 +90,7 @@ const User = () => {
           <RWebShare
             data={{
               text: `Check out ${user?.userName}'s profile on Edulisting`,
-              url: `https://edulisitng.in
+              url: `https://edulisting.in
 /user/${user?._id}`,
               title: `${user?.userName} - Edulisting`,
             }}

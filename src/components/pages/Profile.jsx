@@ -11,6 +11,7 @@ import { Avatar } from '@mui/material';
 import FeatureWidget from '../main/FeatureWidget';
 import {  useAuth } from '../Contexts/UserContext';
 
+
 const Profile = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null)
@@ -36,9 +37,6 @@ const Profile = () => {
     })
   },[])
 
- 
-
- 
   if(loading) return <Spinner />
 
   return (
@@ -82,7 +80,7 @@ const Profile = () => {
         <RWebShare
         data={{
           text: "Follow me on Edulisting to see my new listings! ",
-          url: `https://edulisitng.in
+          url: `https://edulisting.in
 /user/${user?._id}`,
           title: `${user?.userName} - Edulisting`,
         }}

@@ -20,8 +20,8 @@ const MessageMenu = ({
         <ClickAwayListener onClickAway={handleClickAway}>
             <div
                 ref={ref}
-                className={`w-[200px] absolute bg-neutral-50 shadow-xl z-10 rounded-md overflow-hidden top-8 ${
-                    self ? "right-0" : "left-0"
+                className={`w-[200px] absolute bg-neutral-50 shadow-xl z-10 rounded-md overflow-hidden top-10 ${
+                    self ? "right-1/2" : "left-0"
                 }`}
             >
                 <ul className="flex flex-col ">

@@ -62,6 +62,7 @@ const ChatFooter = () => {
             <div className="shrink-0">
                 <input
                     type="file"
+                    accept="image/*"
                     id="fileUploader"
                     className="hidden"
                     onChange={onFileChange}

@@ -16,11 +16,12 @@ const SelectPublisher = () => {
         <FormControl fullWidth margin="normal">
           
           <TextField
-            label="Year of Publication"
+            label="Publisher"
             value={listing.publisher}
             onChange={handleChange}
-            type="number"
+            type="text"
             name="publisher"
+            fullWidth
             
             
             

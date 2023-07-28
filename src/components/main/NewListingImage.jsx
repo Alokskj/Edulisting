@@ -41,7 +41,7 @@ const NewListingImage = () => {
                         <p className="text-lg">Click to upload image</p>
                       </div>
                       <p className="mt-3 text-xs text-gray-400">
-                        Only use JPG, SVG, PNG, GIF or JPEG
+                        Only use JPG, SVG, PNG or JPEG
                       </p>
                     </div>
                     <input

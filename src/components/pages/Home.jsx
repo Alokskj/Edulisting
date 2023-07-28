@@ -6,25 +6,14 @@ import Category from "../header/Category";
 import Hero from "../main/Hero";
 
 import OneTapLogin from "../utilities/OneTapLogin";
-import { useEffect } from "react";
-import { useAuth } from "../Contexts/UserContext";
-import { getNotificationPermission } from "../utilities/getNotificationPermission";
+import getNotificationPermission from "../utilities/getNotificationPermission";
 
 const Home = () => {
-   const {currentUser} = useAuth()
-    useEffect(()=>{
-        if(currentUser){
-      getNotificationPermission(currentUser.uid)
-
-        }
-    },[currentUser])
-      
-    
-  
+  getNotificationPermission();
 
   return (
     <>
-    <OneTapLogin/>
+      <OneTapLogin />
       <div className="hidden  lg:block">
         <Category />
         <Hero />

@@ -14,3 +14,4 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+

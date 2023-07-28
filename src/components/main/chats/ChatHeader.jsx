@@ -6,12 +6,35 @@ import { IoEllipsisVerticalSharp } from "react-icons/io5";
 import ChatMenu from "./ChatMenu";
 import { Avatar } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import { off, onValue, ref } from "firebase/database";
+import { database } from "../../utilities/firebase";
+import { useEffect } from "react";
 
 const ChatHeader = () => {
+    const [isOnline, setIsOnline] = useState(false)
   const navigate = useNavigate()
     const [showMenu, setShowMenu] = useState(false);
     const { users, data } = useChatContext();
-    const online = users[data.user.uid]?.isOnline;
+    
+    
+    useEffect(() => {
+        // Attach the onValue listener when the component mounts
+        const presenceRef = ref(database, `connections/${data.user.uid}`);
+        const presenceListener = onValue(presenceRef, (snapshot) => {
+          const userStatus = snapshot.val();
+          if(!userStatus){
+            console.log('user connection not found')
+          }
+          setIsOnline(userStatus === true);
+        });
+    
+        // Detach the onValue listener when the component unmounts
+        return () => {
+          off(presenceRef, "value", presenceListener);
+        };
+      }, [data.user.uid]);
+      
+    
    
     return (
         <div className="flex justify-between fixed top-0 w-full bg-white z-20 items-center p-4 border-b border-white/[0.05]">
@@ -24,17 +47,17 @@ const ChatHeader = () => {
               >
                 <ArrowBackIcon />
               </div>
-              <Link to={`../user/${data.user.uid}`}>
+              <Link to={`../user/${users[data.user.uid].uid}`}>
                 <div className="flex items-center gap-3">
                     <Avatar
-                            alt={data.user.displayName}
-                            src={data.user.photoURL}
+                            alt={users[data.user.uid].displayName}
+                            src={users[data.user.uid].photoURL}
                             sx={{ width: 40, height: 40 }}
                           />
                     <div>
-                        <div className="font-medium">{data.user.displayName}</div>
+                        <div className="font-medium">{users[data.user.uid].displayName}</div>
                         <p className="text-sm text-c3">
-                            {online ? "Online" : "Offline"}
+                            {isOnline ? "Online" : "Offline"}
                         </p>
                     </div>
                 </div>

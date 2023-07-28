@@ -65,8 +65,10 @@ const Message = ({ message }) => {
     };
    
     return (
-        <div className={`mb-5 max-w-[75%] ${self ? "self-end" : ""}`}>
+        <div className={`mb-5 max-w-[75%] relative ${self ? "self-end" : ""}`}>
             {showDeletePopup && (
+                
+
                 <DeleteMsgPopup
                     onHide={() => setShowDeletePopup(false)}
                     className="DeleteMsgPopup"
@@ -74,7 +76,8 @@ const Message = ({ message }) => {
                     shortHeight={true}
                     self={self}
                     deleteMesasge={deleteMesasge}
-                />
+                    />
+                    
             )}
             <div
                 className={`flex items-end gap-3 mb-1 ${
@@ -133,28 +136,31 @@ const Message = ({ message }) => {
                     <div
                         className={`${
                             showMenu ? "" : "hidden"
-                        } group-hover:flex absolute top-2 ${
+                        } group-hover:flex absolute rounded-full top-2 ${
                             self ? "left-2 bg-blue-500 " : "right-2 bg-c1"
                         }`}
                         onClick={() => setShowMenu(true)}
                     >
                         <Icon
                             size="medium"
-                            className="hover:bg-inherit rounded-none"
+                            className="hover:bg-inherit  "
                             icon={
                                 <GoChevronDown size={24} className="text-white" />
                             }
                         />
+                    </div>
                         {showMenu && (
+                            <div className="   ">
+
                             <MessageMenu
                                 self={self}
                                 setShowMenu={setShowMenu}
                                 showMenu={showMenu}
                                 deletePopupHandler={deletePopupHandler}
                                 setEditMsg={() => setEditMsg(message)}
-                            />
+                                />
+                                </div>
                         )}
-                    </div>
                 </div>
             </div>
             <div

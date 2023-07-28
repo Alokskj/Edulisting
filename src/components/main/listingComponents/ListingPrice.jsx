@@ -16,8 +16,8 @@ const ListingPrice = ({queryPost, address}) => {
                 <RWebShare
         data={{
           text: "I've found this amazing book on #Edulisting. What to you think? ",
-          url: `https://edulisitng.in
-/listing/${queryPost._id}`,
+          url: `https://edulisting.in
+/listings/${queryPost._id}`,
           title: `${queryPost.title} - Edulisting`,
         }}
         onClick={() => console.log("shared successfully!")}
@@ -32,7 +32,7 @@ const ListingPrice = ({queryPost, address}) => {
               </div>
             </div>
             <div className="title text-lg pr-2">
-              <p>{queryPost.title}</p>
+              <h1>{queryPost.title}</h1>
             </div>
           </div>
           <div className="address-date flex justify-between capitalize">

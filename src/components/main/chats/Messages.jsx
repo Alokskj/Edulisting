@@ -10,6 +10,7 @@ import { useChatContext } from "../../Contexts/ChatContext";
 import { db } from "../../utilities/firebase";
 import { useLayoutEffect } from "react";
 import { readChat } from "../../pages/AllChats";
+import { getConnectivity } from "../../utilities/presence";
 
 const Messages = () => {
     const [messages, setMessages] = useState([]);
@@ -17,7 +18,7 @@ const Messages = () => {
     const ref = useRef();
     const messagesEndRef = useRef();
     const { currentUser } = useAuth();
-
+    
     useLayoutEffect(() => {
         const unsub = onSnapshot(doc(db, "chats", data.chatId), (doc) => {
             if (doc.exists()) {
@@ -26,6 +27,7 @@ const Messages = () => {
             }
             
         });
+        
         return () => unsub();
     }, [data.chatId]);
     useEffect(()=>{

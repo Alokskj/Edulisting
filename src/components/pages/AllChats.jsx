@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import animationData from "../lotties/notfound.json";
-import { client } from "../main/client";
+
 import AllChatsWidget from "../main/chats/AllChatsWidget";
 import Spinner from "../header/Spinner";
 import { useAuth } from "../Contexts/UserContext";
@@ -10,6 +10,7 @@ import { db } from "../utilities/firebase";
 import { useNavigate } from "react-router-dom";
 import { useChatContext } from "../Contexts/ChatContext";
 import { formateDate } from "../utilities/helpers";
+
 export const readChat = async (chatId) => {
   const chatRef = doc(db, "chats", chatId);
   const chatDoc = await getDoc(chatRef);
@@ -39,7 +40,6 @@ const AllChats = () => {
   } = useChatContext();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
- 
   const { currentUser } = useAuth();
   useEffect(()=>{
     dispatch({ type: "EMPTY" })
@@ -105,6 +105,7 @@ const AllChats = () => {
 
 
 
+
 const handleSelect = async (user, selectedChatId) => {
   
   if(user.userInfo?.uid){
@@ -120,7 +121,7 @@ const handleSelect = async (user, selectedChatId) => {
   const filteredChats = Object.entries(chats || {}).filter(([, chat]) => !chat.hasOwnProperty("chatDeleted")).sort(
     (a, b) => b[1].date - a[1].date
   );
-
+  
   if (loading || !chats) return <Spinner />;
   if (filteredChats.length === 0)
     return (
@@ -134,9 +135,9 @@ const handleSelect = async (user, selectedChatId) => {
 
   return (
     <>
-      <div className="allchats-container flex flex-col justify-center lg:items-center">
+      <div className="allchats-container mb-28 flex flex-col justify-center lg:items-center">
         <div className="chat-title px-8 font-semibold">
-          <p className=" text-2xl">Chats</p>
+          <h1 className=" text-2xl">Chats</h1>
         </div>
         <div className="chats">
           {Object.keys(users || {}).length > 0 &&

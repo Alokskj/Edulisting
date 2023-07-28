@@ -7,6 +7,7 @@ import ChatFooter from "../main/chats/ChatFooter";
 import ChatHeader from "../main/chats/ChatHeader";
 import Messages from "../main/chats/Messages";
 import Spinner from "../header/Spinner";
+import { getConnectivity } from "../utilities/presence";
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Chat = () => {
   useEffect(() => {
     resetFooterStates();
     if (data && currentUser && users) {
+      
       const isUserBlocked = users[currentUser?.uid]?.blockedUsers?.find(
         (u) => u === data?.user?.uid
         );
@@ -36,7 +38,7 @@ const Chat = () => {
       navigate("/allchats");
 
     }
-  }, [data, currentUser,]);
+  }, [data, currentUser,users]);
 
 
   if (loading) return <Spinner />;

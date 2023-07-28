@@ -7,7 +7,6 @@ import PlaceholderListing from "../main/PlaceholderListing";
 
 import { useAuth } from "../Contexts/UserContext";
 import {
-  
   deleteField,
   doc,
   getDoc,
@@ -23,6 +22,7 @@ import ListingPrice from "../main/listingComponents/ListingPrice";
 import ListingRelatedPost from "../main/listingComponents/ListingRelatedPost";
 import ListingOwner from "../main/listingComponents/ListingOwner";
 import ListingMap from "../main/listingComponents/ListingMap";
+import { Adsense } from "@ctrl/react-adsense";
 
 const Listing = () => {
   const { dispatch, data } = useChatContext();
@@ -155,6 +155,8 @@ const Listing = () => {
           <ListingImage queryPost={queryPost} queryUser={queryUser} />
           <ListingDetails queryPost={queryPost} queryUser={queryUser} />
           <ListingRelatedPost queryPost={queryPost} queryUser={queryUser} />
+          <Adsense client="ca-pub-5046319178676899" slot="8217513432" style={{ display: 'block' }} />
+
         </div>
         <div className="right w-full lg:w-1/3 flex flex-col gap-2">
           <ListingPrice
@@ -168,11 +170,13 @@ const Listing = () => {
             currentUser={currentUser}
             handleMessage={handleMessage}
           />
+          
           <ListingMap
             queryPost={queryPost}
             queryUser={queryUser}
             address={address}
           />
+          <Adsense client="ca-pub-5046319178676899" slot="9801493192" style={{ display: 'block' }} />
         </div>
       </div>
       <div className="mobilecontainer md:hidden flex flex-col justify-center gap-2 items-center p-1 pb-24">
@@ -182,6 +186,8 @@ const Listing = () => {
           queryUser={queryUser}
           address={address}
         />
+          <Adsense client="ca-pub-5046319178676899" slot="9801493192" style={{ display: 'block' }} />
+
         <ListingOwner
           queryPost={queryPost}
           queryUser={queryUser}
@@ -190,6 +196,8 @@ const Listing = () => {
         />
         <ListingDetails queryPost={queryPost} queryUser={queryUser} />
         <ListingRelatedPost queryPost={queryPost} queryUser={queryUser} />
+        <Adsense client="ca-pub-5046319178676899" slot="9801493192" style={{ display: 'block' }} />
+         
         <ListingMap
           queryPost={queryPost}
           queryUser={queryUser}

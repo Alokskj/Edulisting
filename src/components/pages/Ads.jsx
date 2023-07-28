@@ -52,7 +52,7 @@ const Ads = () => {
   return(
     <>
     <div className='mb-28'>
-      <div className="title mx-5 my-2 font-semibold text-2xl ">{Ads.length !== 0 && "My Ads"}</div>
+      <div className="title mx-5 my-2 font-semibold text-2xl "><h1>{Ads.length !== 0 && "My Ads"}</h1></div>
       <div className="ads grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3  md:m-4 gap-4">
         {Ads.length === 0 && 
         <div className="flex absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex-col justify-center items-center w-full ">

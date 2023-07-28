@@ -205,7 +205,7 @@ const Create = () => {
         }
       />
       <div className="p-5 mb-28 flex  flex-col justify-center items-center">
-        <div className="form-continer flex flex-col w-full">
+        <div className="form-continer flex flex-col w-full md:w-3/5 lg:w-3/6 justify-center items-center">
           <form action="post" className="w-full">
             {!isPrimaryDetails && !isOptionalDetails && (
               <>
@@ -233,13 +233,8 @@ const Create = () => {
               />
             )}
           </form>
-          {!filled && (
-            <p className="my-2 text-red-500 font-bold capitalize transition-all ease-in">
-              {errorMessage}
-            </p>
-          )}
           <div
-            className={`save-listing flex  items-center my-4 ${
+            className={`save-listing flex w-full  items-center my-4 ${
               isPrimaryDetails ? "justify-between" : "justify-end"
             }`}
           >

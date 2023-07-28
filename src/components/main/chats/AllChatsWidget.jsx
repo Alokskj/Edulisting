@@ -5,16 +5,36 @@ import { useNavigate, Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import { useChatContext } from "../../Contexts/ChatContext";
 import DeleteMsgMenu from "./DeleteMsgMenu";
+import { useEffect } from "react";
+import { off, onValue, ref } from "firebase/database";
+import { database } from "../../utilities/firebase";
 const AllChatsWidget = ({ chat, date, handleSelect, unreadMsgs }) => {
   const navigate = useNavigate();
   const { dispatch } = useChatContext();
   const [deleteWidget, setDeleteWidget] = useState(false);
+  const [isOnline, setIsOnline] = useState(false)
 
   function handleclick() {
     dispatch({ type: "CHANGE_USER", payload: chat[1] });
     deleteWidget ? setDeleteWidget(false) : setDeleteWidget(true);
   }
+  useEffect(() => {
+    // Attach the onValue listener when the component mounts
+    const presenceRef = ref(database, `connections/${chat[1]?.userInfo?.uid}`);
+    const presenceListener = onValue(presenceRef, (snapshot) => {
+      const userStatus = snapshot.val();
+      if(!userStatus){
+        console.log('user connection not found')
+      }
+      setIsOnline(userStatus === true);
+    });
 
+    // Detach the onValue listener when the component unmounts
+    return () => {
+      off(presenceRef, "value", presenceListener);
+    };
+  }, [chat[1]?.userInfo?.uid]);
+  
   return (
     <div className="px-6 flex justify-center">
       <div className="container   flex justify-between items-center w-full px-1 lg:w-[50vw] h-24 border-b-2">
@@ -38,7 +58,7 @@ const AllChatsWidget = ({ chat, date, handleSelect, unreadMsgs }) => {
                     sx={{ width: 28, height: 28 }}
                   />
                 </Link>
-                {chat[1]?.userInfo.isOnline && (
+                {isOnline === true && (
                   <div className="online bg-green-500 h-2.5 w-2.5 rounded-full absolute bottom-0 -right-1"></div>
                 )}
               </div>

@@ -37,7 +37,7 @@ const Support = () => {
           icon={< SupportAgentIcon/>}
           title={"Contact Us"}
           subtitle={"Click here to contact"}
-          link="mailto:contact@alokskj.gq"
+          link="mailto:support@edulisting.in"
           />
          
         </div>
@@ -46,7 +46,7 @@ const Support = () => {
         <RWebShare
         data={{
           text: "I'm using Edulisting, buying and selling books there is much easier and profitable:",
-          url: `https://www.edulisitng.in
+          url: `https://www.edulisting.in
 `,
           title: `${currentUser?.name} - Edulisting`,
         }}

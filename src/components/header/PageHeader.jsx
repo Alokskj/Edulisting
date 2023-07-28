@@ -14,7 +14,7 @@ const PageHeader = ({pathname}) => {
           <ArrowBackIcon />
         </div>
         <div className="setting-title capitalize font-semibold text-xl">
-          <p>{pathname}</p>
+          <h1>{pathname}</h1>
         </div>
       </div>
   )

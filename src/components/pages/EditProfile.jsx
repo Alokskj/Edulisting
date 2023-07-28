@@ -114,6 +114,7 @@ const EditProfile = () => {
                     <EditIcon sx={{ width: 25, height: 25 }}/>
                     <input
                       type="file"
+                      accept="image/*"
                       name="upload-image"
                       onChange={uploadImage}
                       id="image"
