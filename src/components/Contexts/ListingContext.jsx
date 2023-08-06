@@ -1,7 +1,9 @@
 import { createContext, useContext, useState } from "react";
+import { useAuth } from "./UserContext";
 
 export const ListingContext = createContext();
 export const ListingProvider = ({ children }) => {
+ 
   const [listing, setListing] = useState({
     title: "",
     description: "",
@@ -33,7 +35,8 @@ export const ListingProvider = ({ children }) => {
       };
     });
   }
-  function resetListing(){
+  
+  function resetListing() {
     setListing({
       title: "",
       description: "",
@@ -49,12 +52,12 @@ export const ListingProvider = ({ children }) => {
       condition: "",
       edition: "",
       publisher: "",
-    })
-    setPrimaryDetails(false)
-    setOptionalDetails(false)
-    setError(false)
-    setLoading(false)
-    setImage(null)
+    });
+    setPrimaryDetails(false);
+    setOptionalDetails(false);
+    setError(false);
+    setLoading(false);
+    setImage(null);
   }
   return (
     <ListingContext.Provider

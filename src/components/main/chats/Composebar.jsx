@@ -35,7 +35,7 @@ const Composebar = () => {
   useEffect(() => {
     setInputText(editMsg?.text || "");
   }, [editMsg]);
-
+  const isMobileOrSmallDevice = window.innerWidth < 768;
   const handleTyping = async (e) => {
     setInputText(e.target.value);
     await updateDoc(doc(db, "chats", data.chatId), {
@@ -116,7 +116,7 @@ const Composebar = () => {
     if (attachment) {
       msg.img = true;
     }
-    
+
     await updateDoc(doc(db, "userChats", currentUser.uid), {
       [data.chatId + ".lastMessage"]: msg,
       [data.chatId + ".date"]: serverTimestamp(),
@@ -127,23 +127,13 @@ const Composebar = () => {
       [data.chatId + ".date"]: serverTimestamp(),
       [data.chatId + ".chatDeleted"]: deleteField(),
     });
-    // send push notification to user 
-    const getOtherUser = await getDoc(doc(db, 'users', data.user.uid))
-    if(getOtherUser.exists()){
-        const otherUser = getOtherUser.data()
-        
-        const notification = notificationPayload(currentUser.displayName)
-        
-        
-            console.log(otherUser.token)
-            otherUser.token.map((t)=>{
-                sendPushNotification(t, notification)
-                
-            })
-          
-        
+    // send push notification to user
+    const getOtherUser = await getDoc(doc(db, "users", data.user.uid));
+    if (getOtherUser.exists()) {
+      const otherUser = getOtherUser.data();
+      const notification = notificationPayload(currentUser.displayName);
+      sendPushNotification(otherUser.token, notification);
     }
-    
 
     setInputText("");
     setAttachment(null);
@@ -214,6 +204,8 @@ const Composebar = () => {
   return (
     <div className="flex items-center  gap-2 grow">
       <input
+       id="chatInput"
+        autoFocus={!isMobileOrSmallDevice}
         type="text"
         className="grow w-full outline-0 px-2 py-2  text-c3 bg-transparent placeholder:text-c3 outline-none text-base"
         placeholder="Type a message"

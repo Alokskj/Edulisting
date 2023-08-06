@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { listingQuery, userQuery } from "../main/data";
-import { client } from "../main/cdnClient";
+import { client, urlFor } from "../main/cdnClient";
 
 import PlaceholderListing from "../main/PlaceholderListing";
 
@@ -23,6 +23,9 @@ import ListingRelatedPost from "../main/listingComponents/ListingRelatedPost";
 import ListingOwner from "../main/listingComponents/ListingOwner";
 import ListingMap from "../main/listingComponents/ListingMap";
 import { Adsense } from "@ctrl/react-adsense";
+import { SkeletonTheme } from "react-loading-skeleton";
+import { Helmet } from "react-helmet-async";
+import Spinner from "../header/Spinner";
 
 const Listing = () => {
   const { dispatch, data } = useChatContext();
@@ -70,6 +73,7 @@ const Listing = () => {
         uid: queryPost._id,
         listingName: queryPost.title,
         photUrl: queryPost?.image.asset.url,
+        mobileNumber: queryPost.mobileNumber,
       },
     };
 
@@ -107,6 +111,7 @@ const Listing = () => {
             uid: queryPost._id,
             listingName: queryPost.title,
             photUrl: queryPost?.image.asset.url,
+            mobileNumber: queryPost.mobileNumber,
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
@@ -140,70 +145,86 @@ const Listing = () => {
     }
   }
 
-  if (loading || !queryUser)
-    return (
-      <div className="z-0">
-        <PlaceholderListing />
-      </div>
-    );
+  
+  if (queryPost) {
+    var address = `${queryPost?.locality}, ${queryPost?.city}, ${queryPost?.state}`;
+  }
+  
 
-  const address = `${queryPost?.locality}, ${queryPost?.city}, ${queryPost?.state}`;
   return (
     <>
-      <div className="container hidden md:flex flex-col mx-auto md:flex-row justify-center gap-4 items-start px-2 md:px-16 lg:px-24 xl:px-40 mb-20">
-        <div className="left w-full lg:w-2/3 flex flex-col gap-2">
-          <ListingImage queryPost={queryPost} queryUser={queryUser} />
-          <ListingDetails queryPost={queryPost} queryUser={queryUser} />
-          <ListingRelatedPost queryPost={queryPost} queryUser={queryUser} />
-          <Adsense client="ca-pub-5046319178676899" slot="8217513432" style={{ display: 'block' }} />
+      <SkeletonTheme baseColor="#e5e7eb" highlightColor="#f3f4f6">
+        
+        <div className="container hidden md:flex flex-col mx-auto md:flex-row justify-center gap-4 items-start px-2 md:px-16 lg:px-24 xl:px-40 mb-20">
+          <div className="left w-full lg:w-2/3 flex flex-col gap-2">
+            <ListingImage queryPost={queryPost} queryUser={queryUser} />
+            <ListingDetails queryPost={queryPost} queryUser={queryUser} />
+            <ListingRelatedPost queryPost={queryPost} queryUser={queryUser} />
+            <Adsense
+              client="ca-pub-5046319178676899"
+              slot="8217513432"
+              style={{ display: "block" }}
+            />
+          </div>
+          <div className="right w-full lg:w-1/3 flex flex-col gap-2">
+            <ListingPrice
+              queryPost={queryPost}
+              queryUser={queryUser}
+              address={address}
+            />
+            <ListingOwner
+              queryPost={queryPost}
+              queryUser={queryUser}
+              currentUser={currentUser}
+              handleMessage={handleMessage}
+            />
 
+            {/* <ListingMap
+            queryPost={queryPost}
+            queryUser={queryUser}
+            address={address}
+          /> */}
+            <Adsense
+              client="ca-pub-5046319178676899"
+              slot="9801493192"
+              style={{ display: "block" }}
+            />
+          </div>
         </div>
-        <div className="right w-full lg:w-1/3 flex flex-col gap-2">
+        <div className="mobilecontainer md:hidden flex flex-col justify-center gap-2 items-center p-1 pb-24">
+          <ListingImage queryPost={queryPost} queryUser={queryUser} />
           <ListingPrice
             queryPost={queryPost}
             queryUser={queryUser}
             address={address}
           />
+          <Adsense
+            client="ca-pub-5046319178676899"
+            slot="9801493192"
+            style={{ display: "block" }}
+          />
+
           <ListingOwner
             queryPost={queryPost}
             queryUser={queryUser}
             currentUser={currentUser}
             handleMessage={handleMessage}
           />
-          
-          <ListingMap
-            queryPost={queryPost}
-            queryUser={queryUser}
-            address={address}
+          <ListingDetails queryPost={queryPost} queryUser={queryUser} />
+          <ListingRelatedPost queryPost={queryPost} queryUser={queryUser} />
+          <Adsense
+            client="ca-pub-5046319178676899"
+            slot="9801493192"
+            style={{ display: "block" }}
           />
-          <Adsense client="ca-pub-5046319178676899" slot="9801493192" style={{ display: 'block' }} />
-        </div>
-      </div>
-      <div className="mobilecontainer md:hidden flex flex-col justify-center gap-2 items-center p-1 pb-24">
-        <ListingImage queryPost={queryPost} queryUser={queryUser} />
-        <ListingPrice
-          queryPost={queryPost}
-          queryUser={queryUser}
-          address={address}
-        />
-          <Adsense client="ca-pub-5046319178676899" slot="9801493192" style={{ display: 'block' }} />
 
-        <ListingOwner
-          queryPost={queryPost}
-          queryUser={queryUser}
-          currentUser={currentUser}
-          handleMessage={handleMessage}
-        />
-        <ListingDetails queryPost={queryPost} queryUser={queryUser} />
-        <ListingRelatedPost queryPost={queryPost} queryUser={queryUser} />
-        <Adsense client="ca-pub-5046319178676899" slot="9801493192" style={{ display: 'block' }} />
-         
-        <ListingMap
+          {/* <ListingMap
           queryPost={queryPost}
           queryUser={queryUser}
           address={address}
-        />
-      </div>
+        /> */}
+        </div>
+      </SkeletonTheme>
     </>
   );
 };

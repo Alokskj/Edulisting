@@ -18,6 +18,8 @@ import Spinner from "../header/Spinner";
 import { useAuth} from "../Contexts/UserContext";
 
 import { auth } from "../utilities/firebase";
+import { Helmet } from "react-helmet-async";
+import { useListing } from "../Contexts/ListingContext";
 
 const Setting = () => {
   
@@ -27,7 +29,7 @@ const Setting = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const {currentUser, signOut} = useAuth()
-
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -89,6 +91,10 @@ const Setting = () => {
   if (loading) return <Spinner />;
   return (
     <>
+    <Helmet>
+          <title>Settings</title>
+          
+    </Helmet>
       <div className="setting-header  border-b-2 p-4 space-x-4 items-center flex justify-start">
         <div
           onClick={() => navigate(-1)}
@@ -126,14 +132,14 @@ const Setting = () => {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={signOut} autoFocus>
+              <Button onClick={()=> { signOut()}} autoFocus>
                 Logout
               </Button>
             </DialogActions>
           </Dialog>
         </div>
         <Divider />
-        <div className="features  mt-3">
+        {/* <div className="features  mt-3">
           <div className="delte-account mb-3" onClick={handleDeleteOpen}>
             <FeatureWidget
               icon={<PersonRemoveIcon />}
@@ -161,7 +167,7 @@ const Setting = () => {
               </Button>
             </DialogActions>
           </Dialog>
-        </div>
+        </div> */}
       </div>
       </div>
       </div>

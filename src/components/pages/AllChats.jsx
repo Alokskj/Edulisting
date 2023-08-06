@@ -10,6 +10,7 @@ import { db } from "../utilities/firebase";
 import { useNavigate } from "react-router-dom";
 import { useChatContext } from "../Contexts/ChatContext";
 import { formateDate } from "../utilities/helpers";
+import { Helmet } from "react-helmet-async";
 
 export const readChat = async (chatId) => {
   const chatRef = doc(db, "chats", chatId);
@@ -91,6 +92,7 @@ const AllChats = () => {
             }
             Object.keys(msgs || {})?.map((c) => {
                 if (msgs[c]?.length < 1) {
+                  
                     delete msgs[c];
                 }
             });
@@ -135,6 +137,10 @@ const handleSelect = async (user, selectedChatId) => {
 
   return (
     <>
+    <Helmet>
+          <title>Chats</title>
+          
+    </Helmet>
       <div className="allchats-container mb-28 flex flex-col justify-center lg:items-center">
         <div className="chat-title px-8 font-semibold">
           <h1 className=" text-2xl">Chats</h1>

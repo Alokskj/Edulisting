@@ -81,24 +81,8 @@ export const allListings = (from , to) =>{
 }
 export const userListings = (userId) =>{
     const query = `*[_type == "listings" && userId == "${userId}" ] | order(_createdAt desc){
-        _id,
-        title,
-        description,
-        price,
-        slug,
-        locality,
-        listed,
-        city,
-        state,
-        userId,
-        image{
-          asset->{
-              _id,
-              url
-          },
-  
-        },
-        createAt,
+       ...
+        
       }`
       return query
 }

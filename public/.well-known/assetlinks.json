@@ -1,6 +1,8 @@
 [{
   "relation": ["delegate_permission/common.handle_all_urls"],
-  "target" : { "namespace": "android_app", "package_name": "in.edulisting.twa",
-               "sha256_cert_fingerprints": ["75:06:45:F6:EC:FC:56:25:22:12:E8:82:17:AD:AF:8C:FB:B1:FA:82:38:0C:6D:8F:23:71:48:20:F7:6D:66:39"] }
-}
-]
+  "target": {
+    "namespace": "android_app",
+    "package_name": "in.edulisting.twa",
+    "sha256_cert_fingerprints": ["72:9F:D0:66:BC:51:90:8C:BD:DE:DB:13:F6:33:39:9B:B1:9A:96:49:8E:B3:28:14:47:13:F4:C0:23:B0:20:7E"]
+  }
+}]

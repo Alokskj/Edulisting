@@ -10,6 +10,7 @@ import { Avatar, Divider } from "@mui/material";
 import QueryListingWidget from "../main/QueryListingWidget";
 import { v4 } from "uuid";
 import { useAuth } from "../Contexts/UserContext";
+import { Helmet } from "react-helmet-async";
 
 const User = () => {
   const navigate = useNavigate();
@@ -76,6 +77,22 @@ const User = () => {
 
   return (
     <>
+    <Helmet>
+          <title>{user?.userName}'s Profile - Edulisting</title>
+          <meta name="description" content={`Check out ${user?.userName}'s profile on Edulisting`} />
+          <meta property="og:title" content={user?.userName + "'s Profile - Edulisting"} />
+          
+          <meta
+            property="og:description"
+            content={`Check out ${user?.userName}'s profile on Edulisting`}
+          />
+          <meta
+            property="og:image"
+            content={user?.image}
+          />
+          <meta property="og:url" content={window.location.href} />
+          <meta property="og:type" content="website" />
+        </Helmet>
       <div className="header-container">
         <div className="hidden lg:block">
           <Header />

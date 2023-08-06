@@ -20,6 +20,7 @@ import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { Backdrop, CircularProgress } from "@mui/material";
 import SelectPublisher from "../main/createListing/inputs/SelectPublisher";
+import { Helmet } from "react-helmet-async";
 
 const Create = () => {
   const [btn, setBtn] = useState("Next");
@@ -49,6 +50,7 @@ const Create = () => {
     error,
     setError,
     resetListing,
+    
   } = useListing();
   const {
     title,
@@ -67,7 +69,7 @@ const Create = () => {
     publisher,
   } = listing;
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
+  const { currentUser ,setAllListings} = useAuth();
 
   useEffect(() => {
     const query = userQuery(currentUser?.uid);
@@ -151,6 +153,7 @@ const Create = () => {
 
       sendEmail(formState);
       resetListing();
+      setAllListings(null)
       navigate("/ads");
     } catch (error) {
       console.log(error);
@@ -188,6 +191,10 @@ const Create = () => {
 
   return (
     <>
+    <Helmet>
+          <title>Create Listing</title>
+          
+    </Helmet>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
@@ -252,6 +259,8 @@ const Create = () => {
               className="bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 border-2 rounded-full flex gap-1 items-center"
             >
               {!isPrimaryDetails && !isOptionalDetails
+                ? "Next"
+                : listing.standard || listing.board || listing.condition || listing.edition || listing.publisher
                 ? "Next"
                 : isPrimaryDetails && !isOptionalDetails
                 ? "Skip"

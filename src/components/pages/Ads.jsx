@@ -9,6 +9,8 @@ import Spinner from '../header/Spinner';
 import MyListings from '../main/MyListings';
 import { v4 as uuid } from 'uuid';
 import {  useAuth } from '../Contexts/UserContext';
+import { Helmet } from 'react-helmet-async';
+import { useListing } from '../Contexts/ListingContext';
 
 
 
@@ -18,32 +20,41 @@ const Ads = () => {
   const [Ads, setAds] = useState(null)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
-  const {currentUser, isLoading} = useAuth()
+  const {currentUser, isLoading,allListings,setAllListings} = useAuth()
+  
   useEffect(()=>{
+    if(allListings){
+      setAds(allListings)
+      setLoading(false)
+      return
+    }
     const query = userListings(currentUser?.uid
-)
+    )
     client.fetch(query)
     .then((data) => {
       setAds(data);
+      setAllListings(data)
       setLoading(false);
     })
     .catch((error) => {
       console.log('Error fetching listings:', error);
       setLoading(false);
     })
-  },[])
+  },[currentUser])
   async function handleDelete(id) {
     try {
       setAds((prevAds) => prevAds.filter((item) => item._id !== id));
       const chatQuery = `*[_type == "chats" && references("${id}")]`;
       await client.delete({ query: chatQuery });
       await client.delete({ query: `*[_type == "listings" && _id == "${id}" ]` });
+      setAllListings(null)
     } catch (error) {
       console.log('Deleting error:', error);
       // Handle the error as needed (e.g., display an error message, revert the UI changes)
     }
   }
-  if(loading ) return <Spinner />;
+
+  if(loading ) return;
 
   
 
@@ -51,6 +62,10 @@ const Ads = () => {
 
   return(
     <>
+    <Helmet>
+          <title>Listings</title>
+          
+    </Helmet>
     <div className='mb-28'>
       <div className="title mx-5 my-2 font-semibold text-2xl "><h1>{Ads.length !== 0 && "My Ads"}</h1></div>
       <div className="ads grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3  md:m-4 gap-4">
@@ -64,7 +79,7 @@ const Ads = () => {
         </div>
         }
     {Ads.length !== 0 && Ads.map((item, index)=>{
-      return < MyListings userId={item.userId} date={item.createAt} id={item._id} handleDelete={handleDelete} title={item.title} listed={item.listed} price={item.price} image={item.image.asset.url} key={uuid()} />
+      return < MyListings userId={item.userId} date={item.createAt} id={item._id} handleDelete={handleDelete} title={item.title} listed={item.listed} price={item.price} image={item.image} key={uuid()} />
     })}
     </div>
     </div>

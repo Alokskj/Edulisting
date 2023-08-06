@@ -15,8 +15,20 @@ const ChatFooter = () => {
     const [showImojiPicker, setShowImojiPicker] = useState(false);
 
     const onEmojiClick = (emojiData) => {
-        let text = inputText;
-        setInputText((text += emojiData.emoji));
+        const inputElement = document.getElementById("chatInput");
+        const startPos = inputElement.selectionStart;
+        const endPos = inputElement.selectionEnd;
+    
+        const textBeforeCursor = inputText.substring(0, startPos);
+        const textAfterCursor = inputText.substring(endPos);
+        const emoji = emojiData.emoji;
+    
+        setInputText(textBeforeCursor + emoji + textAfterCursor);
+    
+        const newCursorPosition = startPos + emojiData.emoji.length;
+        setTimeout(() => {
+            inputElement.setSelectionRange(newCursorPosition, newCursorPosition);
+          }, 0);
     };
 
     const {
@@ -86,10 +98,11 @@ const ChatFooter = () => {
                     <ClickAwayListener
                         onClickAway={() => setShowImojiPicker(false)}
                     >
-                        <div className="absolute bottom-12 left-0 shadow-lg">
+                        <div className="absolute bottom-12 left-0 max-w-[80vw]  overflow-hidden  shadow-lg">
                             <EmojiPicker
                                 emojiStyle="native"
                                 theme="light"
+                                width={'full'}
                                 onEmojiClick={onEmojiClick}
                                 autoFocusSearch={false}
                             />

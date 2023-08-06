@@ -33,7 +33,7 @@ import { getAndSaveUserToken } from "./components/utilities/getAndSaveUserToken"
 import { ChatContextProvider } from "./components/Contexts/ChatContext";
 import Listing2 from "./components/pages/Listing2";
 import { ListingProvider } from "./components/Contexts/ListingContext";
-
+import ScrollToTop from "./components/utilities/ScrollToTop";
 
 const router = createBrowserRouter([
   {
@@ -41,7 +41,7 @@ const router = createBrowserRouter([
     Component: Root,
     errorElement: (
       <>
-        {" "}
+        
         <Header /> <ErrorPage /> <SimpleBottomNavigation />
       </>
     ),
@@ -49,12 +49,23 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  
   const { currentUser } = useAuth();
-  
-  if (currentUser?.uid) {
-    
+  useEffect(() => {
+    const disableRightClick = (event) => {
+      if (window.innerWidth <= 767) { // You can adjust the threshold as per your requirement
+        event.preventDefault();
+      }
+    };
 
+    
+    document.addEventListener('contextmenu', disableRightClick);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      document.removeEventListener('contextmenu', disableRightClick);
+    };
+  }, []);
+  if (currentUser?.uid) {
     getAndSaveUserToken(currentUser.uid);
   } else {
     console.log("user not found");
@@ -62,25 +73,42 @@ function App() {
 
   return <RouterProvider router={router} />;
 }
-
 function Root() {
   return (
-    <ChatContextProvider>
-      <ListingProvider>
-        <Routes>
-          <Route
-            element={
-              <>
-                {" "}
-                <Header /> <Outlet /> <SimpleBottomNavigation />
-              </>
-            }
-          >
-            <Route path="/" element={<Home />} />
-            <Route path="/listings/:id" element={<Listing />} />
-            <Route path="/listings2" element={<Listing2 />} />
+    <ScrollToTop>
+      <ChatContextProvider>
+        <ListingProvider>
+          <Routes>
+            <Route
+              element={
+                <>
+                  {" "}
+                  <Header /> <Outlet /> <SimpleBottomNavigation />
+                </>
+              }
+            >
+              <Route path="/" element={<Home />} />
+              <Route path="/listings/:id" element={<Listing />} />
+              <Route path="/query/:id" element={<Query />} />
+              <Route path="/notification" element={<Notification />} />
 
-            {/* private routes  */}
+              {/* private routes  */}
+              <Route
+                element={
+                  <>
+                    <PrivateRoutes />
+                  </>
+                }
+              >
+                <Route path="/allchats" element={<AllChats />} />
+                <Route path="/ads" element={<Ads />} />
+                <Route path="/profile" element={<Profile />} />
+              </Route>
+              {/* private routes */}
+
+              <Route path="*" element={<Error404 />} />
+            </Route>
+
             <Route
               element={
                 <>
@@ -88,53 +116,36 @@ function Root() {
                 </>
               }
             >
-              <Route path="/allchats" element={<AllChats />} />
-              <Route path="/query/:id" element={<Query />} />
-              <Route path="/notification" element={<Notification />} />
-              <Route path="/ads" element={<Ads />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/sell">
+                <Route index element={<Create />} />
+              </Route>
+              <Route path="/editprofile" element={<EditProfile />} />
+              <Route path="/chat" element={<Chat />} />
+              <Route path="/help-and-support" element={<Support />} />
+              <Route path="/setting" element={<Setting />} />
             </Route>
-            {/* private routes */}
 
-            <Route path="*" element={<Error404 />} />
-          </Route>
-
-          <Route
-            element={
-              <>
-                <PrivateRoutes />
-              </>
-            }
-          >
-            <Route path="/sell">
-              <Route index element={<Create />} />
+            <Route
+              element={
+                <>
+                  <Outlet /> <SimpleBottomNavigation />
+                </>
+              }
+            >
+              <Route path="/user/:id" element={<User />} />
             </Route>
-            <Route path="/editprofile" element={<EditProfile />} />
-            <Route path="/chat" element={<Chat />} />
-            <Route path="/help-and-support" element={<Support />} />
-            <Route path="/setting" element={<Setting />} />
-          </Route>
 
-          <Route
-            element={
-              <>
-                <Outlet /> <SimpleBottomNavigation />
-              </>
-            }
-          >
-            <Route path="/user/:id" element={<User />} />
-          </Route>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
 
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-
-          <Route
-            path="/edulisting.apk"
-            element={<Link to="/edulisting.apk"></Link>}
-          />
-        </Routes>
-      </ListingProvider>
-    </ChatContextProvider>
+            <Route
+              path="/edulisting.apk"
+              element={<Link to="/edulisting.apk"></Link>}
+            />
+          </Routes>
+        </ListingProvider>
+      </ChatContextProvider>
+    </ScrollToTop>
   );
 }
 

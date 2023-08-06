@@ -1,9 +1,11 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { client } from "../main/client";
 import { auth, db } from "./firebase";
+import { useAuth } from "../Contexts/UserContext";
+import { useListing } from "../Contexts/ListingContext";
 
 
-export const saveUserInFirebase = async ( setCurrentUser, setLoading) => {
+export const saveUserInFirebase = async ( setCurrentUser, setLoading , setIsLoading = false) => {
     setLoading(true);
     // making unique id
     let id;
@@ -63,7 +65,6 @@ export const saveUserInFirebase = async ( setCurrentUser, setLoading) => {
           displayName,
           email,
           photoURL,
-          lastSeen : new Date()
         });
         console.log('user created successfully in firestore')
         await setDoc(doc(db, "userChats", id), {});
@@ -75,6 +76,8 @@ export const saveUserInFirebase = async ( setCurrentUser, setLoading) => {
     } finally {
       const getFbUser = await getDoc(doc(db, "users", id))
       setCurrentUser(getFbUser.data())
-      setLoading(false);
+      setIsLoading && setIsLoading(false);
+      setLoading(false)
+      console.log('login done')
     }
   };

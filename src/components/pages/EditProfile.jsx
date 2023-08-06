@@ -1,7 +1,6 @@
 import { Badge, TextField } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 
-
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
@@ -11,19 +10,19 @@ import { Avatar } from "@mui/material";
 
 import Spinner from "../header/Spinner";
 import { useAuth } from "../Contexts/UserContext";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../utilities/firebase";
 const EditProfile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [imageAsset, setImageAsset] = useState(false);
   const [errorLength, setErrorLength] = useState(false);
-  
 
   const navigate = useNavigate();
 
-  const {currentUser} = useAuth()
+  const { currentUser, setSanityUser } = useAuth();
   useEffect(() => {
-    const query = userQuery(currentUser?.uid
-);
+    const query = userQuery(currentUser?.uid);
     client
       .fetch(query)
       .then((data) => {
@@ -61,20 +60,32 @@ const EditProfile = () => {
       .catch((err) => console.log(err));
   };
 
-  function handleSubmit() {
-    const zeroLength = user?.mobileNumber?.length ? user?.mobileNumber?.length : 0
-    if (zeroLength == 0 || user?.mobileNumber?.length == 10) {
-      setLoading(true);
-      client.createOrReplace(user).then((res) => {
+  async function handleSubmit() {
+    try {
+      const zeroLength = user?.mobileNumber?.length
+        ? user?.mobileNumber?.length
+        : 0;
+      if (zeroLength == 0 || user?.mobileNumber?.length == 10) {
+        setLoading(true);
+        const res = await client.createOrReplace(user);
         console.log(`${res.userName} was updated, document ID is ${res._id}`);
+        // update user in firebase
+        await updateDoc(doc(db, "users", user._id), {
+          displayName: user.userName,
+          photoURL: user.image,
+        });
+        console.log("user updated successfully in firestore");
         setLoading(false);
+        setSanityUser(user);
         navigate("/profile");
-      });
-    } else {
-      setErrorLength(true),
-        setTimeout(() => {
-          setErrorLength(false);
-        }, 2000);
+      } else {
+        setErrorLength(true),
+          setTimeout(() => {
+            setErrorLength(false);
+          }, 2000);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -111,21 +122,24 @@ const EditProfile = () => {
                   anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                   badgeContent={
                     <label className="cursor-pointer bg-gray-300 p-[6px] rounded-full">
-                    <EditIcon sx={{ width: 25, height: 25 }}/>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      name="upload-image"
-                      onChange={uploadImage}
-                      id="image"
-                      className="w-0 h-0"
-                    />
-                  </label>
+                      <EditIcon sx={{ width: 25, height: 25 }} />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        name="upload-image"
+                        onChange={uploadImage}
+                        id="image"
+                        className="w-0 h-0"
+                      />
+                    </label>
                   }
                 >
-                  <Avatar alt="user-image" src={user?.image} sx={{ width: 90, height: 90 }} />
+                  <Avatar
+                    alt="user-image"
+                    src={user?.image}
+                    sx={{ width: 90, height: 90 }}
+                  />
                 </Badge>
-               
               </div>
               <div className="name w-full">
                 <TextField

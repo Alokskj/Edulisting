@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 const Register = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
-    const {currentUser, isLoading, setCurrentUser} = useAuth()
+    const {currentUser, isLoading, setCurrentUser, setIsLoading} = useAuth()
 
     useEffect(() => {
         if (!isLoading && currentUser) {
@@ -79,7 +79,7 @@ const Register = () => {
             await updateProfile(user, {
                 displayName,
             });
-            saveUserInFirebase(setCurrentUser, setLoading)
+            saveUserInFirebase(setCurrentUser, setLoading, setIsLoading)
         } catch (error) {
             setLoading(false)
             const errorMessage = error.message.replace('Firebase: Error (auth/', '').replace(').', '').replace(/-/g, ' ').replace('Firebase:', "")

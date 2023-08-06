@@ -16,7 +16,7 @@ const post = (props) => {
 
   return (
     <>
-      <div className="post px-3 py-2 cursor-pointer rounded-lg border-2 glass   hover:shadow-lg transform duration-300 transition-all hover:scale-110 ease-in-out">
+      <div className="post px-3 py-2 cursor-pointer  rounded-lg border-2 glass   hover:shadow-lg transform duration-300 transition-all  ease-in-out">
         <Link to={`/listings/${props.slug}`}>
           <div className="post-container  flex flex-col justify-between h-full  relative">
             {props.mrp && (

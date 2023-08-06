@@ -1,6 +1,7 @@
 import React from 'react'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate, Link } from 'react-router-dom';
+import { urlFor } from './cdnClient';
 
 const MyListings = ({date, title, image, price, listed, handleDelete , id, userId}) => {
   const navigate = useNavigate()
@@ -21,7 +22,7 @@ const MyListings = ({date, title, image, price, listed, handleDelete , id, userI
         <div className="listing-data ">
             <div className="image-info flex space-x-3 border-b-4 m-2">
           <div className="image m-2 ">
-            <img src={image} className="object-cover " width={30}  alt="image" />
+            <img src={urlFor(image).format('webp').height(100).url()} className="object-cover " width={30}  alt="image" />
           </div>
           <div className="info">
           <div className="title-price">

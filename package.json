@@ -25,6 +25,7 @@
     "emoji-mart": "^5.5.2",
     "emoji-picker-react": "^4.4.9",
     "firebase": "^10.0.0",
+    "google-map-react": "^2.2.1",
     "lottie-react": "^2.4.0",
     "moment": "^2.29.4",
     "processenv": "^3.0.9",
@@ -32,6 +33,7 @@
     "react-click-away-listener": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-helmet-async": "^1.3.0",
     "react-icons": "^4.10.1",
     "react-infinite-scroll-component": "^6.1.0",
     "react-loader-spinner": "^5.3.4",
@@ -50,6 +52,7 @@
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7",
-    "vite": "^4.1.0"
+    "vite": "^4.1.0",
+    "vite-plugin-pwa": "^0.16.4"
   }
 }

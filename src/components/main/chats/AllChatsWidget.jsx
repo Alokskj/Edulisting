@@ -68,7 +68,7 @@ const AllChatsWidget = ({ chat, date, handleSelect, unreadMsgs }) => {
 
         <div className="listing-title-user-name-last-message w-full pr-4">
           <div
-            onClick={() => handleSelect(chat[1]?.userInfo, chat[0])}
+            onClick={() => handleSelect(chat[1], chat[0])}
             className="user-name-last-message-time flex justify-between "
           >
             <p className="text-xl font-bold ">

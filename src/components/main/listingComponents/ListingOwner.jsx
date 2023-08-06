@@ -1,10 +1,32 @@
 import { Avatar } from '@mui/material';
 import React from 'react'
 import { BiRightArrowAlt } from 'react-icons/bi';
+import Skeleton from 'react-loading-skeleton';
 import { Link, useNavigate } from 'react-router-dom';
 
 const ListingOwner = ({queryPost, queryUser, currentUser, handleMessage}) => {
   const navigate = useNavigate()
+  if(!queryPost || !queryUser) return (
+    <div className="owner-details-chat-btn flex flex-col gap-4 w-full  border border-black rounded-lg py-4 px-6">
+          <div className="avatar-username-profile-btn flex w-full   justify-between items-center">
+            
+             <div className="flex gap-2 justify-start  items-center">
+
+              <Skeleton circle  width={60} height={60} containerClassName='flex-1'/>
+              <Skeleton   height={40} width={100} containerClassName='flex-1'/>
+             </div>
+             <div className=''>
+            <Skeleton   circle height={35} width={35} containerClassName='flex-1'/>
+
+             </div>
+            
+            
+          </div>
+          <div className="chat-btn mx-auto flex w-full">
+          <Skeleton height={50}  borderRadius={15} containerClassName='flex-1 '/>
+          </div>
+        </div>
+  )
   return (
     
         <div className="owner-details-chat-btn flex flex-col gap-4 w-full  border border-black rounded-lg py-4 px-6">

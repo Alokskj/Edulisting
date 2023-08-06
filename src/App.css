@@ -125,4 +125,28 @@ a {
     text-align: center;
     padding-bottom: 10px;
 }
+@media screen and (max-width : 767px) {
+  body {
+    /* Disable text selection for all elements */
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera, and Firefox */
+  
+    
+  }
+  /* Enable text selection for input fields */
+  input {
+    -webkit-touch-callout: initial;
+    -webkit-user-select: initial;
+    -khtml-user-select: initial;
+    -moz-user-select: initial;
+    -ms-user-select: initial;
+    user-select: initial;
+  }
+}
+
+
 

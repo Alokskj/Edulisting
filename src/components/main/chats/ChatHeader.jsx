@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { off, onValue, ref } from "firebase/database";
 import { database } from "../../utilities/firebase";
 import { useEffect } from "react";
+import { Call } from "@mui/icons-material";
 
 const ChatHeader = () => {
     const [isOnline, setIsOnline] = useState(false)
@@ -65,6 +66,11 @@ const ChatHeader = () => {
                 </div>
 
             <div className="flex items-center gap-2">
+              {data.user.mobileNumber && 
+               <Link to={`tel:${data.user.mobileNumber}`} className="hover:bg-gray-300  cursor-pointer rounded-full p-2">
+                <Call className="text-c3  w-10 h-10 "/>
+               </Link>
+}
                 <Icon
                     size="large"
                     className={`${showMenu ? "bg-gray-300" : ""}`}

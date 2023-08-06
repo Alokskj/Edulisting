@@ -8,6 +8,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import { RWebShare } from 'react-web-share';
 import {  useAuth } from '../Contexts/UserContext';
+import { Helmet } from 'react-helmet-async';
 const Support = () => {
     const {currentUser} = useAuth()
 
@@ -15,6 +16,10 @@ const Support = () => {
 
   return (
     <>
+    <Helmet>
+          <title>Help and Support3r.j</title>
+          
+    </Helmet>
     <div className="support-header  border-b-2 p-4 space-x-4 items-center flex justify-start">
         <div
           onClick={() => navigate(-1)}
