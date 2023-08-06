@@ -4,41 +4,28 @@ import GoogleMapReact from "google-map-react";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+import { Circle, GoogleMap, LoadScript, useJsApiLoader } from "@react-google-maps/api";
+import getUserLatLng from "../../utilities/getUserLatLng";
+
 const ListingMap = ({ address, queryPost }) => {
   const [coordinates, setCoordinates] = useState(null);
-
+ const {isLoaded} = useJsApiLoader({
+  googleMapsApiKey : import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+ }) 
   useEffect(() => {
     if (address) {
-      console.log('address is present')
-      async function getUserLatLng() {
-        try {
-          const apiKey = "AIzaSyACJNcNrNgZk3__ri_f6L_9rWTi2VkTi0I";
-          const userAddress = `${queryPost.locality}, ${queryPost.city}, ${queryPost.state}, india`;
-          const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-            userAddress
-          )}&key=${apiKey}`;
-          const response = await axios.get(geocodingUrl);
-          console.log(response)
-          if (response.data.results.length > 0) {
-            const { lat, lng } = response.data.results[0].geometry.location;
-            setCoordinates({ lat, lng });
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      getUserLatLng()
+      console.log("address is present");
+    async function getLatLng(){
+      const latLng = await getUserLatLng(queryPost.locality, queryPost.city, queryPost.state);
+      console.log(latLng)
+      setCoordinates(latLng)
+    }
+    
+    getLatLng()
     }
   }, [address]);
-  // const defaultProps = {
-  //   center: {
-  //     lat: coordinates.lat,
-  //     lng: coordinates.lng,
-  //   },
-  //   zoom: 11,
-  // };
-  if (!address) {
+
+  if (!coordinates) {
     return (
       <div className="map-location w-full gap-4 flex flex-col justify-between py-4 px-6 border  border-black rounded-lg">
         <div className="title text-2xl font-semibold">
@@ -68,15 +55,41 @@ const ListingMap = ({ address, queryPost }) => {
           <p>{address}</p>
         </div>
         <div className="map w-full my-2  border  rounded-md relative">
-          <div style={{ height: "300px", width: "100%" }}>
-            {/* <GoogleMapReact
-              bootstrapURLKeys={{
-                key: "AIzaSyACJNcNrNgZk3__ri_f6L_9rWTi2VkTi0I",
+        <GoogleMap
+            
+              mapContainerStyle={{
+                height: "260px",
+                width: "100%",
               }}
-              defaultCenter={defaultProps.center}
-              defaultZoom={defaultProps.zoom}
-            ></GoogleMapReact> */}
-          </div>
+              center={coordinates} 
+              zoom={16}
+              options={{
+                zoomControl: false,
+                streetView: false,
+                mapTypeControl: false,
+                fullscreenControl: false,
+                clickableIcons: false,
+                streetViewControl: false,
+                keyboardShortcuts: false,
+                minZoom: 14.5
+               
+
+              }}
+            >
+              {coordinates && (
+                <Circle
+                  center={coordinates}
+                  radius={150} // Radius in meters, adjust this value to your desired circle size
+                  options={{
+                    fillColor: "#0099FF",
+                    fillOpacity: 0.35,
+                    strokeColor: "#0099FF",
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                  }}
+                />
+              )}
+            </GoogleMap>
         </div>
       </div>
     </div>

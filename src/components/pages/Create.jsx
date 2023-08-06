@@ -21,6 +21,7 @@ import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { Backdrop, CircularProgress } from "@mui/material";
 import SelectPublisher from "../main/createListing/inputs/SelectPublisher";
 import { Helmet } from "react-helmet-async";
+import getUserLatLng from "../utilities/getUserLatLng";
 
 const Create = () => {
   const [btn, setBtn] = useState("Next");
@@ -106,6 +107,11 @@ const Create = () => {
 
   const handleSubmit = async () => {
     if (!isPrimaryDetails && !isOptionalDetails) return;
+    const latLng = await getUserLatLng(locality,city,state)
+    const address = {
+      fullAddress : {locality,city,state},
+      cords : latLng
+    }
     setLoading(true);
     const doc = {
       _type: "listings",
@@ -114,6 +120,7 @@ const Create = () => {
       price,
       mrp,
       board,
+      address,
       standard: Number(standard),
       subject,
       city,
@@ -260,7 +267,7 @@ const Create = () => {
             >
               {!isPrimaryDetails && !isOptionalDetails
                 ? "Next"
-                : listing.standard || listing.board || listing.condition || listing.edition || listing.publisher
+                : listing.standard || listing.board || listing.condition || listing.edition || listing.publisher || !isOptionalDetails
                 ? "Next"
                 : isPrimaryDetails && !isOptionalDetails
                 ? "Skip"

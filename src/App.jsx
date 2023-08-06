@@ -34,6 +34,7 @@ import { ChatContextProvider } from "./components/Contexts/ChatContext";
 import Listing2 from "./components/pages/Listing2";
 import { ListingProvider } from "./components/Contexts/ListingContext";
 import ScrollToTop from "./components/utilities/ScrollToTop";
+import getUserLocation from "./components/utilities/getUserLocation";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,7 @@ const router = createBrowserRouter([
 
 function App() {
   const { currentUser } = useAuth();
+  
   useEffect(() => {
     const disableRightClick = (event) => {
       if (window.innerWidth <= 767) { // You can adjust the threshold as per your requirement

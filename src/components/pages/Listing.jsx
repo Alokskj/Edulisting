@@ -22,10 +22,10 @@ import ListingPrice from "../main/listingComponents/ListingPrice";
 import ListingRelatedPost from "../main/listingComponents/ListingRelatedPost";
 import ListingOwner from "../main/listingComponents/ListingOwner";
 import ListingMap from "../main/listingComponents/ListingMap";
-import { Adsense } from "@ctrl/react-adsense";
+
 import { SkeletonTheme } from "react-loading-skeleton";
-import { Helmet } from "react-helmet-async";
-import Spinner from "../header/Spinner";
+import AdSense from "../main/AdSense";
+import { Adsense } from "@ctrl/react-adsense";
 
 const Listing = () => {
   const { dispatch, data } = useChatContext();
@@ -145,26 +145,24 @@ const Listing = () => {
     }
   }
 
-  
   if (queryPost) {
     var address = `${queryPost?.locality}, ${queryPost?.city}, ${queryPost?.state}`;
   }
-  
 
   return (
     <>
       <SkeletonTheme baseColor="#e5e7eb" highlightColor="#f3f4f6">
-        
-        <div className="container hidden md:flex flex-col mx-auto md:flex-row justify-center gap-4 items-start px-2 md:px-16 lg:px-24 xl:px-40 mb-20">
+        <div className="container hidden md:flex flex-col mx-auto md:flex-row justify-center gap-4 items-start px-2   mb-20">
+          <div className="ad w-1/6 hidden lg:block h-full">
+            <Adsense slot="9430989347" client="ca-pub-5046319178676899" />
+          </div>
+
           <div className="left w-full lg:w-2/3 flex flex-col gap-2">
             <ListingImage queryPost={queryPost} queryUser={queryUser} />
+
             <ListingDetails queryPost={queryPost} queryUser={queryUser} />
             <ListingRelatedPost queryPost={queryPost} queryUser={queryUser} />
-            <Adsense
-              client="ca-pub-5046319178676899"
-              slot="8217513432"
-              style={{ display: "block" }}
-            />
+            <Adsense slot="8217513432" client="ca-pub-5046319178676899" />
           </div>
           <div className="right w-full lg:w-1/3 flex flex-col gap-2">
             <ListingPrice
@@ -179,31 +177,28 @@ const Listing = () => {
               handleMessage={handleMessage}
             />
 
-            {/* <ListingMap
-            queryPost={queryPost}
-            queryUser={queryUser}
-            address={address}
-          /> */}
-            <Adsense
-              client="ca-pub-5046319178676899"
-              slot="9801493192"
-              style={{ display: "block" }}
+            <ListingMap
+              queryPost={queryPost}
+              queryUser={queryUser}
+              address={address}
             />
+            <Adsense slot="9801493192" client="ca-pub-5046319178676899" />
+          </div>
+          <div className="ad w-1/6 hidden lg:block h-full">
+            <Adsense slot="9430989347" client="ca-pub-5046319178676899" />
           </div>
         </div>
-        <div className="mobilecontainer md:hidden flex flex-col justify-center gap-2 items-center p-1 pb-24">
+        <div className="mobilecontainer md:hidden flex flex-col justify-center gap-2 items-center p-1 mb-20 ">
           <ListingImage queryPost={queryPost} queryUser={queryUser} />
           <ListingPrice
             queryPost={queryPost}
             queryUser={queryUser}
             address={address}
           />
-          <Adsense
-            client="ca-pub-5046319178676899"
-            slot="9801493192"
-            style={{ display: "block" }}
-          />
 
+          <div className="ad w-full h-60">
+            <Adsense slot="9801493192" client="ca-pub-5046319178676899" />
+          </div>
           <ListingOwner
             queryPost={queryPost}
             queryUser={queryUser}
@@ -212,17 +207,18 @@ const Listing = () => {
           />
           <ListingDetails queryPost={queryPost} queryUser={queryUser} />
           <ListingRelatedPost queryPost={queryPost} queryUser={queryUser} />
-          <Adsense
-            client="ca-pub-5046319178676899"
-            slot="9801493192"
-            style={{ display: "block" }}
-          />
+          <div className="ad w-full h-64">
+            <Adsense slot="9801493192" client="ca-pub-5046319178676899" />
+          </div>
 
-          {/* <ListingMap
-          queryPost={queryPost}
-          queryUser={queryUser}
-          address={address}
-        /> */}
+          <ListingMap
+            queryPost={queryPost}
+            queryUser={queryUser}
+            address={address}
+          />
+          <div className="ad w-full h-72">
+            <Adsense slot="9801493192" client="ca-pub-5046319178676899" />
+          </div>
         </div>
       </SkeletonTheme>
     </>

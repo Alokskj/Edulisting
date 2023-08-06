@@ -8,9 +8,16 @@ import Hero from "../main/Hero";
 import OneTapLogin from "../utilities/OneTapLogin";
 import getNotificationPermission from "../utilities/getNotificationPermission";
 import { Helmet } from "react-helmet-async";
+import getUserLocation from "../utilities/getUserLocation";
+
 
 const Home = () => {
   getNotificationPermission();
+  const userLocation = localStorage.getItem('userLocation')
+  
+  if(!userLocation){
+  getUserLocation()
+  }
 
   return (
     <>

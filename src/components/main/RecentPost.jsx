@@ -12,41 +12,57 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import PlaceholderCard from "./PlaceholderCard.jsx";
 import { Adsense } from "@ctrl/react-adsense";
+import calculateDistance from "../utilities/calculateDistance.js";
 const RecentPost = () => {
   const [postData, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [postlimit, setPostLimit] = useState(0);
-  const [reducerValue, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [more, setMore] = useState(true);
-
+  const [listings, setListings] = useState([]);
+  const userCoordinates = JSON.parse(localStorage.getItem('userCoordinates'))
   useEffect(() => {
-    const query = allListings(postlimit, postlimit + 7);
-    client
-      .fetch(query)
-      .then((data) => {
-        setPost((prevPost) => {
-          if (data.length === 0) {
-            setMore(false);
-          }
-          if (prevPost) {
-            return [...prevPost, ...data];
-          } else {
-            return data;
-          }
-        });
-      })
-      .catch((err) => console.log(err));
-    setLoading(false);
-  }, [reducerValue, postlimit]);
+    // Function to convert address to coordinates using Geocoding API
+    
 
-  function handleLimit() {
-    setPostLimit((prevValue) => {
-      return prevValue + 8;
-    });
-  }
+    const fetchListings = async () => {
+      const query = allListings();
+      const listingsData = await client.fetch(query);
 
-  if (setLoading) {
-    if (!postData) {
+      const listingsWithDistance = 
+        listingsData.map((listing) => {
+          
+          
+          if (userCoordinates) {
+            const distance = calculateDistance(
+              listing.address.cords.lat,
+              listing.address.cords.lng,
+              userCoordinates.latitude,
+              userCoordinates.longitude
+            );
+            
+            return { ...listing, distance };
+          }
+          
+          return listing;
+        })
+      
+
+      // Sort the listings based on distance
+      const sortedListings = listingsWithDistance.sort(
+        (a, b) => a.distance - b.distance
+      );
+      
+      setListings(sortedListings);
+      console.log('fetched listings')
+      setLoading(false);
+    };
+
+    fetchListings();
+  }, []);
+
+  
+  
+
+  if (loading) {
+    
       return (
         <div
           id="recent-post"
@@ -67,7 +83,7 @@ const RecentPost = () => {
           </div>
         </div>
       );
-    }
+    
   }
 
   return (
@@ -79,22 +95,10 @@ const RecentPost = () => {
         <h3>Fresh recommendations</h3>
       </div>
 
-      <InfiniteScroll
-        dataLength={postData.length} //This is important field to render the next data
-        next={handleLimit}
-        hasMore={more}
-        loader={
-          <>
-            <div className="posts justify-center my-4   grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 z-0   md:m-4 gap-4">
-              <PlaceholderCard />
-              <PlaceholderCard />
-            </div>
-          </>
-        }
-      >
+      
         <div className="posts justify-center overflow-hidden   grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4   md:m-4 gap-4">
-          {postData &&
-            postData.map((post, index) => {
+          {listings &&
+            listings.map((post, index) => {
               return (
                 <>
                 <Post
@@ -132,7 +136,7 @@ const RecentPost = () => {
               );
             })}
         </div>
-      </InfiniteScroll>
+      
     </div>
   );
 };

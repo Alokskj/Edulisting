@@ -5,7 +5,7 @@ import Skeleton from 'react-loading-skeleton'
 
 const ListingImage = ({queryPost}) => {
   if(!queryPost) return (
-    <div className="image-container relative px-8 py-4 w-full flex justify-center items-center h-[450px] rounded-lg  border border-black lg:bg-black">
+    <div className="image-container relative px-8 py-4 w-full flex justify-center items-center h-[450px] rounded-lg  border border-black ">
           <div className='flex  w-full md:w-1/2 mx-auto'>
 
           <Skeleton  containerClassName='flex-1' height={420}/>

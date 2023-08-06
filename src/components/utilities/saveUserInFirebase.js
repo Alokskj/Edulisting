@@ -3,6 +3,7 @@ import { client } from "../main/client";
 import { auth, db } from "./firebase";
 import { useAuth } from "../Contexts/UserContext";
 import { useListing } from "../Contexts/ListingContext";
+import getUserLatLng from "./getUserLatLng";
 
 
 export const saveUserInFirebase = async ( setCurrentUser, setLoading , setIsLoading = false) => {
@@ -20,6 +21,8 @@ export const saveUserInFirebase = async ( setCurrentUser, setLoading , setIsLoad
     //
 
     try {
+      
+     
       const newUser = {
         _id: id,
         _type: "user",
