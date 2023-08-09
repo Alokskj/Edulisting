@@ -8,6 +8,7 @@ import ChatHeader from "../main/chats/ChatHeader";
 import Messages from "../main/chats/Messages";
 import Spinner from "../header/Spinner";
 import { getConnectivity } from "../utilities/presence";
+import Transition from "../main/Transition";
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ const Chat = () => {
 
   if (loading) return <Spinner />;
   return (
+    <Transition>
     <div className="flex flex-col min-h-screen  grow ">
       <ChatHeader />
       {data.chatId && <Messages />}
@@ -62,6 +64,7 @@ const Chat = () => {
         )}
       </div>
     </div>
+    </Transition>
   );
 };
 

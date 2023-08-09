@@ -26,6 +26,7 @@
     "emoji-mart": "^5.5.2",
     "emoji-picker-react": "^4.4.9",
     "firebase": "^10.0.0",
+    "framer-motion": "^10.15.1",
     "google-map-react": "^2.2.1",
     "lottie-react": "^2.4.0",
     "moment": "^2.29.4",

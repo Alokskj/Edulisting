@@ -1,22 +1,36 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import { urlFor } from "./client";
+import { useInView , motion} from "framer-motion";
 
 const discountPercetage = (sellValue, purchaseValue) => {
+
   const sellValueInPer = (Number(sellValue) / Number(purchaseValue)) * 100;
   const discountPer = Math.floor(100 - sellValueInPer);
   return discountPer;
 };
 
 const post = (props) => {
+  const ref = useRef(null)
+  const isInView = useInView(ref, {once: true,})
   const locality =
     props.locality + (props.locality.toLowerCase() !== props.city.toLowerCase()
       ? "," + props.city
       : "," + props.state);
-
+const animationConfiguration = {
+  initial: { opacity: 0},
+  animate: { opacity: isInView ? 1 : 0 },
+  exit: { opacity: 0},
+}
   return (
     <>
-      <div className="post px-3 py-2 cursor-pointer  rounded-lg border-2 glass   hover:shadow-lg transform duration-300 transition-all  ease-in-out">
+      <motion.div
+      variants={animationConfiguration}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ duration: .5, ease: 'easeInOut',type: "spring", stiffness: 50,  }}
+      ref={ref} className="post px-3 py-2 cursor-pointer  rounded-lg border-2 glass   hover:shadow-lg transform duration-300 transition-all  ease-in-out">
         <Link to={`/listings/${props.slug}`}>
           <div className="post-container  flex flex-col justify-between h-full  relative">
             {props.mrp && (
@@ -57,7 +71,7 @@ const post = (props) => {
             </div>
           </div>
         </Link>
-      </div>
+      </motion.div>
     </>
   );
 };

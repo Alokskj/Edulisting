@@ -26,6 +26,7 @@ import ListingMap from "../main/listingComponents/ListingMap";
 import { SkeletonTheme } from "react-loading-skeleton";
 import AdSense from "../main/AdSense";
 import { Adsense } from "@ctrl/react-adsense";
+import Transition from "../main/Transition";
 
 const Listing = () => {
   const { dispatch, data } = useChatContext();
@@ -151,6 +152,7 @@ const Listing = () => {
 
   return (
     <>
+    <Transition>
       <SkeletonTheme baseColor="#e5e7eb" highlightColor="#f3f4f6">
         <div className="container hidden md:flex flex-col mx-auto md:flex-row justify-center gap-4 items-start px-2   mb-20">
           <div className="ad w-1/6 hidden lg:block h-full">
@@ -221,6 +223,7 @@ const Listing = () => {
           </div>
         </div>
       </SkeletonTheme>
+      </Transition>
     </>
   );
 };

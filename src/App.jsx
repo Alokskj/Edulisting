@@ -35,6 +35,7 @@ import Listing2 from "./components/pages/Listing2";
 import { ListingProvider } from "./components/Contexts/ListingContext";
 import ScrollToTop from "./components/utilities/ScrollToTop";
 import getUserLocation from "./components/utilities/getUserLocation";
+import { AnimatePresence } from "framer-motion";
 
 const router = createBrowserRouter([
   {
@@ -77,9 +78,11 @@ function App() {
 }
 function Root() {
   return (
+    <AnimatePresence mode="wait">
     <ScrollToTop>
       <ChatContextProvider>
         <ListingProvider>
+
           <Routes>
             <Route
               element={
@@ -118,9 +121,7 @@ function Root() {
                 </>
               }
             >
-              <Route path="/sell">
-                <Route index element={<Create />} />
-              </Route>
+              
               <Route path="/editprofile" element={<EditProfile />} />
               <Route path="/chat" element={<Chat />} />
               <Route path="/help-and-support" element={<Support />} />
@@ -134,6 +135,8 @@ function Root() {
                 </>
               }
             >
+                <Route path="/sell" element={<Create />} />
+
               <Route path="/user/:id" element={<User />} />
             </Route>
 
@@ -148,6 +151,7 @@ function Root() {
         </ListingProvider>
       </ChatContextProvider>
     </ScrollToTop>
+    </AnimatePresence>
   );
 }
 

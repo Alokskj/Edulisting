@@ -20,6 +20,7 @@ import { useAuth} from "../Contexts/UserContext";
 import { auth } from "../utilities/firebase";
 import { Helmet } from "react-helmet-async";
 import { useListing } from "../Contexts/ListingContext";
+import Transition from "../main/Transition";
 
 const Setting = () => {
   
@@ -91,6 +92,7 @@ const Setting = () => {
   if (loading) return <Spinner />;
   return (
     <>
+    <Transition>
     <Helmet>
           <title>Settings</title>
           
@@ -171,6 +173,7 @@ const Setting = () => {
       </div>
       </div>
       </div>
+      </Transition>
     </>
   );
 };
