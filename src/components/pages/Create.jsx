@@ -22,6 +22,7 @@ import { Backdrop, CircularProgress } from "@mui/material";
 import SelectPublisher from "../main/createListing/inputs/SelectPublisher";
 import { Helmet } from "react-helmet-async";
 import getUserLatLng from "../utilities/getUserLatLng";
+import Transition from "../main/Transition";
 
 const Create = () => {
   const [btn, setBtn] = useState("Next");
@@ -198,6 +199,7 @@ const Create = () => {
 
   return (
     <>
+    <Transition>
     <Helmet>
           <title>Create Listing</title>
           
@@ -277,6 +279,7 @@ const Create = () => {
           </div>
         </div>
       </div>
+      </Transition>
     </>
   );
 };

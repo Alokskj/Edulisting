@@ -12,6 +12,7 @@ import FeatureWidget from "../main/FeatureWidget";
 import { useAuth } from "../Contexts/UserContext";
 import { Helmet } from "react-helmet-async";
 import { useListing } from "../Contexts/ListingContext";
+import Transition from "../main/Transition";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ const Profile = () => {
 
   return (
     <>
+    <Transition>
       <Helmet>
         <title>Profile</title>
       </Helmet>
@@ -129,6 +131,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      </Transition>
     </>
   );
 };

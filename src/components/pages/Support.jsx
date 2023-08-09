@@ -9,6 +9,7 @@ import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import { RWebShare } from 'react-web-share';
 import {  useAuth } from '../Contexts/UserContext';
 import { Helmet } from 'react-helmet-async';
+import Transition from '../main/Transition';
 const Support = () => {
     const {currentUser} = useAuth()
 
@@ -16,6 +17,7 @@ const Support = () => {
 
   return (
     <>
+    <Transition>
     <Helmet>
           <title>Help and Support3r.j</title>
           
@@ -80,7 +82,7 @@ const Support = () => {
     </div>
     </div>
     </div>
-        
+    </Transition>
     </>
   )
 }

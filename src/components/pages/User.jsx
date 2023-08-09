@@ -11,6 +11,7 @@ import QueryListingWidget from "../main/QueryListingWidget";
 import { v4 } from "uuid";
 import { useAuth } from "../Contexts/UserContext";
 import { Helmet } from "react-helmet-async";
+import Transition from "../main/Transition";
 
 const User = () => {
   const navigate = useNavigate();
@@ -77,6 +78,7 @@ const User = () => {
 
   return (
     <>
+    <Transition>
     <Helmet>
           <title>{user?.userName}'s Profile - Edulisting</title>
           <meta name="description" content={`Check out ${user?.userName}'s profile on Edulisting`} />
@@ -205,6 +207,7 @@ const User = () => {
           </div>
         </div>
       </div>
+      </Transition>
     </>
   );
 };

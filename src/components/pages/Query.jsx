@@ -10,6 +10,7 @@ import { listingQuery } from "../main/data";
 import Post from "../main/Post";
 import { v4 as uuid } from "uuid";
 import { Helmet } from "react-helmet-async";
+import Transition from "../main/Transition";
 
 const Query = () => {
   const { id } = useParams();
@@ -47,6 +48,7 @@ const Query = () => {
 
   return (
     <>
+    <Transition>
       <Seacrhbar />
       <div
         id="recent-post"
@@ -100,6 +102,7 @@ const Query = () => {
             })}
         </div>
       </div>
+      </Transition>
     </>
   );
 };

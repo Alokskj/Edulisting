@@ -2,9 +2,11 @@ import React from "react";
 import Lottie from "lottie-react";
 import notification from "../lotties/notification.json";
 import { Helmet } from "react-helmet-async";
+import Transition from "../main/Transition";
 const Notification = () => {
   return (
     <>
+    <Transition>
     <Helmet>
           <title>Notification</title>
           
@@ -15,6 +17,7 @@ const Notification = () => {
         </div>
         <p className="font-semibold">You don't have any nofication's yet!</p>
       </div>
+      </Transition>
     </>
   );
 };

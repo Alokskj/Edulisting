@@ -11,6 +11,7 @@ import { v4 as uuid } from 'uuid';
 import {  useAuth } from '../Contexts/UserContext';
 import { Helmet } from 'react-helmet-async';
 import { useListing } from '../Contexts/ListingContext';
+import Transition from '../main/Transition';
 
 
 
@@ -62,6 +63,7 @@ const Ads = () => {
 
   return(
     <>
+    <Transition>
     <Helmet>
           <title>Listings</title>
           
@@ -83,6 +85,7 @@ const Ads = () => {
     })}
     </div>
     </div>
+    </Transition>
     
     </>
   )
