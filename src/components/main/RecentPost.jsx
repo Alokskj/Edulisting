@@ -114,11 +114,11 @@ const RecentPost = () => {
                     />
                   {index > 0 && (index + 1) % 10 === 0 && (
                     <>
-                      <div className="grid-item sm:hidden col-span-2">
+                      <div key={uuid()} className="grid-item sm:hidden col-span-2">
                       <Adsense format="auto" responsive="true" client="ca-pub-5046319178676899" slot="9801493192" style={{ display: 'block' }} />
 
                       </div>
-                      <div className="grid-item hidden sm:block">
+                      <div key={uuid()} className="grid-item hidden sm:block">
                         <Adsense
                           client="ca-pub-5046319178676899"
                           slot="4019302026"

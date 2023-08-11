@@ -7,7 +7,7 @@ const PrivateRoutes = () => {
     const {currentUser, isLoading} = useAuth()
   return (
     
-       !isLoading ? (currentUser ? <Outlet/> : <Navigate  to={'/login'}/>) : <Spinner />
+       !isLoading ? (currentUser ? <Outlet/> : <Navigate  to={'/login'} replace={true}/>) : <Spinner />
     
   )
 }

@@ -10,6 +10,7 @@ import { RWebShare } from 'react-web-share';
 import {  useAuth } from '../Contexts/UserContext';
 import { Helmet } from 'react-helmet-async';
 import Transition from '../main/Transition';
+import { PrivacyTip } from '@mui/icons-material';
 const Support = () => {
     const {currentUser} = useAuth()
 
@@ -45,6 +46,18 @@ const Support = () => {
           title={"Contact Us"}
           subtitle={"Click here to contact"}
           link="mailto:support@edulisting.in"
+          />
+         
+        </div>
+        <Divider />
+
+        <div className="privacy-policy">
+       
+        <FeatureWidget
+          icon={< PrivacyTip/>}
+          title={"Privacy Policy"}
+          subtitle={"checkout our privacy policy"}
+          link="/privacy-policy"
           />
          
         </div>

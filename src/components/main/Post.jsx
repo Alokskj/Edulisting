@@ -24,12 +24,12 @@ const animationConfiguration = {
 }
   return (
     <>
-      <motion.div
-      variants={animationConfiguration}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      transition={{ duration: .5, ease: 'easeInOut',type: "spring", stiffness: 50,  }}
+      <div
+      // variants={animationConfiguration}
+      // initial="initial"
+      // animate="animate"
+      // exit="exit"
+      // transition={{ duration: .5, ease: 'easeInOut',type: "spring", stiffness: 50,  }}
       ref={ref} className="post px-3 py-2 cursor-pointer  rounded-lg border-2 glass   hover:shadow-lg transform duration-300 transition-all  ease-in-out">
         <Link to={`/listings/${props.slug}`}>
           <div className="post-container  flex flex-col justify-between h-full  relative">
@@ -71,7 +71,7 @@ const animationConfiguration = {
             </div>
           </div>
         </Link>
-      </motion.div>
+      </div>
     </>
   );
 };

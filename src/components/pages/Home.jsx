@@ -22,7 +22,7 @@ const Home = () => {
 
   return (
     <>
-    <Transition>
+   
     <Helmet>
           <title>Edulisting - The go-to platform for buying and selling books online</title>
           <meta name="description" content='Edulisting offers the latest and affordable option for classified ads for Second Hand Books, New Books, Used Books in India. Find buyers and sellers that suit. Give edulisting a try and start saving money on your educational materials today!' />
@@ -37,7 +37,7 @@ const Home = () => {
       <Seacrhbar />
 
       <RecentPost />
-      </Transition>
+      
     </>
   );
 };

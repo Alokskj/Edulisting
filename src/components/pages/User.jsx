@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { client } from "../main/cdnClient";
+import { client } from "../main/Client";
 import { userListings, userQuery, userPublishedListings } from "../main/data";
 import Spinner from "../header/Spinner";
 import Header from "../header/Header.jsx";
@@ -42,7 +42,7 @@ const User = () => {
       setFollowing(true);
       setUser((prevUser) => ({
         ...prevUser,
-        following: [...prevUser.following, { _ref: currentUser?.uid, _type: "reference" }],
+        following: [...prevUser?.following, { _ref: currentUser?.uid, _type: "reference" }],
       }));
       // Perform API call to update the followers in the database
       client
@@ -80,7 +80,7 @@ const User = () => {
     <>
     <Transition>
     <Helmet>
-          <title>{user?.userName}'s Profile - Edulisting</title>
+          <title>{`${user?.userName}'s Profile - Edulisting`}</title>
           <meta name="description" content={`Check out ${user?.userName}'s profile on Edulisting`} />
           <meta property="og:title" content={user?.userName + "'s Profile - Edulisting"} />
           

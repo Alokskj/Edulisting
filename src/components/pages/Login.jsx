@@ -18,11 +18,12 @@ import {
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { client } from "../main/client";
 import { saveUserInFirebase } from "../utilities/saveUserInFirebase";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { currentUser, isLoading , setCurrentUser} = useAuth();
+  const { currentUser, isLoading, setIsLoading, setCurrentUser } = useAuth();
   const [email, setEmail] = useState("");
 
   useEffect(() => {
@@ -31,60 +32,62 @@ const Login = () => {
       navigate("/");
     }
   }, [currentUser]);
-  
 
   const handleSumbit = async (e) => {
-      e.preventDefault();
-      setLoading(true)
+    e.preventDefault();
+    setLoading(true);
     const email = e.target[0].value;
     const password = e.target[1].value;
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      saveUserInFirebase(setCurrentUser, setLoading)
+      saveUserInFirebase(setCurrentUser, setLoading);
     } catch (error) {
-    setLoading(false)
-    const errorMessage = error.message.replace('Firebase: Error (auth/', '').replace(').', '').replace(/-/g, ' ').replace('Firebase:', "")
-    toast.error(errorMessage,{
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
+      setLoading(false);
+      const errorMessage = error.message
+        .replace("Firebase: Error (auth/", "")
+        .replace(").", "")
+        .replace(/-/g, " ")
+        .replace("Firebase:", "");
+      toast.error(errorMessage, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
-      console.log(error)
+      console.log(error);
     }
   };
 
   const signInWithGoogle = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       await signInWithPopup(auth, GoogleProvider);
-      saveUserInFirebase(setCurrentUser, setLoading)
-
+      saveUserInFirebase(setCurrentUser, setLoading, setIsLoading);
     } catch (error) {
-        setLoading(false)
+      setLoading(false);
 
       console.error(error);
     }
   };
 
   const signInWithFacebook = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       await signInWithPopup(auth, fProvider);
-      saveUserInFirebase(setCurrentUser, setLoading)
-
+      saveUserInFirebase(setCurrentUser, setLoading, setIsLoading);
     } catch (error) {
-        setLoading(false)
+      setLoading(false);
 
       console.error(error);
     }
   };
 
   const resetPassword = async () => {
+    if (!email) return toast.error("Please enter the your Email");
     try {
       toast.promise(
         async () => {
@@ -100,20 +103,33 @@ const Login = () => {
         }
       );
     } catch (error) {
-        setLoading(false)
+      setLoading(false);
 
       console.error(error);
     }
   };
+  const animationConfiguration = {
+    initial: { x : '100vw' },
+    animate: { x : '0' },
+    exit: { x: '-100vw' },
+};
 
-  return loading  ? (
+  return loading ? (
     <Spinner />
   ) : (
-    <div className="h-[95vh] w-[100vw] flex justify-center items-center ">
+    <motion.div
+    variants={animationConfiguration}
+    initial="initial"
+    animate="animate"
+    exit="exit"
+    transition={{ duration: .1, }}
+      className="min-h-screen  flex flex-col justify-center items-center "
+    >
       <ToastMessage />
+
       <div className="flex max-sm:w-full items-center flex-col p-4">
         <div className="text-center">
-          <div className="text-4xl font-bold xl:text-4xl ">Welcome Back!</div>
+          <div className="text-4xl font-bold xl:text-4xl mt-12">Welcome Back!</div>
           <div className="mt-3 text-c3">Buy and sell anybook anywhere.</div>
         </div>
 
@@ -188,7 +204,11 @@ const Login = () => {
           <BiLeftArrowAlt color="white" size={32} />
         </div>
       </div>
-    </div>
+      <div className="privacy-policy mt-12  flex flex-col justify-self-end justify-center items-center">
+        <p className="text-sm font-medium">If you continue, you are accepting</p>
+        <Link to='/privacy-policy' className="text-xs underline">Edulisting Terms and Conditions and Privacy Policy</Link>
+      </div>
+    </motion.div>
   );
 };
 

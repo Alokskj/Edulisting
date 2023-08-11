@@ -36,6 +36,7 @@ import { ListingProvider } from "./components/Contexts/ListingContext";
 import ScrollToTop from "./components/utilities/ScrollToTop";
 import getUserLocation from "./components/utilities/getUserLocation";
 import { AnimatePresence } from "framer-motion";
+import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,7 @@ const router = createBrowserRouter([
 function App() {
   const { currentUser } = useAuth();
   
+
   useEffect(() => {
     const disableRightClick = (event) => {
       if (window.innerWidth <= 767) { // You can adjust the threshold as per your requirement
@@ -105,6 +107,7 @@ function Root() {
                   </>
                 }
               >
+
                 <Route path="/allchats" element={<AllChats />} />
                 <Route path="/ads" element={<Ads />} />
                 <Route path="/profile" element={<Profile />} />
@@ -121,6 +124,7 @@ function Root() {
                 </>
               }
             >
+                <Route path="/sell" element={<Create />} />
               
               <Route path="/editprofile" element={<EditProfile />} />
               <Route path="/chat" element={<Chat />} />
@@ -135,13 +139,13 @@ function Root() {
                 </>
               }
             >
-                <Route path="/sell" element={<Create />} />
 
               <Route path="/user/:id" element={<User />} />
             </Route>
 
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
             <Route
               path="/edulisting.apk"

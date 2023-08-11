@@ -23,6 +23,7 @@ import SelectPublisher from "../main/createListing/inputs/SelectPublisher";
 import { Helmet } from "react-helmet-async";
 import getUserLatLng from "../utilities/getUserLatLng";
 import Transition from "../main/Transition";
+import SimpleBottomNavigation from "../header/SimpleBottomNavigation";
 
 const Create = () => {
   const [btn, setBtn] = useState("Next");
@@ -280,6 +281,7 @@ const Create = () => {
         </div>
       </div>
       </Transition>
+      <SimpleBottomNavigation/>
     </>
   );
 };
