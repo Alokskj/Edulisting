@@ -10,6 +10,7 @@ import getNotificationPermission from "../utilities/getNotificationPermission";
 import { Helmet } from "react-helmet-async";
 import getUserLocation from "../utilities/getUserLocation";
 import Transition from "../main/Transition";
+import Transition from "../main/Transition";
 
 
 const Home = () => {

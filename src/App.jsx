@@ -81,9 +81,11 @@ function App() {
 function Root() {
   return (
     <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait">
     <ScrollToTop>
       <ChatContextProvider>
         <ListingProvider>
+
 
           <Routes>
             <Route
@@ -155,6 +157,7 @@ function Root() {
         </ListingProvider>
       </ChatContextProvider>
     </ScrollToTop>
+    </AnimatePresence>
     </AnimatePresence>
   );
 }

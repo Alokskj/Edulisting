@@ -19,6 +19,7 @@ const Support = () => {
   return (
     <>
     <Transition>
+    <Transition>
     <Helmet>
           <title>Help and Support3r.j</title>
           
@@ -95,6 +96,7 @@ const Support = () => {
     </div>
     </div>
     </div>
+    </Transition>
     </Transition>
     </>
   )

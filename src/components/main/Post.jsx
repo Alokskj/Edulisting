@@ -5,6 +5,7 @@ import { useInView , motion} from "framer-motion";
 
 const discountPercetage = (sellValue, purchaseValue) => {
 
+
   const sellValueInPer = (Number(sellValue) / Number(purchaseValue)) * 100;
   const discountPer = Math.floor(100 - sellValueInPer);
   return discountPer;
@@ -24,13 +25,7 @@ const animationConfiguration = {
 }
   return (
     <>
-      <div
-      // variants={animationConfiguration}
-      // initial="initial"
-      // animate="animate"
-      // exit="exit"
-      // transition={{ duration: .5, ease: 'easeInOut',type: "spring", stiffness: 50,  }}
-      ref={ref} className="post px-3 py-2 cursor-pointer  rounded-lg border-2 glass   hover:shadow-lg transform duration-300 transition-all  ease-in-out">
+      <div className="post px-3 py-2 cursor-pointer  rounded-lg border-2 glass   hover:shadow-lg transform duration-300 transition-all  ease-in-out">
         <Link to={`/listings/${props.slug}`}>
           <div className="post-container  flex flex-col justify-between h-full  relative">
             {props.mrp && (
@@ -71,7 +66,7 @@ const animationConfiguration = {
             </div>
           </div>
         </Link>
-      </div>
+      </motion.div>
     </>
   );
 };
