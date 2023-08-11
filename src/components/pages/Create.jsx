@@ -200,7 +200,7 @@ const Create = () => {
 
   return (
     <>
-    <Transition>
+    
     <Transition>
     <Helmet>
           <title>Create Listing</title>
