@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { client } from "../main/Client";
+import { redirect, useNavigate, useParams } from "react-router-dom";
+import { client } from "../main/client";
 import { userListings, userQuery, userPublishedListings } from "../main/data";
 import Spinner from "../header/Spinner";
 import Header from "../header/Header.jsx";
@@ -37,6 +37,11 @@ const User = () => {
   }, []);
 
   function followClick() {
+    if(!currentUser){
+      
+      navigate('/login')
+      return 
+    }
     if (!following) {
       // Add the follower locally
       setFollowing(true);

@@ -66,7 +66,7 @@ const animationConfiguration = {
             </div>
           </div>
         </Link>
-      </motion.div>
+      </div>
     </>
   );
 };

@@ -117,13 +117,14 @@ const Login = () => {
   return loading ? (
     <Spinner />
   ) : (
+    <div className="overflow-hidden">
     <motion.div
     variants={animationConfiguration}
     initial="initial"
     animate="animate"
     exit="exit"
     transition={{ duration: .1, }}
-      className="min-h-screen  flex flex-col justify-center items-center "
+      className="min-h-screen   flex flex-col justify-center items-center "
     >
       <ToastMessage />
 
@@ -204,11 +205,12 @@ const Login = () => {
           <BiLeftArrowAlt color="white" size={32} />
         </div>
       </div>
-      <div className="privacy-policy mt-12  flex flex-col justify-self-end justify-center items-center">
+      <div className="privacy-policy mt-2  flex flex-col justify-self-end justify-center items-center">
         <p className="text-sm font-medium">If you continue, you are accepting</p>
         <Link to='/privacy-policy' className="text-xs underline">Edulisting Terms and Conditions and Privacy Policy</Link>
       </div>
     </motion.div>
+    </div>
   );
 };
 

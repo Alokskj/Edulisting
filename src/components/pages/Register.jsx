@@ -177,7 +177,7 @@ const Register = () => {
           <BiLeftArrowAlt color="white" size={32} />
         </div>
       </div>
-      <div className="privacy-policy  mt-12 flex flex-col justify-center items-center">
+      <div className="privacy-policy  mt-2 flex flex-col justify-center items-center">
         <p className="text-sm font-medium">If you continue, you are accepting</p>
         <Link to='/privacy-policy' className="text-xs underline">Edulisting Terms and Conditions and Privacy Policy</Link>
       </div>
