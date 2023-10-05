@@ -112,7 +112,7 @@ const RecentPost = () => {
                       city={post.city}
                       key={uuid()}
                     />
-                  {index > 0 && (index + 1) % 10 === 0 && (
+                  {/* {index > 0 && (index + 1) % 10 === 0 && (
                     <>
                       <div key={uuid()} className="grid-item sm:hidden col-span-2">
                       <Adsense format="auto" responsive="true" client="ca-pub-5046319178676899" slot="9801493192" style={{ display: 'block' }} />
@@ -128,7 +128,7 @@ const RecentPost = () => {
                         />
                       </div>
                     </>
-                  )}
+                  )} */}
                   
                     
                  

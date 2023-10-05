@@ -136,10 +136,10 @@ const AllChats = () => {
         <p className="font-semibold">You don't have any chat's yet!</p>
       </div>
     );
-    const animationConfiguration = {
-      initial: { opacity: 0, y: "50vh", scale: 0.8},
-      animate: { opacity: 1 , y : 0, scale : 1},
-      exit: { opacity: 0, y: "100vh"},
+  const animationConfiguration = {
+    initial: { opacity: 0, y: "50vh", scale: 0.8 },
+    animate: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: "100vh" },
   };
 
   return (
@@ -149,12 +149,13 @@ const AllChats = () => {
           <title>Chats</title>
         </Helmet>
         <motion.div
-        // variants={animationConfiguration}
-        // initial="initial"
-        // animate="animate"
-        // exit="exit"
-        // transition={{ duration: .5, ease: 'easeInOut',type: "tween", stiffness: 50,  }}
-        className="allchats-container mb-28 flex flex-col justify-center lg:items-center">
+          // variants={animationConfiguration}
+          // initial="initial"
+          // animate="animate"
+          // exit="exit"
+          // transition={{ duration: .5, ease: 'easeInOut',type: "tween", stiffness: 50,  }}
+          className="allchats-container mb-28 flex flex-col justify-center lg:items-center"
+        >
           <div className="chat-title px-8 font-semibold">
             <h1 className=" text-2xl">Chats</h1>
           </div>
@@ -172,16 +173,17 @@ const AllChats = () => {
                 );
 
                 const date = formateDate(timestamp.toDate());
-
-                return (
-                  <AllChatsWidget
-                    chat={user}
-                    key={chat[0]}
-                    date={date}
-                    handleSelect={handleSelect}
-                    unreadMsgs={unreadMsgs[chat[0]]}
-                  />
-                );
+                if (chat[1].lastMessage) {
+                  return (
+                    <AllChatsWidget
+                      chat={user}
+                      key={chat[0]}
+                      date={date}
+                      handleSelect={handleSelect}
+                      unreadMsgs={unreadMsgs[chat[0]]}
+                    />
+                  );
+                }
               })}
           </div>
         </motion.div>

@@ -74,7 +74,7 @@ const ListingPrice = ({queryPost, address}) => {
               <p>{address}</p>
             </div>
             <div className="date capitalize">
-              <p>{queryPost?.createAt}</p>
+              {/* <p>{queryPost?.createAt}</p> */}
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { db, storage } from "../../utilities/firebase";
+import { database, db, storage } from "../../utilities/firebase";
 import {
   Timestamp,
   arrayUnion,
@@ -8,7 +8,9 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { off, onValue, ref } from "firebase/database";
+
+import { getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import React, { useEffect } from "react";
 import { TbSend } from "react-icons/tb";
 import { v4 as uuid } from "uuid";
@@ -16,10 +18,13 @@ import { useChatContext } from "../../Contexts/ChatContext";
 import { useAuth } from "../../Contexts/UserContext";
 import { sendPushNotification } from "../../utilities/sendPushNotification";
 import { notificationPayload } from "../../utilities/notificationPayload";
+import sendChatEmail from "../../utilities/sendChatEmail";
+import { useState } from "react";
 
 let typingTimeout = null;
 
 const Composebar = () => {
+  const [messageSend, setMessageSend] = useState(0)
   const {
     inputText,
     setInputText,
@@ -31,7 +36,23 @@ const Composebar = () => {
     setEditMsg,
   } = useChatContext();
   const { currentUser } = useAuth();
+  const [isOnline, setIsOnline] = useState(false)
+  useEffect(() => {
+    // Attach the onValue listener when the component mounts
+    const presenceRef = ref(database, `connections/${data.user.uid}`);
+    const presenceListener = onValue(presenceRef, (snapshot) => {
+      const userStatus = snapshot.val();
+      if(!userStatus){
+        console.log('user connection not found')
+      }
+      setIsOnline(userStatus === true);
+    });
 
+    // Detach the onValue listener when the component unmounts
+    return () => {
+      off(presenceRef, "value", presenceListener);
+    };
+  }, [data.user.uid]);
   useEffect(() => {
     setInputText(editMsg?.text || "");
   }, [editMsg]);
@@ -129,10 +150,31 @@ const Composebar = () => {
     });
     // send push notification to user
     const getOtherUser = await getDoc(doc(db, "users", data.user.uid));
+    
     if (getOtherUser.exists()) {
+     
       const otherUser = getOtherUser.data();
       const notification = notificationPayload(currentUser.displayName);
-      sendPushNotification(otherUser.token, notification);
+      
+      if(!isOnline){
+      console.log('3')
+      if(otherUser.token){  
+      
+
+      sendPushNotification(otherUser.token, notification); // send notification if token
+      }
+      else{
+        const formState = {
+          toUsername: otherUser.displayName,
+          fromUsername : currentUser.displayName,
+          toUserPicture : otherUser.photoURL,
+          toEmail: otherUser.email,
+          subject : `You have received messages from ${currentUser.displayName}`
+        };
+        sendChatEmail(formState)                        // send email if not token available
+         console.log(`token is not available, therefor email is sent ${otherUser.email}`)
+      }
+    }
     }
 
     setInputText("");

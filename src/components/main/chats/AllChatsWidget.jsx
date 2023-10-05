@@ -34,7 +34,7 @@ const AllChatsWidget = ({ chat, date, handleSelect, unreadMsgs }) => {
       off(presenceRef, "value", presenceListener);
     };
   }, [chat[1]?.userInfo?.uid]);
-  
+  console.log(chat[1])
   return (
     <div className="px-6 flex justify-center">
       <div className="container   flex justify-between items-center w-full px-1 lg:w-[50vw] h-24 border-b-2">
@@ -88,8 +88,8 @@ const AllChatsWidget = ({ chat, date, handleSelect, unreadMsgs }) => {
                   <DoneAllIcon fontSize="3px" />
                   {
                     <p className="truncate grow">
-                      {chat[1]?.lastMessage?.text ||
-                        (chat[1]?.lastMessage?.img && "image") ||
+                      {chat[1].lastMessage.text ||
+                        (chat[1].lastMessage.img && "image") ||
                         "Send first message"}
                     </p>
                   }

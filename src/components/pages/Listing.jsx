@@ -198,9 +198,9 @@ const Listing = () => {
             address={address}
           />
 
-          <div className="ad w-full h-60">
+          {/* <div className="ad w-full h-60">
             <Adsense slot="9801493192" client="ca-pub-5046319178676899" />
-          </div>
+          </div> */}
           <ListingOwner
             queryPost={queryPost}
             queryUser={queryUser}

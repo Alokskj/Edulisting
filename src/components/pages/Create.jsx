@@ -109,12 +109,12 @@ const Create = () => {
 
   const handleSubmit = async () => {
     if (!isPrimaryDetails && !isOptionalDetails) return;
+    setLoading(true);
     const latLng = await getUserLatLng(locality,city,state)
     const address = {
       fullAddress : {locality,city,state},
       cords : latLng
     }
-    setLoading(true);
     const doc = {
       _type: "listings",
       title,
