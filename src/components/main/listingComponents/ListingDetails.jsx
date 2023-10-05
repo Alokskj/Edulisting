@@ -4,6 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import { urlFor } from "../cdnClient";
 
 const ListingDetails = ({ queryPost }) => {
+  console.log(queryPost)
   const generateDescription = (listing) => {
     const defaultDescription =
       "Discover great deals on books at Edulisting. Buy or sell old school and class books hassle-free.";
@@ -113,11 +114,11 @@ const ListingDetails = ({ queryPost }) => {
               </div>
             </div>
           )}
-          {queryPost.edition && (
+          {queryPost.edition !== "" && (
             <div className="item flex justify-between w-full">
               <div className="key max-w-1/2">Edition</div>
               <div className="value basis-1/2">
-                {queryPost?.edition || "Not Specified"}
+                {(queryPost?.edition || "Not Specified")}
               </div>
             </div>
           )}
