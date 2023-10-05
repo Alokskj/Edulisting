@@ -56,16 +56,6 @@ const AllChats = () => {
   useEffect(() => {
     dispatch({ type: "EMPTY" });
   }, []);
-  // to fetch all users info
-  useEffect(() => {
-    onSnapshot(collection(db, "users"), (snapshot) => {
-      const updatedUsers = {};
-      snapshot.forEach((doc) => {
-        updatedUsers[doc.id] = doc.data();
-      });
-      setUsers(updatedUsers);
-    });
-  }, []);
   // to fetch all usersChats
   useEffect(() => {
     const getChats = () => {

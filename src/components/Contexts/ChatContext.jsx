@@ -1,5 +1,8 @@
 import { createContext, useContext, useReducer, useState } from "react";
 import { useAuth } from "./UserContext";
+import { useEffect } from "react";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../utilities/firebase";
 
 const chatContext = createContext();
 
@@ -17,7 +20,16 @@ export const ChatContextProvider = ({ children }) => {
   const [unreadMsgs, setUnreadMsgs] = useState({});
 
   const { currentUser } = useAuth();
-
+  // to fetch all users needed for chat comp.
+  useEffect(() => {
+    onSnapshot(collection(db, "users"), (snapshot) => {
+      const updatedUsers = {};
+      snapshot.forEach((doc) => {
+        updatedUsers[doc.id] = doc.data();
+      });
+      setUsers(updatedUsers);
+    });
+  }, []);
   const resetFooterStates = () => {
     setInputText("");
     setAttachment(null);
@@ -35,7 +47,10 @@ export const ChatContextProvider = ({ children }) => {
     switch (action.type) {
       case "CHANGE_USER":
         return {
-          user: {...action.payload.userInfo, mobileNumber : action.payload.listingInfo.mobileNumber},
+          user: {
+            ...action.payload.userInfo,
+            mobileNumber: action.payload.listingInfo.mobileNumber,
+          },
           chatId:
             (currentUser.uid > action.payload.userInfo.uid
               ? currentUser.uid + action.payload.userInfo.uid

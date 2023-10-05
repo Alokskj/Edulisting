@@ -10,6 +10,11 @@ import getNotificationPermission from "../utilities/getNotificationPermission";
 import { Helmet } from "react-helmet-async";
 import getUserLocation from "../utilities/getUserLocation";
 import Transition from "../main/Transition";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../utilities/firebase";
+import { useAuth } from "../Contexts/UserContext";
+import { useEffect } from "react";
+import { useChatContext } from "../Contexts/ChatContext";
 
 
 const Home = () => {
@@ -19,7 +24,8 @@ const Home = () => {
   if(!userLocation){
   getUserLocation()
   }
-
+ 
+  
   return (
     <>
    

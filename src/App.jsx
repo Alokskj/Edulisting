@@ -61,6 +61,7 @@ function App() {
         event.preventDefault();
       }
     };
+   
 
     
     document.addEventListener('contextmenu', disableRightClick);
