@@ -56,7 +56,7 @@ export const chatQuery = (id) =>{
 }
 
 export const allListings = (from , to) =>{
-    const query = `*[_type == "listings" && listed == true ] | order(_createdAt desc){
+    const query = `*[_type == "listings" && listed == true ] | order(_createdAt desc)[${from}..${to}]{
        ...
       }`
       return query

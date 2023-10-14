@@ -12,57 +12,42 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import PlaceholderCard from "./PlaceholderCard.jsx";
 import { Adsense } from "@ctrl/react-adsense";
-import calculateDistance from "../utilities/calculateDistance.js";
 const RecentPost = () => {
   const [postData, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [listings, setListings] = useState([]);
-  const userCoordinates = JSON.parse(localStorage.getItem('userCoordinates'))
+  const [postlimit, setPostLimit] = useState(0);
+  const [reducerValue, forceUpdate] = useReducer((x) => x + 1, 0);
+  const [more, setMore] = useState(true);
+
   useEffect(() => {
-    // Function to convert address to coordinates using Geocoding API
-    
-
-    const fetchListings = async () => {
-      const query = allListings();
-      const listingsData = await client.fetch(query);
-
-      const listingsWithDistance = 
-        listingsData.map((listing) => {
-          
-          
-          if (userCoordinates) {
-            const distance = calculateDistance(
-              listing.address.cords.lat,
-              listing.address.cords.lng,
-              userCoordinates.latitude,
-              userCoordinates.longitude
-            );
-            
-            return { ...listing, distance };
+    const query = allListings(postlimit, postlimit + 7);
+    client
+      .fetch(query)
+      .then((data) => {
+        setPost((prevPost) => {
+          if (data.length === 0) {
+            setMore(false);
+            return [...prevPost, ...prevPost]
           }
-          
-          return listing;
-        })
-      
+          if (prevPost) {
+            return [...prevPost, ...data];
+          } else {
+            return data;
+          }
+        });
+      })
+      .catch((err) => console.log(err));
+    setLoading(false);
+  }, [reducerValue, postlimit]);
 
-      // Sort the listings based on distance
-      const sortedListings = listingsWithDistance.sort(
-        (a, b) => a.distance - b.distance
-      );
-      
-      setListings(sortedListings);
-      console.log('fetched listings')
-      setLoading(false);
-    };
+  function handleLimit() {
+    setPostLimit((prevValue) => {
+      return prevValue + 8;
+    });
+  }
 
-    fetchListings();
-  }, []);
-
-  
-  
-
-  if (loading) {
-    
+  if (setLoading) {
+    if (!postData) {
       return (
         <div
           id="recent-post"
@@ -83,7 +68,7 @@ const RecentPost = () => {
           </div>
         </div>
       );
-    
+    }
   }
 
   return (
@@ -95,10 +80,22 @@ const RecentPost = () => {
         <h3>Fresh recommendations</h3>
       </div>
 
-      
+      <InfiniteScroll
+        dataLength={postData.length} //This is important field to render the next data
+        next={handleLimit}
+        hasMore={more}
+        loader={
+          <>
+            <div className="posts justify-center my-4   grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 z-0   md:m-4 gap-4">
+              <PlaceholderCard />
+              <PlaceholderCard />
+            </div>
+          </>
+        }
+      >
         <div className="posts justify-center overflow-hidden   grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4   md:m-4 gap-4">
-          {listings &&
-            listings.map((post, index) => {
+          {postData &&
+            postData.map((post, index) => {
               return (
                 <>
                 <Post
@@ -112,23 +109,7 @@ const RecentPost = () => {
                       city={post.city}
                       key={uuid()}
                     />
-                  {/* {index > 0 && (index + 1) % 10 === 0 && (
-                    <>
-                      <div key={uuid()} className="grid-item sm:hidden col-span-2">
-                      <Adsense format="auto" responsive="true" client="ca-pub-5046319178676899" slot="9801493192" style={{ display: 'block' }} />
 
-                      </div>
-                      <div key={uuid()} className="grid-item hidden sm:block">
-                        <Adsense
-                          client="ca-pub-5046319178676899"
-                          slot="4019302026"
-                          style={{ display: "block" }}
-                          layoutKey="-dg+f-h-50+aq"
-                          format="fluid"
-                        />
-                      </div>
-                    </>
-                  )} */}
                   
                     
                  
@@ -136,7 +117,7 @@ const RecentPost = () => {
               );
             })}
         </div>
-      
+      </InfiniteScroll>
     </div>
   );
 };
