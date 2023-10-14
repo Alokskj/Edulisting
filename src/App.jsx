@@ -37,6 +37,7 @@ import ScrollToTop from "./components/utilities/ScrollToTop";
 import getUserLocation from "./components/utilities/getUserLocation";
 import { AnimatePresence } from "framer-motion";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
+import MobileOtpVerify from "./components/pages/MobileOtpVerify";
 
 const router = createBrowserRouter([
   {
@@ -148,6 +149,7 @@ function Root() {
 
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/phone-verify" element={<MobileOtpVerify />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
             <Route

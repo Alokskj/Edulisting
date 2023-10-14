@@ -3,6 +3,7 @@ import { auth, db } from "../utilities/firebase";
 import { onAuthStateChanged, signOut as authSignOut } from "firebase/auth";
 import { arrayRemove, doc, getDoc, updateDoc } from "firebase/firestore";
 import { setPresence } from "../utilities/presence";
+import { useNavigate } from "react-router-dom";
 
 export const UserContext = createContext();
 
@@ -11,7 +12,7 @@ export const UserProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [sanityUser, setSanityUser] = useState(null)
   const [allListings, setAllListings] = useState(null);
- 
+  
   const clear = async () => {
     try {
       console.log(currentUser);
@@ -39,7 +40,12 @@ export const UserProvider = ({ children }) => {
       return;
     }
     try {
+      
       const {uid, email} = user.providerData[0];
+      if(!email){
+        setIsLoading(false)
+        return
+      }
       let id;
       if (uid === email) {
         id = user.uid;

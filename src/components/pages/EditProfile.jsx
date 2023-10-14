@@ -1,4 +1,11 @@
-import { Badge, TextField } from "@mui/material";
+import {
+  Backdrop,
+  Badge,
+  Dialog,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -12,14 +19,15 @@ import Spinner from "../header/Spinner";
 import { useAuth } from "../Contexts/UserContext";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../utilities/firebase";
+import MobileOtpVerify from "./MobileOtpVerify";
 const EditProfile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [imageAsset, setImageAsset] = useState(false);
   const [errorLength, setErrorLength] = useState(false);
-
+  const [showDialog, setShowDialog] = useState(false);
   const navigate = useNavigate();
-
+  console.log(user)
   const { currentUser, setSanityUser } = useAuth();
   useEffect(() => {
     const query = userQuery(currentUser?.uid);
@@ -94,6 +102,17 @@ const EditProfile = () => {
   }
   return (
     <>
+      <Dialog open={showDialog} onClose={() => setShowDialog(false)}>
+        <div onClick={(e) => e.stopPropagation()}>
+          <MobileOtpVerify userId={currentUser.uid} setUser={setUser}  setShowDialog={setShowDialog}/>
+        </div>
+      </Dialog>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={showDialog}
+        onClick={() => setShowDialog(false)}
+      />
+
       <div className="edit-profile-header shadow-sm border-b-2 p-4 flex justify-between">
         <div
           onClick={() => navigate(-1)}
@@ -190,12 +209,19 @@ const EditProfile = () => {
                     id="standard-basic"
                     label="Phone Number"
                     name="mobileNumber"
-                    error={errorLength}
                     value={user.mobileNumber}
-                    inputProps={{ maxLength: 10 }}
-                    onChange={handleChange}
                     variant="standard"
                     fullWidth
+                    InputProps={{
+                      readOnly: true,
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={() => setShowDialog(true)}>
+                            <EditIcon sx={{ width: 25, height: 25 }} />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </div>
               </div>
