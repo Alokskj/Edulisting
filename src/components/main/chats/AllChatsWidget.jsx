@@ -36,7 +36,7 @@ const AllChatsWidget = ({ chat, date, handleSelect, unreadMsgs }) => {
   }, [chat[1]?.userInfo?.uid]);
   console.log(chat[1])
   return (
-    <div className="px-6 flex justify-center">
+    <div className=" flex justify-center">
       <div className="container   flex justify-between items-center w-full px-1 lg:w-[50vw] h-24 border-b-2">
        
         <div className="lisitng-user-imag-and-text-info w-3/4 flex justify-start items-center gap-4">

@@ -3,7 +3,6 @@ import { useAuth } from "./UserContext";
 
 export const ListingContext = createContext();
 export const ListingProvider = ({ children }) => {
- 
   const [listing, setListing] = useState({
     title: "",
     description: "",
@@ -23,6 +22,7 @@ export const ListingProvider = ({ children }) => {
   const [isPrimaryDetails, setPrimaryDetails] = useState(false);
   const [isOptionalDetails, setOptionalDetails] = useState(false);
   const [isContactInfo, setIsContactInfo] = useState(false);
+  const [listingId, setListingId] = useState(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
@@ -35,7 +35,7 @@ export const ListingProvider = ({ children }) => {
       };
     });
   }
-  
+
   function resetListing() {
     setListing({
       title: "",
@@ -57,6 +57,7 @@ export const ListingProvider = ({ children }) => {
     setOptionalDetails(false);
     setError(false);
     setLoading(false);
+    setListingId(null)
     setImage(null);
   }
   return (
@@ -78,6 +79,8 @@ export const ListingProvider = ({ children }) => {
         error,
         setError,
         resetListing,
+        listingId,
+        setListingId,
       }}
     >
       {children}

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Lottie from "lottie-react";
-
+import MobileSeacrhbar from '../header/MobileSeacrhbar'
 import animationData from "../lotties/noResult.json";
-import Seacrhbar from "../header/Seacrhbar";
+
 import Spinner from "../header/Spinner";
 import { client } from "../main/client";
 import { listingQuery } from "../main/data";
@@ -49,7 +49,7 @@ const Query = () => {
   return (
     <>
     <Transition>
-      <Seacrhbar />
+      <MobileSeacrhbar />
       <div
         id="recent-post"
         className="recent-post mb-28  mx-4 md:mx-16 lg:mx-32 my-8 flex flex-col justify-center "

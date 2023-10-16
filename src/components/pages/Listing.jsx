@@ -22,17 +22,18 @@ import ListingPrice from "../main/listingComponents/ListingPrice";
 import ListingRelatedPost from "../main/listingComponents/ListingRelatedPost";
 import ListingOwner from "../main/listingComponents/ListingOwner";
 import ListingMap from "../main/listingComponents/ListingMap";
-
+import Error404 from "../main/Error404"
 import { SkeletonTheme } from "react-loading-skeleton";
 import AdSense from "../main/AdSense";
 import { Adsense } from "@ctrl/react-adsense";
 import Transition from "../main/Transition";
+import PageLayout from "../main/PageLayout";
 
 const Listing = () => {
   const { dispatch, data } = useChatContext();
   const { id } = useParams();
   const { currentUser } = useAuth();
-
+  const [notFound, setNotFound] = useState(false)
   const [queryPost, setQueryPost] = useState(null);
   const [queryUser, setQueryUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -50,7 +51,7 @@ const Listing = () => {
         console.log(listing[0], user[0]);
       } catch (error) {
         console.log(error);
-        // setLoading(false);
+        setNotFound(true)
       }
     };
     getUserAndPost();
@@ -149,12 +150,14 @@ const Listing = () => {
   if (queryPost) {
     var address = `${queryPost?.locality}, ${queryPost?.city}, ${queryPost?.state}`;
   }
+  if(notFound) return <Error404 />
 
   return (
     <>
     <Transition>
+      <PageLayout>
       <SkeletonTheme baseColor="#e5e7eb" highlightColor="#f3f4f6">
-        <div className="container hidden md:flex flex-col mx-auto md:flex-row justify-center gap-4 items-start px-2   mb-20">
+        <div className="container hidden w-full md:flex flex-col mx-auto md:flex-row justify-center gap-4 items-start px-2   mb-20">
           <div className="ad w-1/6 hidden lg:block h-full">
             <Adsense slot="9430989347" client="ca-pub-5046319178676899" />
           </div>
@@ -223,6 +226,7 @@ const Listing = () => {
           </div>
         </div>
       </SkeletonTheme>
+      </PageLayout>
       </Transition>
     </>
   );

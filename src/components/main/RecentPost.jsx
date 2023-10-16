@@ -51,7 +51,7 @@ const RecentPost = () => {
       return (
         <div
           id="recent-post"
-          className="recent-post mb-28 relative  mx-4 md:mx-16 lg:mx-32 my-8 flex flex-col justify-center "
+          className="recent-post mb-28 relative  mx-4 md:mx-20 lg:mx-24 my-8 flex flex-col justify-center "
         >
           <div className="recent-post-title capitalize my-2 poppins  lg:m-4 text-xl text-gray-500">
             <h3>Fresh recommendations</h3>
@@ -74,7 +74,7 @@ const RecentPost = () => {
   return (
     <div
       id="recent-post"
-      className="recent-post mb-28 relative  mx-4 md:mx-16 lg:mx-32 my-8 flex flex-col justify-center "
+      className="recent-post mb-28 relative  mx-4 md:mx-20 lg:mx-24 my-8 flex flex-col justify-center "
     >
       <div className="recent-post-title capitalize my-2 poppins  lg:m-4 text-xl text-gray-500">
         <h3>Fresh recommendations</h3>
@@ -87,6 +87,12 @@ const RecentPost = () => {
         loader={
           <>
             <div className="posts justify-center my-4   grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 z-0   md:m-4 gap-4">
+              <PlaceholderCard />
+              <PlaceholderCard />
+              <PlaceholderCard />
+              <PlaceholderCard />
+              <PlaceholderCard />
+              <PlaceholderCard />
               <PlaceholderCard />
               <PlaceholderCard />
             </div>

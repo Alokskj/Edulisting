@@ -56,6 +56,12 @@ a {
   padding: 0;
   min-width: 20px;
 }
+.control {
+ @apply hover:bg-gray-200 bg-opacity-90 p-2 duration-300 transition-all  rounded-full 
+}
+.active{
+  @apply bg-gray-200
+}
 
 .sell-button-container {
   border-style: solid;

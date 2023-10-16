@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useListing } from '../Contexts/ListingContext';
-import { client } from './client';
+import { client, urlFor } from './client';
 
 const NewListingImage = () => {
   
@@ -14,7 +14,6 @@ const NewListingImage = () => {
     client.assets
       .upload("image", file, { contentType: type, filename: name })
       .then((doc) => {
-        
         setImage(doc);
         
         setLoading(false);
@@ -55,7 +54,7 @@ const NewListingImage = () => {
                 ) : (
                   <div className="relative h-full">
                     <img
-                      src={image?.url}
+                      src={urlFor(image).url()}
                       
                       alt="uploaded-pic"
                       className="h-full w-full"

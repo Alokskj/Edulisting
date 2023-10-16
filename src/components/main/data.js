@@ -1,35 +1,26 @@
 export const listingQuery = (listingId) =>{
     const query = `*[_type == "listings" && _id == "${listingId}" && listed == true || title match "${listingId}*" || standard match "${listingId}*" || board match "${listingId}*" || price match "${listingId}*" || locality match "${listingId}*" || city match "${listingId}*" || subject match "${listingId}*" ]{
-        _id,
-        title,
-        description,
-        price,
-        slug,
-        address,
-        locality,
-        city,
-        board,
-        subject,
-        standard,
-        edition,
-        publisher,
-        condition,
-        mobileNumber,
-        state,
-        userId,
+      ...,
         image{
           asset->{
               _id,
-              url
+              url,
+              _ref
           },
   
         },
-        createAt,
+        
       }`
     return query
 }
 export const userQuery = (userId) =>{
     const query = `*[_type == "user" && _id == "${userId}"]`
+    return query
+}
+export const UserSingleListingQuery = (listingId) =>{
+    const query = `*[_type == "listings" && _id == "${listingId}"]{
+      ...,
+    }`
     return query
 }
 export const chatQuery = (id) =>{
@@ -70,24 +61,7 @@ export const userListings = (userId) =>{
 }
 export const userPublishedListings = (userId) =>{
     const query = `*[_type == "listings" && userId == "${userId}" && listed == true  ] | order(_createdAt desc){
-        _id,
-        title,
-        description,
-        price,
-        slug,
-        locality,
-        listed,
-        city,
-        state,
-        userId,
-        image{
-          asset->{
-              _id,
-              url
-          },
-  
-        },
-        createAt,
+       ...,
       }`
       return query
 }

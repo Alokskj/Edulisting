@@ -21,6 +21,7 @@ import { useChatContext } from "../Contexts/ChatContext";
 import { formateDate } from "../utilities/helpers";
 import { Helmet } from "react-helmet-async";
 import Transition from "../main/Transition";
+import PageLayout from "../main/PageLayout";
 
 export const readChat = async (chatId) => {
   const chatRef = doc(db, "chats", chatId);
@@ -134,22 +135,14 @@ const AllChats = () => {
 
   return (
     <>
-      <Transition>
+    <Transition>
+       <PageLayout>
         <Helmet>
           <title>Chats</title>
         </Helmet>
-        <motion.div
-          // variants={animationConfiguration}
-          // initial="initial"
-          // animate="animate"
-          // exit="exit"
-          // transition={{ duration: .5, ease: 'easeInOut',type: "tween", stiffness: 50,  }}
-          className="allchats-container mb-28 flex flex-col justify-center lg:items-center"
-        >
-          <div className="chat-title px-8 font-semibold">
-            <h1 className=" text-2xl">Chats</h1>
-          </div>
-          <div className="chats">
+        
+         
+          <div className="chats w-full">
             {Object.keys(users || {}).length > 0 &&
               filteredChats?.map((chat) => {
                 const user = [
@@ -176,8 +169,10 @@ const AllChats = () => {
                 }
               })}
           </div>
-        </motion.div>
-      </Transition>
+        
+        </PageLayout>
+        </Transition>
+      
     </>
   );
 };

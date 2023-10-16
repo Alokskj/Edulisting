@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const Seacrhbar = () => {
+const MobileSeacrhbar = () => {
   const [value,setValue] = useState("")
   const navigate = useNavigate()
   function handleChange(e){
@@ -26,4 +26,4 @@ const Seacrhbar = () => {
   )
 }
 
-export default Seacrhbar
+export default MobileSeacrhbar

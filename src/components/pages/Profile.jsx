@@ -13,10 +13,9 @@ import { Avatar } from "@mui/material";
 import FeatureWidget from "../main/FeatureWidget";
 import { useAuth } from "../Contexts/UserContext";
 import { Helmet } from "react-helmet-async";
-import { useListing } from "../Contexts/ListingContext";
-import Transition from "../main/Transition";
-import { AiFillAndroid } from "react-icons/ai";
+import PageLayout from '../main/PageLayout'
 import { Android } from "@mui/icons-material";
+import Transition from "../main/Transition";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -63,13 +62,14 @@ const Profile = () => {
 
   return (
     <>
-      <Transition>
+    <Transition>
+     <PageLayout>
         <Helmet>
           <title>Profile</title>
         </Helmet>
-        <div className="contain-con flex justify-center flex-col md:items-center">
-          <div className="con md:w-2/5 lg:w-2/6">
-            <div className="profile flex justify-center items-center p-4 flex-col">
+        
+          <div className="con w-full md:w-2/5 lg:w-2/6">
+            <div className="profile flex justify-center items-center flex-col w-full">
               <div className="profile-img-following gap-12 mb-5 justify-center flex items-center">
                 <div className="profile-img   mb-1">
                   <Avatar
@@ -170,8 +170,9 @@ const Profile = () => {
               )}
             </div>
           </div>
-        </div>
-      </Transition>
+      
+        </PageLayout>
+        </Transition>
     </>
   );
 };

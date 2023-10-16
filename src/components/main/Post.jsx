@@ -8,7 +8,9 @@ const discountPercetage = (sellValue, purchaseValue) => {
 
   const sellValueInPer = (Number(sellValue) / Number(purchaseValue)) * 100;
   const discountPer = Math.floor(100 - sellValueInPer);
-  return discountPer;
+  if(discountPer > 0 ) return -discountPer
+  return null
+  
 };
 
 const post = (props) => {
@@ -28,9 +30,9 @@ const animationConfiguration = {
       <div className="post px-3 py-2 cursor-pointer  rounded-lg border-2 glass   hover:shadow-lg transform duration-300 transition-all  ease-in-out">
         <Link to={`/listings/${props.slug}`}>
           <div className="post-container  flex flex-col justify-between h-full  relative">
-            {props.mrp && (
+            {discountPercetage(props?.price, props?.mrp) && (
               <div className="discount absolute right-2 bg-[#11319b] rounded-full px-1 py-2 font-bold text-[10px] text-white shadow-md  ">
-                <p>-{discountPercetage(props?.price, props?.mrp)}%</p>
+                <p>{discountPercetage(props?.price, props?.mrp)}%</p>
               </div>
             )}
 

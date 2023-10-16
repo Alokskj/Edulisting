@@ -38,6 +38,7 @@ import getUserLocation from "./components/utilities/getUserLocation";
 import { AnimatePresence } from "framer-motion";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import MobileOtpVerify from "./components/pages/MobileOtpVerify";
+import EditListing from "./components/pages/EditListing";
 
 const router = createBrowserRouter([
   {
@@ -45,7 +46,6 @@ const router = createBrowserRouter([
     Component: Root,
     errorElement: (
       <>
-        
         <Header /> <ErrorPage /> <SimpleBottomNavigation />
       </>
     ),
@@ -54,22 +54,20 @@ const router = createBrowserRouter([
 
 function App() {
   const { currentUser } = useAuth();
-  
 
   useEffect(() => {
     const disableRightClick = (event) => {
-      if (window.innerWidth <= 767) { // You can adjust the threshold as per your requirement
+      if (window.innerWidth <= 767) {
+        // You can adjust the threshold as per your requirement
         event.preventDefault();
       }
     };
-   
 
-    
-    document.addEventListener('contextmenu', disableRightClick);
+    document.addEventListener("contextmenu", disableRightClick);
 
     // Clean up the event listener when the component unmounts
     return () => {
-      document.removeEventListener('contextmenu', disableRightClick);
+      document.removeEventListener("contextmenu", disableRightClick);
     };
   }, []);
   if (currentUser?.uid) {
@@ -83,84 +81,81 @@ function App() {
 function Root() {
   return (
     <AnimatePresence mode="wait">
-    <AnimatePresence mode="wait">
-    <ScrollToTop>
-      <ChatContextProvider>
-        <ListingProvider>
+      <AnimatePresence mode="wait">
+        <ScrollToTop>
+          <ChatContextProvider>
+            <ListingProvider>
+              <Routes>
+                <Route
+                  element={
+                    <>
+                      {" "}
+                      <Header /> <Outlet /> <SimpleBottomNavigation />
+                    </>
+                  }
+                >
+                  <Route path="/" element={<Home />} />
+                  <Route path="/listings/:id" element={<Listing />} />
+                  <Route path="/query/:id" element={<Query />} />
+                  <Route path="/notification" element={<Notification />} />
 
+                  {/* private routes  */}
+                  <Route
+                    element={
+                      <>
+                        <PrivateRoutes />
+                      </>
+                    }
+                  >
+                    <Route path="/allchats" element={<AllChats />} />
+                    <Route path="/ads" element={<Ads />} />
+                    <Route path="/profile" element={<Profile />} />
+                  </Route>
+                  {/* private routes */}
 
-          <Routes>
-            <Route
-              element={
-                <>
-                  {" "}
-                  <Header /> <Outlet /> <SimpleBottomNavigation />
-                </>
-              }
-            >
-              <Route path="/" element={<Home />} />
-              <Route path="/listings/:id" element={<Listing />} />
-              <Route path="/query/:id" element={<Query />} />
-              <Route path="/notification" element={<Notification />} />
+                  <Route path="*" element={<Error404 />} />
+                </Route>
 
-              {/* private routes  */}
-              <Route
-                element={
-                  <>
-                    <PrivateRoutes />
-                  </>
-                }
-              >
+                <Route
+                  element={
+                    <>
+                      <PrivateRoutes />
+                    </>
+                  }
+                >
+                  <Route path="/sell" element={<Create />} />
+                  <Route path="/edit-listing" element={<EditListing />} />
 
-                <Route path="/allchats" element={<AllChats />} />
-                <Route path="/ads" element={<Ads />} />
-                <Route path="/profile" element={<Profile />} />
-              </Route>
-              {/* private routes */}
+                  <Route path="/editprofile" element={<EditProfile />} />
+                  <Route path="/chat" element={<Chat />} />
+                  <Route path="/help-and-support" element={<Support />} />
+                  <Route path="/setting" element={<Setting />} />
+                </Route>
 
-              <Route path="*" element={<Error404 />} />
-            </Route>
+                <Route
+                  element={
+                    <>
+                      <Outlet /> <SimpleBottomNavigation />
+                    </>
+                  }
+                >
+                  <Route path="/user/:id" element={<User />} />
+                </Route>
 
-            <Route
-              element={
-                <>
-                  <PrivateRoutes />
-                </>
-              }
-            >
-                <Route path="/sell" element={<Create />} />
-              
-              <Route path="/editprofile" element={<EditProfile />} />
-              <Route path="/chat" element={<Chat />} />
-              <Route path="/help-and-support" element={<Support />} />
-              <Route path="/setting" element={<Setting />} />
-            </Route>
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/phone-verify" element={<MobileOtpVerify />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
-            <Route
-              element={
-                <>
-                  <Outlet /> <SimpleBottomNavigation />
-                </>
-              }
-            >
-
-              <Route path="/user/:id" element={<User />} />
-            </Route>
-
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/phone-verify" element={<MobileOtpVerify />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-
-            <Route
-              path="/edulisting.apk"
-              element={<Link to="/edulisting.apk"></Link>}
-            />
-          </Routes>
-        </ListingProvider>
-      </ChatContextProvider>
-    </ScrollToTop>
-    </AnimatePresence>
+                <Route
+                  path="/edulisting.apk"
+                  element={<Link to="/edulisting.apk"></Link>}
+                />
+              </Routes>
+            </ListingProvider>
+          </ChatContextProvider>
+        </ScrollToTop>
+      </AnimatePresence>
     </AnimatePresence>
   );
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import RecentPost from "../main/RecentPost";
-import Seacrhbar from "../header/Seacrhbar";
+
 
 import Category from "../header/Category";
 import Hero from "../main/Hero";
@@ -15,6 +15,7 @@ import { db } from "../utilities/firebase";
 import { useAuth } from "../Contexts/UserContext";
 import { useEffect } from "react";
 import { useChatContext } from "../Contexts/ChatContext";
+import MobileSeacrhbar from "../header/MobileSeacrhbar";
 
 
 const Home = () => {
@@ -36,11 +37,11 @@ const Home = () => {
     </Helmet>
       <OneTapLogin />
       <div className="hidden  lg:block">
-        <Category />
-        <Hero />
+        {/* <Category /> */}
+        {/* <Hero /> */}
       </div>
 
-      <Seacrhbar />
+      <MobileSeacrhbar />
 
       <RecentPost />
       
