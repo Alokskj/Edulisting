@@ -14,10 +14,10 @@ const ListingMap = ({ address, queryPost }) => {
  }) 
   useEffect(() => {
     if (address) {
-      console.log("address is present");
+     
     async function getLatLng(){
       const latLng = await getUserLatLng(queryPost.locality, queryPost.city, queryPost.state);
-      console.log(latLng)
+     
       setCoordinates(latLng)
     }
     

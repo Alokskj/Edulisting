@@ -3,7 +3,8 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { PersonOutline } from "@mui/icons-material";
-import PostAdBtn from "./PostAdBtn";
+
+import PrimaryBtn from "../main/PrimaryBtn";
 const Navigation = () => {
   return (
     <>
@@ -46,7 +47,7 @@ const Navigation = () => {
         >
           <PersonOutline />
         </NavLink>
-        <PostAdBtn />
+        <PrimaryBtn text='Sell' link='/sell' />
       </nav>
     </>
   );

@@ -27,7 +27,7 @@ const EditProfile = () => {
   const [errorLength, setErrorLength] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const navigate = useNavigate();
-  console.log(user)
+  
   const { currentUser, setSanityUser } = useAuth();
   useEffect(() => {
     const query = userQuery(currentUser?.uid);
@@ -36,7 +36,7 @@ const EditProfile = () => {
       .then((data) => {
         const result = data[0];
         setUser(result);
-        console.log(result);
+        
         setLoading(false);
       })
       .catch((err) => console.log("edit profile err", err));

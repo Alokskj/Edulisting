@@ -4,7 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import { urlFor } from "../cdnClient";
 
 const ListingDetails = ({ queryPost }) => {
-  console.log(queryPost)
+ 
   const generateDescription = (listing) => {
     const defaultDescription =
       "Discover great deals on books at Edulisting. Buy or sell old school and class books hassle-free.";

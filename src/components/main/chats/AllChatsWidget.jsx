@@ -23,9 +23,6 @@ const AllChatsWidget = ({ chat, date, handleSelect, unreadMsgs }) => {
     const presenceRef = ref(database, `connections/${chat[1]?.userInfo?.uid}`);
     const presenceListener = onValue(presenceRef, (snapshot) => {
       const userStatus = snapshot.val();
-      if(!userStatus){
-        console.log('user connection not found')
-      }
       setIsOnline(userStatus === true);
     });
 
@@ -34,7 +31,6 @@ const AllChatsWidget = ({ chat, date, handleSelect, unreadMsgs }) => {
       off(presenceRef, "value", presenceListener);
     };
   }, [chat[1]?.userInfo?.uid]);
-  console.log(chat[1])
   return (
     <div className=" flex justify-center">
       <div className="container   flex justify-between items-center w-full px-1 lg:w-[50vw] h-24 border-b-2">

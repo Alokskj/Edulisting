@@ -30,7 +30,7 @@ const MessageInput = () => {
     e.preventDefault();
     if (!img && !text) return;
     if (img) {
-      console.log("yes hello");
+     
       const storageRef = ref(storage, uuid());
 
       const uploadTask = uploadBytesResumable(storageRef, img);

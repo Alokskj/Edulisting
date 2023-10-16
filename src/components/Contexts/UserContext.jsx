@@ -15,10 +15,10 @@ export const UserProvider = ({ children }) => {
   
   const clear = async () => {
     try {
-      console.log(currentUser);
+      
       if (currentUser) {
         setPresence(currentUser.uid, false);
-        console.log("bye user");
+       
         authSignOut(auth);
       }
       setSanityUser(null)
@@ -55,7 +55,7 @@ export const UserProvider = ({ children }) => {
       const userDocExist = await getDoc(doc(db, "users", id));
       
       if (userDocExist.exists()) {
-        console.log("hello user");
+        
         console.log("user is signed in");
       }
 

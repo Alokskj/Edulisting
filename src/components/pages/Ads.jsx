@@ -32,6 +32,7 @@ const Ads = () => {
       .then((data) => {
         setAds(data);
         setAllListings(data);
+        
         setLoading(false);
       })
       .catch((error) => {
@@ -54,8 +55,8 @@ const Ads = () => {
     }
   }
 
-  if (loading) return;
 
+  if (loading) return;
   return (
     <>
     <Transition >

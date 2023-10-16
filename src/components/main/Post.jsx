@@ -31,7 +31,7 @@ const animationConfiguration = {
         <Link to={`/listings/${props.slug}`}>
           <div className="post-container  flex flex-col justify-between h-full  relative">
             {discountPercetage(props?.price, props?.mrp) && (
-              <div className="discount absolute right-2 bg-[#11319b] rounded-full px-1 py-2 font-bold text-[10px] text-white shadow-md  ">
+              <div className="discount absolute right-2 bg-blue-600 rounded-full px-1 py-2 font-bold text-[10px] text-white shadow-md  ">
                 <p>{discountPercetage(props?.price, props?.mrp)}%</p>
               </div>
             )}

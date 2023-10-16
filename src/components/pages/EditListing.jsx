@@ -15,7 +15,7 @@ const EditListing = () => {
         const result = await client.fetch(query)
         setListing(result[0])
         // const {url, _id} = result[0].image.asset
-        console.log(result[0])
+       
         setImage(result[0].image)
         
         setLoading(false)

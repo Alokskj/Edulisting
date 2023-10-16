@@ -42,9 +42,7 @@ const Composebar = () => {
     const presenceRef = ref(database, `connections/${data.user.uid}`);
     const presenceListener = onValue(presenceRef, (snapshot) => {
       const userStatus = snapshot.val();
-      if(!userStatus){
-        console.log('user connection not found')
-      }
+     
       setIsOnline(userStatus === true);
     });
 
@@ -157,7 +155,7 @@ const Composebar = () => {
       const notification = notificationPayload(currentUser.displayName);
       
       if(!isOnline){
-      console.log('3')
+     
       if(otherUser.token){  
       
 

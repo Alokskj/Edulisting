@@ -115,6 +115,7 @@ const AllChats = () => {
 
   const filteredChats = Object.entries(chats || {})
     .filter(([, chat]) => !chat.hasOwnProperty("chatDeleted"))
+    .filter(([, chat]) => chat.hasOwnProperty("lastMessage"))
     .sort((a, b) => b[1].date - a[1].date);
 
   if (loading || !chats) return <Spinner />;
