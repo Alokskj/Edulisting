@@ -22,6 +22,8 @@ import getUserLatLng from "../utilities/getUserLatLng";
 import Transition from "../main/Transition";
 import SimpleBottomNavigation from "../header/SimpleBottomNavigation";
 import Header from "../header/Header";
+import { v4 } from "uuid";
+
 const Create = () => {
   const [btn, setBtn] = useState("Next");
 
@@ -128,6 +130,7 @@ const Create = () => {
       cords: latLng,
     };
     const doc = {
+      _id : listingId || v4(),
       _type: "listings",
       title,
       description,
@@ -153,10 +156,9 @@ const Create = () => {
       createAt: moment().format("Do MMMM YY"),
       listed: currentUser?.uid === "110753906230473125746" ? true : false,
     };
-    if(listingId){
-      doc._id = listingId
-    }
+    
     try {
+      console.log(doc)
       await client.createOrReplace(doc);
       await client
         .patch(currentUser.uid)
