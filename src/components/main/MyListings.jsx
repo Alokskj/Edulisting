@@ -59,7 +59,7 @@ const MyListings = ({date, title, image, price, listed, handleDelete , id, userI
       </div>
       </Link>
     </div>
-    <div className="absolute bottom-0 z-50 right-0 action-button mt-8">
+    <div className="absolute bottom-0  right-0 action-button mt-8">
             <button onClick={handleEditClick} type='button' className='bg-white hover:shadow-md border-2 mx-2 mb-2 border-black text-black p-3 rounded-lg '>Edit Listing</button>
         </div>
     </div>

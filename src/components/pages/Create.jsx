@@ -158,7 +158,7 @@ const Create = () => {
     };
     
     try {
-      console.log(doc)
+      
       await client.createOrReplace(doc);
       await client
         .patch(currentUser.uid)
@@ -172,8 +172,8 @@ const Create = () => {
       };
 
       sendEmail(formState);
-      resetListing();
       setAllListings(null);
+      resetListing();
       navigate("/ads");
     } catch (error) {
       console.log(error);

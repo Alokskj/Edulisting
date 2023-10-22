@@ -8,6 +8,7 @@ import DeleteMsgMenu from "./DeleteMsgMenu";
 import { useEffect } from "react";
 import { off, onValue, ref } from "firebase/database";
 import { database } from "../../utilities/firebase";
+import { urlFor } from "../cdnClient";
 const AllChatsWidget = ({ chat, date, handleSelect, unreadMsgs }) => {
   const navigate = useNavigate();
   const { dispatch } = useChatContext();
@@ -38,11 +39,11 @@ const AllChatsWidget = ({ chat, date, handleSelect, unreadMsgs }) => {
         <div className="lisitng-user-imag-and-text-info w-3/4 flex justify-start items-center gap-4">
         <div className=" flex justify-center items-center ">
           <div className="image relative w-12 h-14">
-            <Link to={"../listings/" + chat[1].listingInfo.uid}>
+            <Link to={"../listings/" + chat[1]?.listingInfo?.uid}>
               <img
                 className="w-full object-cover rounded-lg cursor-pointer  h-full"
-                src={chat[1].listingInfo.photUrl}
-                alt={chat[1].listingInfo.listingName}
+                src={urlFor(chat[1].listingInfo?.photoUrl).height(80).format('webp').url()}
+                alt={chat[1].listingInfo?.listingName}
               />
             </Link>
             <div className="user-image absolute -bottom-2 -right-2">

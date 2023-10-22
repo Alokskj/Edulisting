@@ -2,8 +2,7 @@ import React from "react";
 import RecentPost from "../main/RecentPost";
 
 
-import Category from "../header/Category";
-import Hero from "../main/Hero";
+
 
 import OneTapLogin from "../utilities/OneTapLogin";
 import getNotificationPermission from "../utilities/getNotificationPermission";
@@ -16,6 +15,9 @@ import { useAuth } from "../Contexts/UserContext";
 import { useEffect } from "react";
 import { useChatContext } from "../Contexts/ChatContext";
 import MobileSeacrhbar from "../header/MobileSeacrhbar";
+import Footer from "../footer/Footer";
+import Banner from "../header/Banner";
+import PageLayout from "../main/PageLayout";
 
 
 const Home = () => {
@@ -36,15 +38,14 @@ const Home = () => {
           
     </Helmet>
       <OneTapLogin />
-      <div className="hidden  lg:block">
-        {/* <Category /> */}
-        {/* <Hero /> */}
-      </div>
-
       <MobileSeacrhbar />
-
+      <PageLayout className="p-1"> 
+        <div className="flex flex-col gap-y-5 w-full">
+      <Banner />
       <RecentPost />
-      
+      <Footer />
+        </div>
+      </PageLayout>
     </>
   );
 };

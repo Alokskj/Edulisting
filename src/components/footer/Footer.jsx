@@ -3,13 +3,11 @@ import React from 'react'
 const Footer = () => {
   return (
     
-<footer className="p-4 bg-white border-t-2  sm:p-6  dark:bg-gray-900 hidden">
+<footer className="p-4 bg-white border-t-2  sm:p-6  dark:bg-gray-900 ">
     <div className="md:flex md:justify-between">
         <div className="mb-6 md:mb-0">
-            <a href="https://flowbite.com/" className="flex items-center">
-                <img src="src/assets/postimages/logo-trans.png" className="h-20 mr-3" alt="FlowBite Logo" />
+            
                 <span className="self-center text-4xl font-semibold whitespace-nowrap dark:text-white">Edulisting</span>
-            </a>
         </div>
         <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
             <div>

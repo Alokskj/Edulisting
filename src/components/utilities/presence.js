@@ -6,7 +6,7 @@ import { get, onDisconnect, onValue, ref, set } from "firebase/database";
 const connectionRef = ref(database, ".info/connected");
 onValue(connectionRef, async (snapshot) => {
   let id;
-  const { uid, email } = auth.currentUser.providerData[0];
+  const { uid, email } = auth.currentUser?.providerData[0] || {};
   if (!uid) {
     // User not authenticated or authentication state is still loading
     return;
@@ -20,7 +20,6 @@ onValue(connectionRef, async (snapshot) => {
   }
 
   let connected = snapshot.val();
-  console.log(connected);
   if (typeof connected !== "boolean") {
     return;
   }
@@ -38,7 +37,6 @@ onValue(connectionRef, async (snapshot) => {
 });
 
 export async function setPresence(uid, connected) {
-  console.log(connected);
   const userConnectedRef = ref(database, `connections/${uid}`);
   set(userConnectedRef, connected);
 }

@@ -53,11 +53,6 @@ export const UserProvider = ({ children }) => {
         id = uid;
       }
       const userDocExist = await getDoc(doc(db, "users", id));
-      
-      if (userDocExist.exists()) {
-        
-        console.log("user is signed in");
-      }
 
       setPresence(userDocExist.data().uid, true)
       setCurrentUser(userDocExist.data());

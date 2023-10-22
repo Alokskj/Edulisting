@@ -18,6 +18,7 @@ const RecentPost = () => {
   const [postlimit, setPostLimit] = useState(0);
   const [reducerValue, forceUpdate] = useReducer((x) => x + 1, 0);
   const [more, setMore] = useState(true);
+  const placeholderCount = new Array(8).fill(null)
 
   useEffect(() => {
     const query = allListings(postlimit, postlimit + 7);
@@ -51,20 +52,13 @@ const RecentPost = () => {
       return (
         <div
           id="recent-post"
-          className="recent-post mb-28 relative  mx-4 md:mx-20 lg:mx-24 my-8 flex flex-col justify-center "
+          className="recent-post  relative flex flex-col justify-center "
         >
           <div className="recent-post-title capitalize my-2 poppins  lg:m-4 text-xl text-gray-500">
             <h3>Fresh recommendations</h3>
           </div>
           <div className="posts justify-center  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 z-0   md:m-4 gap-4">
-            <PlaceholderCard />
-            <PlaceholderCard />
-            <PlaceholderCard />
-            <PlaceholderCard />
-            <PlaceholderCard />
-            <PlaceholderCard />
-            <PlaceholderCard />
-            <PlaceholderCard />
+            {placeholderCount.map((i,index)=> <PlaceholderCard key={index}/>)}
           </div>
         </div>
       );
@@ -74,9 +68,9 @@ const RecentPost = () => {
   return (
     <div
       id="recent-post"
-      className="recent-post mb-28 relative  mx-4 md:mx-20 lg:mx-24 my-8 flex flex-col justify-center "
+      className="recent-post  relative w-full"
     >
-      <div className="recent-post-title capitalize my-2 poppins  lg:m-4 text-xl text-gray-500">
+      <div className="recent-post-title capitalize p-1 poppins ml-1 my-1 text-xl text-gray-500">
         <h3>Fresh recommendations</h3>
       </div>
 
@@ -84,26 +78,20 @@ const RecentPost = () => {
         dataLength={postData.length} //This is important field to render the next data
         next={handleLimit}
         hasMore={more}
+        key={uuid()}
         loader={
           <>
             <div className="posts justify-center my-4   grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 z-0   md:m-4 gap-4">
-              <PlaceholderCard />
-              <PlaceholderCard />
-              <PlaceholderCard />
-              <PlaceholderCard />
-              <PlaceholderCard />
-              <PlaceholderCard />
-              <PlaceholderCard />
-              <PlaceholderCard />
+              {placeholderCount.map((i, index)=> <PlaceholderCard key={index}/>)}
             </div>
           </>
         }
       >
-        <div className="posts justify-center overflow-hidden   grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4   md:m-4 gap-4">
+        <div className="posts justify-center p-2   grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4    gap-4">
           {postData &&
             postData.map((post, index) => {
               return (
-                <>
+                
                 <Post
                       image={post?.image}
                       slug={post._id}
@@ -113,13 +101,13 @@ const RecentPost = () => {
                       locality={post.locality}
                       state={post.state}
                       city={post.city}
-                      key={uuid()}
+                      key={post._id}
                     />
 
                   
                     
                  
-                </>
+                
               );
             })}
         </div>

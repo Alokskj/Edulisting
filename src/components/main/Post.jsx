@@ -27,11 +27,11 @@ const animationConfiguration = {
 }
   return (
     <>
-      <div className="post px-3 py-2 cursor-pointer  rounded-lg border-2 glass   hover:shadow-lg transform duration-300 transition-all  ease-in-out">
+      <div className="post px-3 py-2 cursor-pointer  rounded-lg border-2 glass   md:hover:scale-[1.01] hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] transform duration-300 transition-all  ease-in-out">
         <Link to={`/listings/${props.slug}`}>
           <div className="post-container  flex flex-col justify-between h-full  relative">
             {discountPercetage(props?.price, props?.mrp) && (
-              <div className="discount absolute right-2 bg-blue-600 rounded-full px-1 py-2 font-bold text-[10px] text-white shadow-md  ">
+              <div className="discount absolute right-2 bg-blue-700 rounded-full px-1 py-2 font-bold text-[10px] text-white shadow-md  ">
                 <p>{discountPercetage(props?.price, props?.mrp)}%</p>
               </div>
             )}
@@ -50,18 +50,16 @@ const animationConfiguration = {
                   {props.price}
                 </p>
               </div>
-              <div className="post-title text-sm poppins tracking-tight">
-                <h2>
-                  {props?.title.slice(0, 15)}
-                  {props?.title.length >= 15 && "..."}
+              <div className="post-title text-sm poppins tracking-tight   ">
+                <h2 className=" truncate">
+                  {props.title}
                 </h2>
               </div>
               <div className="location-container ">
                 <div className="location flex mt-1 space-x-1 items-center">
                   <i className="fa-solid fa-location-dot"></i>
-                  <p className="text-xs">
-                    {locality.slice(0,18)}
-                    {locality.length >= 18 && "..."}
+                  <p className="text-xs truncate">
+                    {locality}
                   </p>
                 </div>
               </div>

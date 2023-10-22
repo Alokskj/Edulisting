@@ -6,7 +6,7 @@ const getNotificationPermission = () => {
     // Request notification permission when the component mounts
     const requestNotificationPermission = async () => {
       const permission = await Notification.requestPermission();
-      console.log("Notification permission:", permission);
+      
       // You can handle the user's response here (granted, denied, or default)
     };
     

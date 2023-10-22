@@ -1,15 +1,6 @@
 export const listingQuery = (listingId) =>{
-    const query = `*[_type == "listings" && _id == "${listingId}" && listed == true || title match "${listingId}*" || standard match "${listingId}*" || board match "${listingId}*" || price match "${listingId}*" || locality match "${listingId}*" || city match "${listingId}*" || subject match "${listingId}*" ]{
+    const query = `*[_type == "listings" && _id == "${listingId}" && listed == true || title match "${listingId}*" || standard match "${listingId}*" || board match "${listingId}*" || price match "${listingId}*" || locality match "${listingId}*" || city match "${listingId}*" || subject match "${listingId}*" ] | order(_createdAt desc){
       ...,
-        image{
-          asset->{
-              _id,
-              url,
-              _ref
-          },
-  
-        },
-        
       }`
     return query
 }

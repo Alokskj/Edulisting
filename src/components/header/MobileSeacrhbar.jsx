@@ -15,7 +15,7 @@ const MobileSeacrhbar = () => {
    
   }
   return (
-    <div className='seacrhbar-container md:hidden bg-white'>
+    <div className='seacrhbar-container w-full md:hidden bg-white'>
         <div className="seacrhbar">
             <form onSubmit={handleSubmit} className='flex justify-center items-center border-2 border-black rounded-lg m-3'>
             <i onClick={handleSubmit} className="fa-solid fa-magnifying-glass text-2xl cursor-pointer mx-2"></i>

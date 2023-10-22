@@ -111,14 +111,12 @@ const AllChats = () => {
       }
       navigate("/chat");
     }
-  };
-
+  }; 
   const filteredChats = Object.entries(chats || {})
     .filter(([, chat]) => !chat.hasOwnProperty("chatDeleted"))
     .filter(([, chat]) => chat.hasOwnProperty("lastMessage"))
     .sort((a, b) => b[1].date - a[1].date);
-
-  if (loading || !chats) return <Spinner />;
+  if (loading) return <Spinner />;
   if (filteredChats.length === 0)
     return (
       <div className="flex absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex-col justify-center items-center w-full ">
@@ -128,27 +126,22 @@ const AllChats = () => {
         <p className="font-semibold">You don't have any chat's yet!</p>
       </div>
     );
-  const animationConfiguration = {
-    initial: { opacity: 0, y: "50vh", scale: 0.8 },
-    animate: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, y: "100vh" },
-  };
 
   return (
     <>
-    <Transition>
-       <PageLayout>
-        <Helmet>
-          <title>Chats</title>
-        </Helmet>
-        
-         
+      <Transition>
+        <PageLayout>
+          <Helmet>
+            <title>Chats</title>
+          </Helmet>
+
           <div className="chats w-full">
             {Object.keys(users || {}).length > 0 &&
               filteredChats?.map((chat) => {
+                
                 const user = [
                   chat[0],
-                  { ...chat[1], userInfo: users[chat[1].userInfo.uid] },
+                  { ...chat[1], userInfo: users[chat[1]?.userInfo?.uid] },
                 ];
 
                 const timestamp = new Timestamp(
@@ -157,23 +150,20 @@ const AllChats = () => {
                 );
 
                 const date = formateDate(timestamp.toDate());
-                if (chat[1].lastMessage) {
-                  return (
-                    <AllChatsWidget
-                      chat={user}
-                      key={chat[0]}
-                      date={date}
-                      handleSelect={handleSelect}
-                      unreadMsgs={unreadMsgs[chat[0]]}
-                    />
-                  );
-                }
+
+                return (
+                  <AllChatsWidget
+                    chat={user}
+                    key={chat[0]}
+                    date={date}
+                    handleSelect={handleSelect}
+                    unreadMsgs={unreadMsgs[chat[0]]}
+                  />
+                );
               })}
           </div>
-        
         </PageLayout>
-        </Transition>
-      
+      </Transition>
     </>
   );
 };

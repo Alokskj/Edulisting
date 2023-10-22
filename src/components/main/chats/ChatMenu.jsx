@@ -86,7 +86,7 @@ const ChatMenu = ({ showMenu, setShowMenu }) => {
                 <ul className="flex flex-col ">
                     {!IamBlocked && (
                         <li
-                            className="flex items-center py-4 px-5 hover:bg-gray-100 cursor-pointer"T
+                            className="flex items-center py-4 px-5 hover:bg-gray-100 cursor-pointer"
                             
                             onClick={(e) => {
                                 e.stopPropagation();

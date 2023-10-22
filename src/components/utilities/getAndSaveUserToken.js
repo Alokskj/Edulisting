@@ -18,15 +18,7 @@ export async function getAndSaveUserToken(id){
                 })
                 
             }
-            if(token){
-            console.log('Client Token: ', token)
-            }else{
-              console.log('Failed to generate the app registration token.');
-            }
             return token
-        }
-        else{
-            console.log("User Permission Denied.");
         }
     } catch (error) {
         console.log('An error occurred when requesting to receive the token.', error);

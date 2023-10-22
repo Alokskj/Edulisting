@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Lottie from "lottie-react";
-import MobileSeacrhbar from '../header/MobileSeacrhbar'
+import MobileSeacrhbar from "../header/MobileSeacrhbar";
 import animationData from "../lotties/noResult.json";
 
 import Spinner from "../header/Spinner";
@@ -31,6 +31,7 @@ const Query = () => {
       return <Spinner />;
     }
   }
+  
   if (queryData.length === 0) {
     return (
       <>
@@ -48,60 +49,60 @@ const Query = () => {
 
   return (
     <>
-    <Transition>
-      <MobileSeacrhbar />
-      <div
-        id="recent-post"
-        className="recent-post mb-28  mx-4 md:mx-16 lg:mx-32 my-8 flex flex-col justify-center "
-      >
-         <Helmet>
-          <title>{id} - Edulisting</title>
-          <meta
-            name="description"
-            content={`Discover great deals on books at Edulisting. Buy or sell old school and class books hassle-free.`}
-          />
-          <meta property="og:title" content={id} />
+      <Transition>
+        <MobileSeacrhbar />
+        <div
+          id="recent-post"
+          className="recent-post mb-28  mx-4 md:mx-16 lg:mx-32 my-8 flex flex-col justify-center "
+        >
+          <Helmet>
+            <title>{id} - Edulisting</title>
+            <meta
+              name="description"
+              content={`Discover great deals on books at Edulisting. Buy or sell old school and class books hassle-free.`}
+            />
+            <meta property="og:title" content={id} />
 
-          <meta property="og:url" content={window.location.href} />
-          <meta property="og:type" content="website" />
-        </Helmet>
-        <div className="recent-post-title capitalize my-2  lg:m-4 text-xl text-gray-500">
-          <p>
-            {queryData.length !== 0
-              ? "Result for " + id
-              : "No result found " + id.slice(0, 20)}
-          </p>
+            <meta property="og:url" content={window.location.href} />
+            <meta property="og:type" content="website" />
+          </Helmet>
+          <div className="recent-post-title capitalize my-2  lg:m-4 text-xl text-gray-500">
+            <p>
+              {queryData.length !== 0
+                ? "Result for " + id
+                : "No result found " + id.slice(0, 20)}
+            </p>
+          </div>
+          <div className="posts justify-center  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4   md:m-4 gap-4">
+            {queryData &&
+              queryData.map((post, index) => {
+                if (
+                  post?.image &&
+                  post?.title &&
+                  post?._id &&
+                  post?.price &&
+                  post?.locality &&
+                  post?.state &&
+                  post?.city
+                ) {
+                  return (
+                    <>
+                      <Post
+                        image={post.image}
+                        slug={post._id}
+                        title={post.title}
+                        price={post.price}
+                        locality={post.locality}
+                        state={post.state}
+                        city={post.city}
+                        key={post._id}
+                      />
+                    </>
+                  );
+                }
+              })}
+          </div>
         </div>
-        <div className="posts justify-center  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4   md:m-4 gap-4">
-          {queryData &&
-            queryData.map((post, index) => {
-              if (
-                post?.image &&
-                post?.title &&
-                post?._id &&
-                post?.price &&
-                post?.locality &&
-                post?.state &&
-                post?.city
-              ) {
-                return (
-                  <>
-                    <Post
-                      image={post.image.asset.url}
-                      slug={post._id}
-                      title={post.title}
-                      price={post.price}
-                      locality={post.locality}
-                      state={post.state}
-                      city={post.city}
-                      key={post._id}
-                    />
-                  </>
-                );
-              }
-            })}
-        </div>
-      </div>
       </Transition>
     </>
   );

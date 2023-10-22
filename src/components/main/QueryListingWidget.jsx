@@ -3,6 +3,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { urlFor } from "./client";
 const QueryListingWidget = ({ stuff }) => {
   const navigate = useNavigate()  
   const location =
@@ -16,8 +17,8 @@ const QueryListingWidget = ({ stuff }) => {
       <div className="card flex    h-full">
         <div className="image w-3/5 overflow-hidden rounded-l-lg duration-300">
           <img
-            className="w-full h-full hover:scale-110 object-cover   transition-all  object-center   "
-            src={stuff?.image?.asset?.url}
+            className="w-full h-full hover:scale-110 object-cover   transition-all  object-top   "
+            src={urlFor(stuff.image).format("webp").height(200).url()}
             alt=""
           />
         </div>

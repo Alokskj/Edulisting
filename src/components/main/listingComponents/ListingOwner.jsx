@@ -1,11 +1,102 @@
 import { Avatar } from '@mui/material';
+import { deleteField, doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import React from 'react'
 import { BiRightArrowAlt } from 'react-icons/bi';
 import Skeleton from 'react-loading-skeleton';
 import { Link, useNavigate } from 'react-router-dom';
+import { db } from '../../utilities/firebase';
+import { useChatContext } from '../../Contexts/ChatContext';
 
-const ListingOwner = ({queryPost, queryUser, currentUser, handleMessage}) => {
+const ListingOwner = ({queryPost, queryUser, currentUser}) => {
+  const { dispatch, data } = useChatContext();
   const navigate = useNavigate()
+
+  async function handleMessage() {
+    const mixId =
+      currentUser.uid > queryUser._id
+        ? currentUser.uid + queryUser._id
+        : queryUser._id + currentUser.uid;
+    const combinedId = mixId + queryPost._id;
+
+    const chat = {
+      userInfo: {
+        uid: queryUser._id,
+        displayName: queryUser.userName,
+        photoURL: queryUser.image,
+        email: queryUser.email,
+      },
+      listingInfo: {
+        uid: queryPost._id,
+        listingName: queryPost.title,
+        photoUrl: queryPost?.image,
+        mobileNumber: queryPost.mobileNumber,
+      },
+    };
+
+    try {
+      const res = await getDoc(doc(db, "chats", combinedId));
+
+      if (!res.exists()) {
+        //create a chat in chats collection
+        await setDoc(doc(db, "chats", combinedId), { messages: [] });
+        // create user chats
+
+        const currentUserChatRef = await getDoc(
+          doc(db, "userChats", currentUser.uid)
+        );
+
+        const userChatRef = await getDoc(doc(db, "userChats", queryUser._id));
+
+        const userAccountRef = await getDoc(doc(db, "users", queryUser._id));
+        if (!userAccountRef.exists()) {
+          console.log("user not found in fs");
+          await setDoc(doc(db, "users", queryUser._id), chat.userInfo);
+        }
+        if (!currentUserChatRef.exists()) {
+          await setDoc(doc(db, "userChats", currentUser.uid), {});
+        }
+        await updateDoc(doc(db, "userChats", currentUser.uid), {
+          [combinedId + ".userInfo"]: {
+            uid: queryUser._id,
+            displayName: queryUser.userName,
+            photoURL: queryUser.image,
+          },
+          [combinedId + ".listingInfo"]: {
+            uid: queryPost._id,
+            listingName: queryPost.title,
+            photoUrl: queryPost?.image,
+            mobileNumber: queryPost.mobileNumber,
+          },
+          [combinedId + ".date"]: serverTimestamp(),
+        });
+
+        if (!userChatRef.exists()) {
+          await setDoc(doc(db, "userChats", queryUser._id), {});
+        }
+        await updateDoc(doc(db, "userChats", queryUser._id), {
+          [combinedId + ".userInfo"]: {
+            uid: currentUser.uid,
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL,
+          },
+          [combinedId + ".listingInfo"]: {
+            uid: queryPost._id,
+            listingName: queryPost.title,
+            photoUrl: queryPost?.image,
+          },
+          [combinedId + ".date"]: serverTimestamp(),
+        });
+      } else {
+        await updateDoc(doc(db, "userChats", currentUser.uid), {
+          [combinedId + ".chatDeleted"]: deleteField(),
+        });
+      }
+      dispatch({ type: "CHANGE_USER", payload: chat });
+      navigate("../chat/");
+    } catch (err) {
+      console.log(err);
+    }
+  }
   if(!queryPost || !queryUser) return (
     <div className="owner-details-chat-btn flex flex-col gap-4 w-full  border border-black rounded-lg py-4 px-6">
           <div className="avatar-username-profile-btn flex w-full   justify-between items-center">

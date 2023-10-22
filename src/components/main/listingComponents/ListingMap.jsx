@@ -65,7 +65,6 @@ const ListingMap = ({ address, queryPost }) => {
               zoom={16}
               options={{
                 zoomControl: false,
-                streetView: false,
                 mapTypeControl: false,
                 fullscreenControl: false,
                 clickableIcons: false,

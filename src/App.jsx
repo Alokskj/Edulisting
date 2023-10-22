@@ -72,8 +72,6 @@ function App() {
   }, []);
   if (currentUser?.uid) {
     getAndSaveUserToken(currentUser.uid);
-  } else {
-    console.log("user not found");
   }
 
   return <RouterProvider router={router} />;

@@ -3,6 +3,7 @@ import { useAuth } from "./UserContext";
 
 export const ListingContext = createContext();
 export const ListingProvider = ({ children }) => {
+  const [allListings, setAllListings] = useState(null)
   const [listing, setListing] = useState({
     title: "",
     description: "",
