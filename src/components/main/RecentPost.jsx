@@ -28,7 +28,6 @@ const RecentPost = () => {
         setPost((prevPost) => {
           if (data.length === 0) {
             setMore(false);
-            return [...prevPost, ...prevPost]
           }
           if (prevPost) {
             return [...prevPost, ...data];

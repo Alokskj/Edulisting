@@ -43,9 +43,9 @@ const Home = () => {
         <div className="flex flex-col gap-y-5 w-full">
       <Banner />
       <RecentPost />
-      <Footer />
         </div>
       </PageLayout>
+      {/* <Footer /> */}
     </>
   );
 };

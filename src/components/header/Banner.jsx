@@ -17,8 +17,8 @@ const Banner = () => {
       <div className="right w-1/3 h-full flex items-center justify-center">
         <img
           className="w-full h-full object-contain"
-          src="public/images/characters/chairreading copy.png"
-          alt=""
+          src="/images/characters/chairreading copy.png"
+          alt="banner img"
         />
       </div>
     </div>
